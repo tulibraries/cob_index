@@ -23,7 +23,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`cob_index` is an executable.  You can use it to ingest files into SOLR_URL with
+
+```
+cob_index ingest $path_to_file
+```
+
+`$path_file` can also be a URL.
+
 
 ## Development
 

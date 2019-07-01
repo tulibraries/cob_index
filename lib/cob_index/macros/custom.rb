@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "bundler/setup"
 require "library_stdnums"
 require "active_support/core_ext/object/blank"
 require "time"

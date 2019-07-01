@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
     spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://github.com/tulibraries/cob_index"
+    spec.metadata["source_code_uri"] = spec.homepage
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
@@ -35,9 +35,12 @@ Gem::Specification.new do |spec|
   end
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables << "cob_index"
   spec.require_paths = ["lib"]
 
   spec.add_dependency "traject", "~> 3.1"
+  spec.add_dependency "library_stdnums", "~> 1.6"
+  spec.add_runtime_dependency("gli", "2.18.0")
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 12.3"

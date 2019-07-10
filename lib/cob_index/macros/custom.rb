@@ -47,20 +47,16 @@ module Traject
           slash = "/"
 
           Traject::MarcExtractor.cached("245abcfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
-            title = extractor.collect_subfields(field, spec).first
-            unless title.nil?
-              rec.fields("245").each do |f|
-                if field["h"].present? && field["c"].present?
-                  title = title.gsub(" #{field['c']}", " #{slash} #{field['c']}")
-                  title = title.gsub("/ /", "/")
-                else
-                  title
-                end
-              end
-              title
+            title = extractor.collect_subfields(field, spec).find { |t| t.present? }
+            # Use 245c when 245h is present.
+            if field["h"].present? && field["c"].present?
+              title = title&.gsub(" #{field['c']}", " #{slash} #{field['c']}")
+              title = title&.gsub("/ /", "/")
             end
-            titles << title
+
+            titles << title unless title.blank?
           end
+
           acc.replace(titles)
         end
       end

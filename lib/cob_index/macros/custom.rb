@@ -49,11 +49,9 @@ module Traject
           Traject::MarcExtractor.cached("245abcfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
             title = extractor.collect_subfields(field, spec).find { |t| t.present? }
             # Use 245c when 245h is present.
-            rec.fields("245").each do |f|
-              if field["h"].present? && field["c"].present?
-                title = title&.gsub(" #{field['c']}", " #{slash} #{field['c']}")
-                title = title&.gsub("/ /", "/")
-              end
+            if field["h"].present? && field["c"].present?
+              title = title&.gsub(" #{field['c']}", " #{slash} #{field['c']}")
+              title = title&.gsub("/ /", "/")
             end
 
             titles << title unless title.blank?

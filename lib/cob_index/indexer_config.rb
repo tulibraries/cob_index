@@ -70,8 +70,7 @@ to_field "title_uniform_t", extract_marc_with_flank("130adfklmnoprs:240adfklmnop
 
 to_field "work_access_point", extract_work_access_point
 
-ATOZ = ("a".."z").to_a.join("")
-ATOU = ("a".."u").to_a.join("")
+A_TO_U = ("a".."u").to_a.join("")
 to_field "title_addl_t",
   extract_marc(%W{
     210ab
@@ -174,10 +173,10 @@ to_field "genre_t", extract_genre_display
 to_field "genre_full_facet", extract_genre_display
 
 to_field "subject_t", extract_marc_with_flank(%W(
-  600#{ATOU}
-  610#{ATOU}
-  611#{ATOU}
-  630#{ATOU}
+  600#{A_TO_U}
+  610#{A_TO_U}
+  611#{A_TO_U}
+  630#{A_TO_U}
   647acdg
   650abcde
   653a:654abcde

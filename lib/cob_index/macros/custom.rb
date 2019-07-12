@@ -13,6 +13,7 @@ module Traject
       NOT_FULL_TEXT = /book review|publisher description|sample text|View cover art|Image|cover image|table of contents/i
       GENRE_STOP_WORDS = /CD-ROM|CD-ROMs|Compact discs|Computer network resources|Databases|Electronic book|Electronic books|Electronic government information|Electronic journal|Electronic journals|Electronic newspapers|Electronic reference sources|Electronic resource|Full text|Internet resource|Internet resources|Internet videos|Online databases|Online resources|Periodical|Periodicals|Sound recordings|Streaming audio|Streaming video|Video recording|Videorecording|Web site|Web sites|Périodiques|Congrès|Ressource Internet|Périodqiue électronique/i
       SEPARATOR = " — "
+      A_TO_Z = ("a".."z").to_a.join("")
 
       def get_xml
         lambda do |rec, acc|
@@ -55,6 +56,15 @@ module Traject
             end
 
             titles << title unless title.blank?
+          end
+
+          if titles.empty?
+            record_id = rec.fields("001").first
+            puts "Error: No title found for #{record_id}"
+            Traject::MarcExtractor.cached("245#{A_TO_Z}", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+              title = extractor.collect_subfields(field, spec).find { |t| t.present? }
+              titles << title unless title.blank?
+            end
           end
 
           acc.replace(titles)

@@ -169,6 +169,13 @@ RSpec.describe Traject::Macros::Custom do
         expect(subject.map_record(records[2])).to eq(expected)
       end
     end
+
+    context "title not found with limited selection" do
+      it "uses 245A_TO_Z selection" do
+        expected = { "title_statement_display" => ["[video recording]"] }
+        expect(subject.map_record(records[3])).to eq(expected)
+      end
+    end
   end
 
   describe "#extract_creator" do

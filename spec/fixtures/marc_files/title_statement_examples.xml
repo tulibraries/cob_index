@@ -22,4 +22,10 @@
       <subfield code="c">a Janus Films release ; produced by Keinosuke Kubo ; screenplay by Ichoro Ikeda Tadaaki Yamazaki ; directed by Seijun Suzuki.</subfield>
     </datafield>
   </record>
+  <record>
+    <!-- 3. 245 only h field -->
+    <datafield ind1="0" ind2="4" tag="245">
+      <subfield code="h">[video recording]</subfield>
+    </datafield>
+  </record>
 </collection>

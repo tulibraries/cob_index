@@ -15,7 +15,7 @@ PATH
   remote: .
   specs:
     cob_index (0.1.0)
-      gli (= 2.18.2)
+      gli (~> 2.18)
       library_stdnums (~> 1.6)
       traject (~> 3.1)
 

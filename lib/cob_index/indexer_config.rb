@@ -54,8 +54,9 @@ to_field "language_display", extract_lang("008[35-37]:041a:041d:041e:041g:041j")
 to_field("format", marc_formats, &normalize_format)
 
 # Title fields
-
+# Used on the full record page
 to_field "title_statement_display", extract_title_statement
+# Used in the catalog search results display
 to_field "title_truncated_display", extract_title_statement, &truncate(300)
 to_field "title_statement_vern_display", extract_marc("245abcfgknps", alternate_script: :only)
 to_field "title_uniform_display", extract_marc("130adfklmnoprs:240adfklmnoprs:730ail", alternate_script: false)
@@ -150,6 +151,7 @@ to_field "note_restrictions_display", extract_marc("506abcde")
 to_field "note_references_display", extract_marc("510abc")
 to_field "note_summary_display", extract_marc("520ab")
 to_field "note_cite_display", extract_marc("524a")
+
 # Note Copyright should not display if ind1 = 0.  This ensures that it works if the value is unassigned or 1
 to_field "note_copyright_display", extract_marc("540a:542|1*|abcdefghijklmnopqr3:542| *|abcdefghijklmnopqr3")
 to_field "note_bio_display", extract_marc("545abu")
@@ -189,13 +191,6 @@ to_field "call_number_t", extract_marc_with_flank("HLDhi")
 to_field "call_number_alt_display", extract_marc("ITMjk")
 to_field "call_number_alt_t", extract_marc_with_flank("ITMjk")
 to_field "library_facet", extract_library
-to_field "library_location_display", extract_library_shelf_call_number
-
-# Call Number fields
-to_field "lc_callnum_display", extract_marc("050ab", first: true)
-to_field("lc_1letter_facet", extract_marc("050ab", first: true, translation_map: "callnumber_map"), &first_letters_only)
-to_field("lc_alpha_facet", extract_marc("050a", first: true), &normalize_lc_alpha)
-to_field "lc_b4cutter_facet", extract_marc("050a", first: true)
 
 # URL Fields
 to_field "url_more_links_display", extract_url_more_links
@@ -217,7 +212,6 @@ to_field("alt_issn_display", extract_marc("022lz:776x", separator: nil), &normal
 to_field("lccn_display", extract_marc("010ab", separator: nil), &normalize_lccn)
 to_field "pub_no_display", extract_marc("028ab")
 to_field "sudoc_display", extract_marc("086|0*|a")
-to_field "diamond_id_display", extract_marc("907a")
 to_field "gpo_display", extract_marc("074a")
 to_field "oclc_number_display", extract_oclc_number
 to_field "alma_mms_display", extract_marc("001")

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "cob_index/version"
+require "cob_index/dot_properties"
 require "traject"
 
 module CobIndex

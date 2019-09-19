@@ -8,9 +8,12 @@ RSpec.describe CobIndex do
   describe "ingest" do
     before(:example) do
       @indexer = instance_double("Traject::Indexer::MarcIndexer")
+      @io = instance_double(IO)
 
       allow(Traject::Indexer::MarcIndexer).to receive(:new).and_return(@indexer)
-      allow(@indexer).to receive_messages(load_config_file: nil, process: nil)
+      allow(@indexer).to receive_messages(load_config_file: "", process: "")
+      allow(@io).to receive_messages(read: "")
+      allow(CobIndex::CLI).to receive_messages(open: @io)
     end
 
     after(:example) do

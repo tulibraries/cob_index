@@ -3,7 +3,12 @@
 require "yaml"
 require "cob_index"
 
-solr_url = ENV["SOLR_URL"]
+if File.exist? "config/blacklight.yml"
+  solr_config = YAML.load_file("config/blacklight.yml")[(ENV["RAILS_ENV"] || "development")]
+  solr_url = ERB.new(solr_config["url"]).result
+else
+  solr_url = ENV["SOLR_URL"]
+end
 # A sample traject configuration, save as say `traject_config.rb`, then
 # run `traject -c traject_config.rb marc_file.marc` to index to
 # solr specified in config file, according to rules specified in

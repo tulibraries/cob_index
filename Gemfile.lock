@@ -286,7 +286,7 @@ PLATFORMS
 DEPENDENCIES
   binding_of_caller (~> 0.7)
   blacklight-marc!
-  bundler (~> 1.16)
+  bundler (>= 1.16)
   cob_index!
   coveralls
   guard (~> 2.14)
@@ -298,4 +298,4 @@ DEPENDENCIES
   rubocop (~> 0.52)
 
 BUNDLED WITH
-   1.16.6
+   2.0.2

@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency("gli", "~> 2.18")
 
   spec.add_development_dependency "bundler", ">= 1.16"
-  spec.add_development_dependency "rake", "~> 12.3"
+  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop", "~> 0.52"
   spec.add_development_dependency "coveralls"

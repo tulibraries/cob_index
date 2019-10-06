@@ -67,7 +67,9 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
     ids = batch.map { |c| c.output_hash["id"] }
     resp = @http_client.get(solr_select_url,
       fq: "id:(#{ids.join(" ")})",
+      fl: "id, record_update_date",
       wt: "json",
+      rows: batch.count,
       facet: "false",
       spellcheck: "false")
 
@@ -94,9 +96,20 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
       context = c.output_hash
       context_update_date = context[:record_update_date] ||
         context["record_update_date"]
+
+      # Output hash values can be in arrays.
+      if context_update_date.is_a? Array
+        context_update_date = context_update_date.first
+      end
+
       context_update_date = Time.parse(context_update_date) rescue nil
 
       id = context[:id] || context["id"]
+
+      if id.is_a? Array
+        id = id.first
+      end
+
       solr_record_update_date = Time.parse(record_update_dates[id]) rescue nil
 
       # Something went wrong so default to non optimize

@@ -235,6 +235,15 @@ RSpec.describe CobIndex::SolrJsonWriter do
         expect(subject.select_latest_records(batch, update_dates)).to eq([])
       end
     end
+
+    context "context hash values in in arrays." do
+      let(:context_hash) { { "id" => ["foo"], "record_update_date" => ["2019-12-01Z00:00:00"] } }
+      let(:update_dates) { { "foo" => "2019-12-01Z00:00:01" } }
+
+      it "does filter out context (with indifferent access)" do
+        expect(subject.select_latest_records(batch, update_dates)).to eq([])
+      end
+    end
   end
 
   describe "solr_select_url" do

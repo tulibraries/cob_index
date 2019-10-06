@@ -108,8 +108,8 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
         acc << c
 
       # Prevent 409 error by not pushing older context.
-      elsif context_update_date < solr_record_update_date
-        logger.info "Filtering out context because it is older than the record in the database id:#{id}, solr_date: #{solr_record_update_date}, context_date: #{context_update_date}"
+      elsif context_update_date <= solr_record_update_date
+        logger.info "Filtering out context because it is not newer than the record in the database id:#{id}, solr_date: #{solr_record_update_date}, context_date: #{context_update_date}"
 
         acc
       else

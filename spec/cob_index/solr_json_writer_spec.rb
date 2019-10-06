@@ -209,7 +209,21 @@ RSpec.describe CobIndex::SolrJsonWriter do
 
       it "should log that it's filtering out the context" do
         subject.select_latest_records(batch, update_dates)
-        expect(strio.string).to match(/INFO -- : Filtering out context because it is older than the record in the database id:foo/)
+        expect(strio.string).to match(/INFO -- : Filtering out context because it is not newer than the record in the database id:foo/)
+      end
+    end
+
+    context "record and context have the same update date" do
+      let(:context_hash) { { id: "foo", record_update_date: "2019-12-01Z00:00:00" } }
+      let(:update_dates) { { "foo" => "2019-12-01Z00:00:00" } }
+
+      it "does filter out context" do
+        expect(subject.select_latest_records(batch, update_dates)).to eq([])
+      end
+
+      it "should log that it's filtering out the context" do
+        subject.select_latest_records(batch, update_dates)
+        expect(strio.string).to match(/INFO -- : Filtering out context because it is not newer than the record in the database id:foo/)
       end
     end
 

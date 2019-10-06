@@ -266,7 +266,7 @@ RSpec.describe CobIndex::SolrJsonWriter do
       } }
 
       it "derives the select_url" do
-        expect(subject.solr_select_url).to eq("http://example.com/solr/collection/select/json")
+        expect(subject.solr_select_url).to eq("http://example.com/solr/collection/select")
       end
     end
   end

@@ -44,4 +44,87 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
       end
     end
   end
+
+  # Overrides parent::send_batch to optimize Solr version controlled batched
+  # updates (if configured to do so).
+  #
+  # @param [Array<Traject::Indexer::Context>] an array of contexts
+  def send_batch(batch)
+    if settings["solr_writer.optimize_batch_send"]
+      record_update_dates = get_record_update_dates(batch)
+      super select_latest_records(batch, record_update_dates)
+    else
+      super batch
+    end
+  end
+
+  # Gets record_update_date from Solr given a batch of contexts/records.
+  #
+  # @param [Array<Traject::Indexer::Context>] an array of contexts
+  #
+  # @return [Hash] a dictionary where keys are doc ids and values are record_update_date.
+  def get_record_update_dates(batch)
+    ids = batch.map { |c| c.output_hash["id"] }
+    resp = @http_client.get(solr_select_url,
+      fq: "id:(#{ids.join(" ")})",
+      wt: "json",
+      facet: "false",
+      spellcheck: "false")
+
+    if resp.status == 200
+      JSON.parse(resp.body)["response"]["docs"].reduce({}) do |acc, doc|
+        acc.merge(doc["id"] => doc["record_update_date"])
+      end
+    else
+      logger.error "Error in getting solr update date info for batch: #{resp.body}"
+      {}
+    end
+  end
+
+  # Select contexts with dates that are newer than supplied in
+  # record_update_dates dictionary.
+  #
+  # @param [Array<Traject::Indexer::Context>] an array of contexts
+  # @param [Hash] a dictionary where keys are record ids and values are record_update_date.
+  #
+  # @return [Array<Traject::Indexer::Context>] an array of contexts
+  def select_latest_records(batch, record_update_dates)
+    # We use reduce instead of select in order to be able to do logging.
+    batch.reduce([]) do |acc, c|
+      context = c.output_hash
+      context_update_date = context[:record_update_date] ||
+        context["record_update_date"]
+      context_update_date = Time.parse(context_update_date) rescue nil
+
+      id = context[:id] || context["id"]
+      solr_record_update_date = Time.parse(record_update_dates[id]) rescue nil
+
+      # Something went wrong so default to non optimize
+      if context_update_date.nil?
+        acc << c
+
+      # Usually true when context is a new record.
+      elsif solr_record_update_date.nil?
+        acc << c
+
+      # Prevent 409 error by not pushing older context.
+      elsif context_update_date < solr_record_update_date
+        logger.info "Filtering out context because it is older than the record in the database id:#{id}, solr_date: #{solr_record_update_date}, context_date: #{context_update_date}"
+
+        acc
+      else
+
+        acc << c
+      end
+    end
+  end
+
+  def solr_select_url
+    @solr_select_url ||=
+      if settings["solr.select_url"]
+        check_solr_update_url(settings["solr.select_url"])
+      else
+        self.determine_solr_update_url.gsub("/update", "/select")
+      end
+  end
 end

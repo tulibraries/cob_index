@@ -606,7 +606,8 @@ module Traject
         lambda do |rec, acc|
           rec.fields(["HLD"]).each do |field|
             if  !LIBRARIES_TO_NOT_BOOST.include?(field["b"])
-              return acc.replace(["boost"])
+              acc.replace(["boost"])
+              break
             else
               acc << "no_boost"
             end

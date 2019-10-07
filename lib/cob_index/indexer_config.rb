@@ -45,6 +45,11 @@ settings do
   provide "solr.url", solr_url
   provide "solr_writer.commit_on_close", "false"
   provide "writer_class_name", "CobIndex::SolrJsonWriter"
+
+  if ENV["SOLR_AUTH_USER"] && ENV["SOLR_AUTH_PASSWORD"]
+    provide "solr_writer.basic_auth_user", ENV["SOLR_AUTH_USER"]
+    provide "solr_writer.basic_auth_password", ENV["SOLR_AUTH_PASSWORD"]
+  end
 end
 
 each_record do |record, context|

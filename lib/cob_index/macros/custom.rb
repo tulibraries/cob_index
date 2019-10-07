@@ -528,14 +528,15 @@ module Traject
         lambda do |rec, acc|
           rec.fields(["035", "979"]).each do |field|
 
-            next if field.nil? || field["a"].nil? ||
-              field["9"].nil? || field["9"].include?("ExL")
+            next if field.nil? || field["a"].nil? || field["9"]&.include?("ExL")
 
             if field["a"].include?("OCoLC") || field["a"].include?("ocn") || field["a"].include?("ocm") || field["a"].match(/\bon[0-9]/) || field["a"].include?("OCLC")
-              subfield = field["a"].split(//).map { |x| x[/\d+/] }.compact.join("")
-              acc << subfield
+              subfield = (field["a"].split(//) rescue [])
+                .map { |x| x[/\d+/] }.join("")
+              acc << subfield unless subfield.empty?
             end
           end
+
           acc.uniq!
         end
       end

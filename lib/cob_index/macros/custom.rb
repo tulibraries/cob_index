@@ -27,13 +27,6 @@ module Traject
         end
       end
 
-      def first_letters_only
-        Proc.new do |rec, acc|
-          # Just get the first letter to send to the translation map
-          acc.map! { |x| x[0] }
-        end
-      end
-
       def creator_name_trim_punctuation(name)
         name.sub(/ *[,\/;:] *\Z/, "").sub(/( *[[:word:]]{3,})\. *\Z/, '\1').sub(/(?<=\))\./ , "")
       end

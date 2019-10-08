@@ -1727,4 +1727,29 @@ RSpec.describe Traject::Macros::Custom do
       end
     end
   end
+
+  describe "#truncate" do
+    context "empty list" do
+      it "returns and empty list" do
+        expect(truncate()[nil, []]).to eq([])
+      end
+    end
+
+    context "list with items longer than 300 chars" do
+      it "truncates items to 300 chars + ' ...'" do
+        a = ["a" * 1000]
+        b = truncate()[nil, a].first
+        expect(b.length).to eq(304)
+      end
+    end
+
+    context "pass truncation length" do
+      it "truncates items to leght chars + ' ...'" do
+        a = ["a" * 1000]
+        b = truncate(0)[nil, a].first
+        expect(b).to eq(" ...")
+      end
+    end
+
+  end
 end

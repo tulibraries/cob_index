@@ -345,16 +345,6 @@ module Traject
         end
       end
 
-      def normalize_lc_alpha
-        Proc.new do |rec, acc|
-          alpha_pat = /\A([A-Z]{1,3})\d.*\Z/
-          acc.map! do |x|
-            (m = alpha_pat.match(x)) ? m[1] : nil
-          end
-          acc.compact! # eliminate nils
-        end
-      end
-
       def normalize_format
         Proc.new do |rec, acc|
           acc.delete("Print")
@@ -397,7 +387,7 @@ module Traject
       end
 
       def truncate(max = 300)
-        Proc.new do |rec, acc|
+        Proc.new do |_, acc|
           acc.map! { |s| s.length > max ? s[0...max] + " ..." : s unless s.nil? }
         end
       end
@@ -530,7 +520,10 @@ module Traject
 
             next if field.nil? || field["a"].nil? || field["9"]&.include?("ExL")
 
-            if field["a"].include?("OCoLC") || field["a"].include?("ocn") || field["a"].include?("ocm") || field["a"].match(/\bon[0-9]/) || field["a"].include?("OCLC")
+            if field["a"].include?("OCoLC") || field["a"].include?("ocn") ||
+                field["a"].include?("ocm") || field["a"].match(/\bon[0-9]/) ||
+                field["a"].include?("OCLC")
+
               subfield = (field["a"].split(//) rescue [])
                 .map { |x| x[/\d+/] }.join("")
               acc << subfield unless subfield.empty?

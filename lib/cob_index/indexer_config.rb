@@ -40,10 +40,8 @@ settings do
   provide "marc_source.type", "xml"
   # set this to be non-negative if threshold should be enforced
   provide "solr_writer.max_skipped", -1
-  # extend commit timeout
-  provide "solr_writer.commit_timeout", (15 * 60)
   provide "solr.url", solr_url
-  provide "solr_writer.commit_on_close", "false"
+  provide "solr_writer.commit_on_close", false
   provide "writer_class_name", "CobIndex::SolrJsonWriter"
 
   if ENV["SOLR_AUTH_USER"] && ENV["SOLR_AUTH_PASSWORD"]

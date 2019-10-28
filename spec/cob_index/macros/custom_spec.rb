@@ -580,7 +580,7 @@ RSpec.describe Traject::Macros::Custom do
 
           it "maps a single PRT field" do
             expect(subject.map_record(record)).to eq(
-              "electronic_resource_display" => [ { portfolio_id: "foo", public_note: "Access full text online."}.to_json ]
+              "electronic_resource_display" => [ { portfolio_id: "foo", public_note: "Access full text online." }.to_json ]
             )
           end
         end

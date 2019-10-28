@@ -200,6 +200,7 @@ module Traject
               service_id: f["j"],
               title: f["c"],
               subtitle: f["g"],
+              public_note: f["f"],
               availability: f["9"] }
               .delete_if { |k, v| v.blank? }
               .to_json

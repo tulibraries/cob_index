@@ -580,7 +580,7 @@ RSpec.describe Traject::Macros::Custom do
 
           it "maps a single PRT field" do
             expect(subject.map_record(record)).to eq(
-              "electronic_resource_display" => [ { portfolio_id: "foo" }.to_json ]
+              "electronic_resource_display" => [ { portfolio_id: "foo", public_note: "Access full text online." }.to_json ]
             )
           end
         end
@@ -610,8 +610,8 @@ RSpec.describe Traject::Macros::Custom do
           it "maps a multiple PRT fields to electronic_resource_display" do
             expect(subject.map_record(record)).to eq(
               "electronic_resource_display" => [
-                { portfolio_id: "foo", availability: "Available" }.to_json,
-                { portfolio_id: "bar", availability: "Not Available" }.to_json,
+                { portfolio_id: "foo", public_note: "Access full text online.", availability: "Available" }.to_json,
+                { portfolio_id: "bar", public_note: "Access full text online.", availability: "Not Available" }.to_json,
               ]
             )
           end
@@ -971,8 +971,8 @@ RSpec.describe Traject::Macros::Custom do
         it "reverses the order of multipe PRT fields" do
           expect(subject.map_record(record)).to eq(
             "url_more_links_display" => [
-                { portfolio_id: "bar", availability: "Not Available" }.to_json,
-                { portfolio_id: "foo", availability: "Available" }.to_json,
+                { portfolio_id: "bar", public_note: "Access full text online.", availability: "Not Available" }.to_json,
+                { portfolio_id: "foo", public_note: "Access full text online.", availability: "Available" }.to_json,
             ]
           )
         end

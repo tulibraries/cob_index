@@ -20,7 +20,7 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
 
       if resp.status == 409
         # log 409s responses even if ignoring them.
-        logger.warn "Could not add record #{c.record_inspect} do to version conflict: Solr error response 409."
+        logger.warn "Could not add record #{c.record_inspect} due to version conflict: Solr error response 409."
       end
 
       # Catch Timeouts and network errors -- as well as non-200 http responses --

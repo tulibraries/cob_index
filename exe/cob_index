@@ -17,10 +17,15 @@ class App
   desc "Ingest files into solr endpoint using tul_cob traject config"
   arg_name "Describe arguments to ingest here"
   command :ingest do |c|
+    c.desc "Commit docs after ingest process closes."
+    c.switch ["commit"], default_value: false
+
     c.desc "Ingest files into SOLR_URL using tul_cob traject config"
     c.action do |global_options, options, args|
+      opts = {}
+      opts.merge!(commit: options[:commit])
 
-      CobIndex::CLI.ingest
+      CobIndex::CLI.ingest(opts)
     end
   end
 

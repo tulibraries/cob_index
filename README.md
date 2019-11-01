@@ -32,6 +32,10 @@ cob_index ingest $path_to_file
 `$path_file` can also be a URL.
 
 
+### Ingest switches
+`--commit` If this switch is passed (`cob_index ingest --commit`), then cob_index will send commit at end of ingest process.
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

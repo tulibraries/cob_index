@@ -27,13 +27,6 @@ module Traject
         end
       end
 
-      def first_letters_only
-        Proc.new do |rec, acc|
-          # Just get the first letter to send to the translation map
-          acc.map! { |x| x[0] }
-        end
-      end
-
       def creator_name_trim_punctuation(name)
         name.sub(/ *[,\/;:] *\Z/, "").sub(/( *[[:word:]]{3,})\. *\Z/, '\1').sub(/(?<=\))\./ , "")
       end
@@ -207,6 +200,7 @@ module Traject
               service_id: f["j"],
               title: f["c"],
               subtitle: f["g"],
+              public_note: f["f"],
               availability: f["9"] }
               .delete_if { |k, v| v.blank? }
               .to_json
@@ -270,7 +264,7 @@ module Traject
             label = url_label(f["z"], f["3"], f["y"])
             unless f["u"].nil?
               if f.indicator2 == "2" || NOT_FULL_TEXT.match(label) || !rec.fields("PRT").empty? || f["u"].include?(ARCHIVE_IT_LINKS)
-                unless f["u"].include?("http://library.temple.edu") && f["u"].include?("scrc")
+                unless f["u"].include?("http://library.temple.edu") && (f["u"].include?("scrc") || f["u"].include?("finding_aids"))
                   acc << { title: label, url: f["u"] }.to_json
                 end
               end
@@ -285,7 +279,7 @@ module Traject
             label = url_label(f["z"], f["3"], f["y"])
             if f.indicator1 == "4" && f.indicator2 == "2"
               unless f["u"].nil?
-                if f["u"].include?("http://library.temple.edu") && f["u"].include?("scrc")
+                if f["u"].include?("http://library.temple.edu") && (f["u"].include?("scrc") || f["u"].include?("finding_aids"))
                   acc << { title: label, url: f["u"] }.to_json
                 end
               end
@@ -345,16 +339,6 @@ module Traject
         end
       end
 
-      def normalize_lc_alpha
-        Proc.new do |rec, acc|
-          alpha_pat = /\A([A-Z]{1,3})\d.*\Z/
-          acc.map! do |x|
-            (m = alpha_pat.match(x)) ? m[1] : nil
-          end
-          acc.compact! # eliminate nils
-        end
-      end
-
       def normalize_format
         Proc.new do |rec, acc|
           acc.delete("Print")
@@ -397,7 +381,7 @@ module Traject
       end
 
       def truncate(max = 300)
-        Proc.new do |rec, acc|
+        Proc.new do |_, acc|
           acc.map! { |s| s.length > max ? s[0...max] + " ..." : s unless s.nil? }
         end
       end
@@ -527,16 +511,20 @@ module Traject
       def extract_oclc_number
         lambda do |rec, acc|
           rec.fields(["035", "979"]).each do |field|
-            unless field.nil?
-              unless field["a"].nil? || field["9"]&.include?("ExL")
-                if field["a"].include?("OCoLC") || field["a"].include?("ocn") || field["a"].include?("ocm") || field["a"].match(/\bon[0-9]/) || field["a"].include?("OCLC")
-                  subfield = field["a"].split(//).map { |x| x[/\d+/] }.compact.join("")
-                end
-                acc << subfield
-              end
+
+            next if field.nil? || field["a"].nil? || field["9"]&.include?("ExL")
+
+            if field["a"].include?("OCoLC") || field["a"].include?("ocn") ||
+                field["a"].include?("ocm") || field["a"].match(/\bon[0-9]/) ||
+                field["a"].include?("OCLC")
+
+              subfield = (field["a"].split(//) rescue [])
+                .map { |x| x[/\d+/] }.join("")
+              acc << subfield unless subfield.empty?
             end
-            acc.uniq!
           end
+
+          acc.uniq!
         end
       end
 
@@ -606,7 +594,8 @@ module Traject
         lambda do |rec, acc|
           rec.fields(["HLD"]).each do |field|
             if  !LIBRARIES_TO_NOT_BOOST.include?(field["b"])
-              return acc.replace(["boost"])
+              acc.replace(["boost"])
+              break
             else
               acc << "no_boost"
             end

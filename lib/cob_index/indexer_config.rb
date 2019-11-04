@@ -2,6 +2,7 @@
 
 require "yaml"
 require "cob_index"
+require "cob_index/solr_json_writer"
 
 if File.exist? "config/blacklight.yml"
   solr_config = YAML.load_file("config/blacklight.yml")[(ENV["RAILS_ENV"] || "development")]
@@ -39,10 +40,14 @@ settings do
   provide "marc_source.type", "xml"
   # set this to be non-negative if threshold should be enforced
   provide "solr_writer.max_skipped", -1
-  # extend commit timeout
-  provide "solr_writer.commit_timeout", (15 * 60)
   provide "solr.url", solr_url
-  provide "solr_writer.commit_on_close", "false"
+  provide "solr_writer.commit_on_close", false
+  provide "writer_class_name", "CobIndex::SolrJsonWriter"
+
+  if ENV["SOLR_AUTH_USER"] && ENV["SOLR_AUTH_PASSWORD"]
+    provide "solr_writer.basic_auth_user", ENV["SOLR_AUTH_USER"]
+    provide "solr_writer.basic_auth_password", ENV["SOLR_AUTH_PASSWORD"]
+  end
 end
 
 each_record do |record, context|

@@ -1,0 +1,237 @@
+<record xmlns="http://www.loc.gov/MARC21/slim">
+<leader>02208nam a2200481 4500</leader>
+<controlfield tag="005">20190715235707.0</controlfield>
+<controlfield tag="008">880120t19871987cau 000 0ceng </controlfield>
+<controlfield tag="001">991022212279703811</controlfield>
+<datafield ind1=" " ind2=" " tag="010">
+<subfield code="a">87014950</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="020">
+<subfield code="a">0151527296</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="035">
+<subfield code="a">(PPT)b1459173x-01tuli_inst</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="035">
+<subfield code="a">PATG88-B01050</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="040">
+<subfield code="b">eng</subfield>
+<subfield code="d">NhD</subfield>
+<subfield code="d">PPT</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="090">
+<subfield code="a">PS3527.I865Z49 1987</subfield>
+</datafield>
+<datafield ind1="1" ind2=" " tag="100">
+<subfield code="a">Nin, Anaïs,</subfield>
+<subfield code="d">1903-1977.</subfield>
+<subfield code="0">http://id.loc.gov/authorities/names/n79041785</subfield>
+</datafield>
+<datafield ind1="1" ind2="2" tag="245">
+<subfield code="a">A literate passion :</subfield>
+<subfield code="b">
+from the letters of Anaïs Nin and Henry Miller, 1932-1953 /
+</subfield>
+<subfield code="c">
+edited and with an introduction by Gunther Stuhlmann.
+</subfield>
+</datafield>
+<datafield ind1=" " ind2="1" tag="264">
+<subfield code="a">San Diego :</subfield>
+<subfield code="b">Harcourt Brace Jovanovich,</subfield>
+<subfield code="c">[1987]</subfield>
+</datafield>
+<datafield ind1=" " ind2="4" tag="264">
+<subfield code="c">©1987</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="300">
+<subfield code="a">xxi, 422 pages ;</subfield>
+<subfield code="c">25 cm</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="336">
+<subfield code="a">text</subfield>
+<subfield code="b">txt</subfield>
+<subfield code="2">rdacontent</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="337">
+<subfield code="a">unmediated</subfield>
+<subfield code="b">n</subfield>
+<subfield code="2">rdamedia</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="338">
+<subfield code="a">volume</subfield>
+<subfield code="b">nc</subfield>
+<subfield code="2">rdacarrier</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="500">
+<subfield code="a">Includes index.</subfield>
+</datafield>
+<datafield ind1="1" ind2="0" tag="600">
+<subfield code="a">Nin, Anaïs,</subfield>
+<subfield code="d">1903-1977</subfield>
+<subfield code="x">Correspondence.</subfield>
+<subfield code="0">http://id.loc.gov/authorities/names/n79041785</subfield>
+<subfield code="0">http://id.loc.gov/authorities/subjects/sh99001943</subfield>
+</datafield>
+<datafield ind1="1" ind2="7" tag="600">
+<subfield code="a">Nin, Anaïs,</subfield>
+<subfield code="d">1903-1977.</subfield>
+<subfield code="2">fast</subfield>
+<subfield code="0">http://id.worldcat.org/fast/33861</subfield>
+</datafield>
+<datafield ind1="1" ind2="0" tag="600">
+<subfield code="a">Miller, Henry,</subfield>
+<subfield code="d">1891-1980</subfield>
+<subfield code="x">Correspondence.</subfield>
+<subfield code="0">http://id.loc.gov/authorities/names/n79069799</subfield>
+<subfield code="0">http://id.loc.gov/authorities/subjects/sh99001943</subfield>
+</datafield>
+<datafield ind1="1" ind2="7" tag="600">
+<subfield code="a">Miller, Henry,</subfield>
+<subfield code="d">1891-1980.</subfield>
+<subfield code="2">fast</subfield>
+<subfield code="0">http://id.worldcat.org/fast/38103</subfield>
+</datafield>
+<datafield ind1=" " ind2="0" tag="650">
+<subfield code="a">Authors, American</subfield>
+<subfield code="y">20th century</subfield>
+<subfield code="v">Correspondence.</subfield>
+<subfield code="0">
+http://id.loc.gov/authorities/subjects/sh2007101496
+</subfield>
+</datafield>
+<datafield ind1=" " ind2="7" tag="655">
+<subfield code="a">Biographies.</subfield>
+<subfield code="2">lcgft</subfield>
+<subfield code="0">
+http://id.loc.gov/authorities/genreForms/gf2014026049
+</subfield>
+</datafield>
+<datafield ind1=" " ind2="7" tag="655">
+<subfield code="a">Biographies.</subfield>
+<subfield code="2">fast</subfield>
+<subfield code="0">http://id.worldcat.org/fast/1919896</subfield>
+</datafield>
+<datafield ind1="1" ind2=" " tag="700">
+<subfield code="a">Miller, Henry,</subfield>
+<subfield code="d">1891-1980.</subfield>
+<subfield code="0">http://id.loc.gov/authorities/names/n79069799</subfield>
+</datafield>
+<datafield ind1="1" ind2=" " tag="700">
+<subfield code="a">Stuhlmann, Gunther.</subfield>
+<subfield code="0">http://id.loc.gov/authorities/names/n86115278</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="902">
+<subfield code="a">MARCIVE-BF 20190703</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="904">
+<subfield code="a">MARCIVE 20190703</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="907">
+<subfield code="a">.b1459173x</subfield>
+<subfield code="b">multi</subfield>
+<subfield code="c">-</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="915">
+<subfield code="a">9662</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="935">
+<subfield code="a">00495652</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="945">
+<subfield code="l">jtcas</subfield>
+<subfield code="g">1</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="945">
+<subfield code="l">pstk </subfield>
+<subfield code="g">1</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="950">
+<subfield code="l">P</subfield>
+<subfield code="i">03/18/88 N</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="955">
+<subfield code="l">P</subfield>
+<subfield code="c">0</subfield>
+<subfield code="q">88-B1050-1</subfield>
+<subfield code="i">03/18/88 C</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="998">
+<subfield code="b">2</subfield>
+<subfield code="c">990101</subfield>
+<subfield code="d">m</subfield>
+<subfield code="e">a</subfield>
+<subfield code="f">-</subfield>
+<subfield code="g">2</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="998">
+<subfield code="a">03/18/88</subfield>
+<subfield code="t">b</subfield>
+<subfield code="s">9110</subfield>
+<subfield code="n">PPT</subfield>
+<subfield code="w">NHDG88B369</subfield>
+<subfield code="d">01/20/88</subfield>
+<subfield code="c">MFK</subfield>
+<subfield code="b">MK</subfield>
+<subfield code="i">880318</subfield>
+<subfield code="l">PATG</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="ADM">
+<subfield code="b">2019-07-16 03:57:08</subfield>
+<subfield code="e">b1459173x-01tuli_inst</subfield>
+<subfield code="d">MARCIVE</subfield>
+<subfield code="f">20190607204545.0</subfield>
+<subfield code="a">2017-06-20 10:42:20</subfield>
+<subfield code="c">false</subfield>
+</datafield>
+<datafield ind1="0" ind2=" " tag="HLD">
+<subfield code="b">ASRS</subfield>
+<subfield code="c">ASRS</subfield>
+<subfield code="h"> PS3527.I865Z49 1987 </subfield>
+<subfield code="8">22454672750003811</subfield>
+<subfield code="updated">2019-08-12 08:36:38</subfield>
+<subfield code="created">2017-06-20 10:42:20</subfield>
+</datafield>
+<datafield ind1="0" ind2=" " tag="HLD">
+<subfield code="b">JAPAN</subfield>
+<subfield code="c">stacks</subfield>
+<subfield code="h">PS3527.I865Z49 1987</subfield>
+<subfield code="8">22305390970003811</subfield>
+<subfield code="updated">2019-08-12 08:36:38</subfield>
+<subfield code="created">2017-06-20 10:42:20</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="ITM">
+<subfield code="r">22454672750003811</subfield>
+<subfield code="b">0</subfield>
+<subfield code="h">0</subfield>
+<subfield code="g">storage</subfield>
+<subfield code="t">BOOK</subfield>
+<subfield code="9">39074004746103</subfield>
+<subfield code="e">ASRS</subfield>
+<subfield code="8">23305390940003811</subfield>
+<subfield code="a">0</subfield>
+<subfield code="i">PS3527.I865Z49 1987</subfield>
+<subfield code="updated">2019-08-24 13:52:13</subfield>
+<subfield code="u">MISSING</subfield>
+<subfield code="q">2017-06-20 10:42:20</subfield>
+<subfield code="d">ASRS</subfield>
+<subfield code="f">MAIN</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="ITM">
+<subfield code="r">22305390970003811</subfield>
+<subfield code="b">1</subfield>
+<subfield code="h">0</subfield>
+<subfield code="g">stacks</subfield>
+<subfield code="t">BOOK</subfield>
+<subfield code="9">31982060067792</subfield>
+<subfield code="e">stacks</subfield>
+<subfield code="8">23305390960003811</subfield>
+<subfield code="a">0</subfield>
+<subfield code="i">PS3527.I865Z49 1987</subfield>
+<subfield code="updated">2017-06-20 10:42:52</subfield>
+<subfield code="q">2017-06-20 10:42:20</subfield>
+<subfield code="d">JAPAN</subfield>
+<subfield code="f">JAPAN</subfield>
+</datafield>
+</record>

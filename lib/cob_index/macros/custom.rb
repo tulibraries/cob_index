@@ -424,10 +424,11 @@ module Traject
 
       def extract_library
         lambda do |rec, acc|
-          rec.fields(["HLD"]).each do |field|
-            if field["b"] != "RES_SHARE"
-              acc << Traject::TranslationMap.new("libraries_map")[field["b"]]
+          rec.fields(["ITM"]).each do |field|
+            if field["f"] != "RES_SHARE" && field["u"] != "MISSING"
+              acc << Traject::TranslationMap.new("libraries_map")[field["f"]]
             end
+            acc.uniq!
           end
         end
       end

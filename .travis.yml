@@ -5,6 +5,7 @@ rvm:
   - 2.4
   - 2.5
   - 2.6
+allow_failures:
   - jruby-9.2.7.0
 
 script:

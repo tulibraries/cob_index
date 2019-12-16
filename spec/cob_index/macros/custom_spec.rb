@@ -1807,4 +1807,23 @@ RSpec.describe Traject::Macros::Custom do
       end
     end
   end
+
+  describe "#extract_library" do
+    let(:path) { "library_facet.xml" }
+
+    before do
+      subject.instance_eval do
+        to_field "library_facet", extract_library
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when one item is missing" do
+      it "does not include library with missing item" do
+        expect(subject.map_record(records[0])).to eq("library_facet" => ["Japan Campus Library"])
+      end
+    end
+  end
 end

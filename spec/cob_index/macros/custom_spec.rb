@@ -931,7 +931,7 @@ RSpec.describe Traject::Macros::Custom do
         end
       end
 
-      context "856 field includes temple and scrc" do
+      context "856 field includes temple and scrc with http" do
         let(:record_text) { '
           <record>
             <!-- 11. Links with temple url and scrc map to url_finding_aid_display -->
@@ -945,6 +945,23 @@ RSpec.describe Traject::Macros::Custom do
         it "it does map to url_finding_aid_display(scrc)" do
           expect(subject.map_record(record)).to eq(
             "url_finding_aid_display" => [ { title: "Finding aid", url: "http://library.temple.edu/scrc" }.to_json ])
+        end
+      end
+
+      context "856 field includes temple and scrc with https" do
+        let(:record_text) { '
+          <record>
+            <!-- 11. Links with temple url and scrc map to url_finding_aid_display -->
+            <datafield tag="856" ind1="4" ind2="2">
+              <subfield code="z">Finding aid https</subfield>
+              <subfield code="u">https://library.temple.edu/scrc</subfield>
+            </datafield>
+          </record>
+        ' }
+
+        it "it does map to url_finding_aid_display(scrc)" do
+          expect(subject.map_record(record)).to eq(
+            "url_finding_aid_display" => [ { title: "Finding aid https", url: "https://library.temple.edu/scrc" }.to_json ])
         end
       end
 

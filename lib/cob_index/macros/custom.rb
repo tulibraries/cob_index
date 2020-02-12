@@ -264,7 +264,7 @@ module Traject
             label = url_label(f["z"], f["3"], f["y"])
             unless f["u"].nil?
               if f.indicator2 == "2" || NOT_FULL_TEXT.match(label) || !rec.fields("PRT").empty? || f["u"].include?(ARCHIVE_IT_LINKS)
-                unless (f["u"].match?(/http[s]*:\/\/library.temple.edu/) && (f["u"].include?("scrc") || f["u"].include?("finding_aids"))
+                unless (f["u"].match?(/http[s]*:\/\/library.temple.edu/)) && (f["u"].include?("scrc") || f["u"].include?("finding_aids"))
                   acc << { title: label, url: f["u"] }.to_json
                 end
               end

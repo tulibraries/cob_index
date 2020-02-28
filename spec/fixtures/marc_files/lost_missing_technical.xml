@@ -66,6 +66,8 @@
 	<record>
 		<!-- 3. Multiple items with one lost -->
     <controlfield tag="001">3</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+		</datafield>
 		<datafield ind1=" " ind2=" " tag="ITM">
 			<subfield code="r">22423620830003811</subfield>
 			<subfield code="b">0</subfield>
@@ -346,6 +348,8 @@
   <!-- 6. PR #1108 One unassigned -->
   <record xmlns="http://www.loc.gov/MARC21/slim">
     <controlfield tag="001">991026206569703811</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+		</datafield>
     <datafield ind1=" " ind2=" " tag="ITM">
       <subfield code="r">22311821240003811</subfield>
       <subfield code="b">1</subfield>
@@ -373,4 +377,19 @@
       <subfield code="f">EMPTY</subfield>
     </datafield>
   </record>
+
+	<!-- 7. Empty HLD and PRT with no 856["u"] present -->
+  <record>
+    <controlfield tag="001">991014245629703811</controlfield>
+  </record>
+
+	<!-- 8. Empty HLD and PRT with 856["u"] present -->
+	<record>
+		<controlfield tag="001">991014245629703811</controlfield>
+		<datafield ind1="4" ind2="0" tag="856">
+			<subfield code="u">http://libproxy.temple.edu/login?url=http://lib.myilibrary.com/detail.asp?id=359867</subfield>
+			<subfield code="z">Connect to MyiLibrary resource.</subfield>
+		</datafield>
+	</record>
+
 </collection>

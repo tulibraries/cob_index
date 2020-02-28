@@ -1231,6 +1231,18 @@ RSpec.describe Traject::Macros::Custom do
         expect(subject.map_record(records[6])).to eq({})
       end
     end
+
+    context "when there are no HLD, PRT, or 856['u'] fields" do
+      it "does suppress this file" do
+        expect(subject.map_record(records[7])).to eq("suppress_items_b" => [true])
+      end
+    end
+
+    context "when there are no HLD, PRT, but 856['u'] fields are present" do
+      it "doesn't suppress this file" do
+        expect(subject.map_record(records[8])).to eq({})
+      end
+    end
   end
 
   describe "full reindex #suppress_items" do

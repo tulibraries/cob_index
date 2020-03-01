@@ -1077,6 +1077,30 @@ RSpec.describe Traject::Macros::Custom do
         )
       end
     end
+
+    context "when translatable subject is present in 650a" do
+      it "translates subject" do
+        record_text = <<-EOT
+<record xmlns="http://www.loc.gov/MARC21/slim">
+  <datafield ind1=" " ind2="0" tag="650">
+    <subfield code="a">Illegal aliens</subfield>
+    <subfield code="z">United States</subfield>
+    <subfield code="v">Pictorial works.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="0" tag="650">
+    <subfield code="a">Presidents' spouses</subfield>
+    <subfield code="z">United States</subfield>
+    <subfield code="v">Pictorial works.</subfield>
+  </datafield>
+</record>
+EOT
+        record = MARC::XMLReader.new(StringIO.new(record_text)).first
+        expect(subject.map_record(record)["subject_display"]).to eq([
+          "Undocumented immigrants — United States — Pictorial works",
+          "Presidents' spouses — United States — Pictorial works",
+        ])
+      end
+    end
   end
 
   describe "#extract_genre_display" do
@@ -1144,6 +1168,31 @@ RSpec.describe Traject::Macros::Custom do
           # Note that value is flattened
           "subject_topic_facet" => ["Subject Topic moves on to the year 3000"]
           )
+      end
+    end
+
+    context "record has translatable subject topics." do
+      it "translates the subject topics" do
+        record_text = <<-EOT
+<record xmlns="http://www.loc.gov/MARC21/slim">
+  <datafield ind1=" " ind2="0" tag="650">
+    <subfield code="a">Illegal aliens</subfield>
+    <subfield code="z">United States</subfield>
+    <subfield code="v">Pictorial works.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="0" tag="650">
+    <subfield code="a">Presidents' spouses</subfield>
+    <subfield code="z">United States</subfield>
+    <subfield code="v">Pictorial works.</subfield>
+  </datafield>
+</record>
+EOT
+        record = MARC::XMLReader.new(StringIO.new(record_text)).first
+
+        expect(subject.map_record(record)["subject_topic_facet"]).to eq([
+          "Undocumented immigrants",
+          "Presidents' spouses",
+        ])
       end
     end
   end

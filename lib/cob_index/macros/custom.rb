@@ -128,10 +128,38 @@ module Traject
         end
       end
 
+      def subject_translations(subject)
+        { "Aliens" => "Noncitizens",
+          "Illegal aliens" => "Undocumented immigrants",
+          "Alien criminals" => "Noncitizen criminals",
+          "Alien detention centers" => "Noncitizen detention centers",
+          "Alien property" => "Noncitizen property",
+          "Aliens in art": "Noncitizens in art",
+          "Aliens in literature" => "Noncitizens in literature",
+          "Aliens in mass media" => "Noncitizens in mass media",
+          "Aliens in motion pictures" => "Noncitizens in motion pictures",
+          "Children of illegal aliens" => "Children of undocumented immigrants",
+          "Church work with aliens" => "Church work with noncitizens",
+          "Illegal alien children" => "Undocumented immigrant children",
+          "Illegal aliens in literature" => "Undocumented immigrants in literature",
+          "Women illegal aliens" =>  "Women undocumented immigrants",
+        }.fetch(subject, subject)
+      end
+
+      def translate_subject_field!(field)
+        if field.tag == "650"
+          field.subfields.map! { |sf|
+            sf.value = subject_translations(sf.value) if sf.code == "a"
+            sf
+          }
+        end
+      end
+
       def extract_subject_display
         lambda do |rec, acc|
           subjects = []
           Traject::MarcExtractor.cached("600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz").collect_matching_lines(rec) do |field, spec, extractor|
+            translate_subject_field!(field)
             subject = extractor.collect_subfields(field, spec).first
             unless subject.nil?
               field.subfields.each do |s_field|
@@ -142,6 +170,7 @@ module Traject
             end
             subjects
           end
+
           acc.replace(subjects)
         end
       end
@@ -174,6 +203,7 @@ module Traject
           end
 
           Traject::MarcExtractor.cached("650ax").collect_matching_lines(rec) do |field, spec, extractor|
+            translate_subject_field!(field)
             subject = extractor.collect_subfields(field, spec).first
             unless subject.nil?
               field.subfields.each do |s_field|

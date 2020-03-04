@@ -128,10 +128,38 @@ module Traject
         end
       end
 
+      def subject_translations(subject)
+        { "Aliens" => "Noncitizens",
+          "Illegal aliens" => "Undocumented immigrants",
+          "Alien criminals" => "Noncitizen criminals",
+          "Alien detention centers" => "Noncitizen detention centers",
+          "Alien property" => "Noncitizen property",
+          "Aliens in art": "Noncitizens in art",
+          "Aliens in literature" => "Noncitizens in literature",
+          "Aliens in mass media" => "Noncitizens in mass media",
+          "Aliens in motion pictures" => "Noncitizens in motion pictures",
+          "Children of illegal aliens" => "Children of undocumented immigrants",
+          "Church work with aliens" => "Church work with noncitizens",
+          "Illegal alien children" => "Undocumented immigrant children",
+          "Illegal aliens in literature" => "Undocumented immigrants in literature",
+          "Women illegal aliens" =>  "Women undocumented immigrants",
+        }.fetch(subject, subject)
+      end
+
+      def translate_subject_field!(field)
+        if field.tag == "650"
+          field.subfields.map! { |sf|
+            sf.value = subject_translations(sf.value) if sf.code == "a"
+            sf
+          }
+        end
+      end
+
       def extract_subject_display
         lambda do |rec, acc|
           subjects = []
           Traject::MarcExtractor.cached("600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz").collect_matching_lines(rec) do |field, spec, extractor|
+            translate_subject_field!(field)
             subject = extractor.collect_subfields(field, spec).first
             unless subject.nil?
               field.subfields.each do |s_field|
@@ -142,6 +170,7 @@ module Traject
             end
             subjects
           end
+
           acc.replace(subjects)
         end
       end
@@ -174,6 +203,7 @@ module Traject
           end
 
           Traject::MarcExtractor.cached("650ax").collect_matching_lines(rec) do |field, spec, extractor|
+            translate_subject_field!(field)
             subject = extractor.collect_subfields(field, spec).first
             unless subject.nil?
               field.subfields.each do |s_field|
@@ -490,17 +520,16 @@ module Traject
 
       def suppress_items
         lambda do |rec, acc, context|
+          full_text_link = rec.fields("856").select { |field| field["u"] }
           unassigned = rec.fields("ITM").select { |field| field["g"] == "UNASSIGNED" }
           lost = rec.fields("ITM").select { |field| field["u"] == "LOST_LOAN" }
           missing = rec.fields("ITM").select { |field| field["u"] == "MISSING" }
           technical = rec.fields("ITM").select { |field| field["u"] == "TECHNICAL" }
           unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
 
-          if rec.fields("ITM").length == 1 && (!lost.empty? || !missing.empty? || !technical.empty? || !unassigned.empty?)
-            acc.replace([true])
-          elsif rec.fields("HLD").length == 1 && !unwanted_library.empty?
-            acc.replace([true])
-          end
+          acc.replace([true]) if rec.fields("HLD").length == 0 && (rec.fields("PRT").length == 0 && full_text_link.empty?)
+          acc.replace([true]) if rec.fields("ITM").length == 1 && (!lost.empty? || !missing.empty? || !technical.empty? || !unassigned.empty?)
+          acc.replace([true]) if rec.fields("HLD").length == 1 && !unwanted_library.empty?
 
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"
             context.skip!

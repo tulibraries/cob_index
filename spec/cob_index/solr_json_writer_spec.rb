@@ -281,21 +281,24 @@ RSpec.describe CobIndex::SolrJsonWriter do
   end
 
   describe "delete_batch_query" do
+    let(:settings) { {
+      "solr.url" => "http://example.com",
+      "nokogiri.each_record_xpath" => "/oai:OAI-PMH/oai:ListRecords/oai:record",
+      "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
+      "solr_writer.commit_on_close" => "false",
+      "writer_class_name" => "CobIndex::SolrJsonWriter",
+    } }
+    let(:indexer) { CobIndex::NokogiriIndexer.new(settings) }
+
+    before(:each) do
+      allow(indexer).to receive(:default_namespaces) { settings["nokogiri.namespaces"] }
+      allow(CobIndex::NokogiriIndexer).to receive(:default_namespaces) { settings["nokogiri.namespace"] }
+    end
+
     skip "generates the correct batch query"  do
 
-      settings = {
-        "solr.url" => "http://example.com",
-        "nokogiri.each_record_xpath" => "/oai:OAI-PMH/oai:ListRecords/oai:record",
-        "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
-        "solr_writer.commit_on_close" => "false",
-        "writer_class_name" => "CobIndex::SolrJsonWriter",
-      }
-
-      indexer = CobIndex::NokogiriIndexer.new(settings)
-      allow(indexer).to receive(:default_namespaces) { settings["nokogiri.namespaces"] }
-
       records = Traject::NokogiriReader.new(StringIO.new(
-  <<-XML
+                                              <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
 <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
   <responseDate>2020-03-03T04:16:09Z</responseDate>
@@ -325,8 +328,8 @@ RSpec.describe CobIndex::SolrJsonWriter do
       ), settings).to_a
 
       id_proc = CobIndex::NokogiriIndexer.new.source_record_id_proc
-      context1 = context_with({}, record: records[0], source_record_id_proc: id_proc, settings: settings) 
-      context2 = context_with({}, record: records[1], source_record_id_proc: id_proc) 
+      context1 = context_with({}, record: records[0], source_record_id_proc: id_proc, settings: settings)
+      context2 = context_with({}, record: records[1], source_record_id_proc: id_proc)
 
       deletes = [ context1, context2 ]
       expect(indexer.writer.delete_batch_query(deletes)).to eq("id:(foo OR bar)")

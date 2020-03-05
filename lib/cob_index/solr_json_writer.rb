@@ -148,6 +148,6 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
   end
 
   def delete_batch_query(batch)
-    "id:(" + batch.flat_map{ |c| c.source_record_id }.join(" OR ") + ")"
+    "id:(" + batch.flat_map { |c| c.source_record_id }.join(" OR ") + ")"
   end
 end

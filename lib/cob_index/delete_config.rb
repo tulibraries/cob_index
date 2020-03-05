@@ -27,4 +27,3 @@ end
 after_processing do
   writer.delete_batch(deletes)
 end
-

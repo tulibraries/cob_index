@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 require "traject"
 
 module CobIndex
   class NokogiriIndexer < Traject::Indexer::NokogiriIndexer
-
     def source_record_id_proc
-       @source_record_id_proc ||= lambda { |rec| get_id(rec) }
+      @source_record_id_proc ||= lambda { |rec| get_id(rec) }
     end
 
     def extract_id
@@ -42,7 +43,7 @@ module CobIndex
       begin
         yield if block_given?
       rescue Exception => e
-        logger.error(message + ': ' + data.to_s)
+        logger.error(message + ": " + data.to_s)
         raise e
       end
     end

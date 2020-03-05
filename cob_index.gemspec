@@ -47,5 +47,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop", "~> 0.52"
   spec.add_development_dependency "coveralls"
-  spec.add_development_dependency "httparty"
 end

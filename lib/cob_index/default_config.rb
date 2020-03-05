@@ -1,14 +1,18 @@
+# frozen_string_literal: true
+
 module CobIndex
   module  DefaultConfig
     # Wrapper for our default indexer settings so that we can share them
     # across commands.
     def self.indexer_settings
-      solr_url = if File.exist? "config/blacklight.yml"
-                      solr_config = YAML.load_file("config/blacklight.yml")[(ENV["RAILS_ENV"] || "development")]
-                      ERB.new(solr_config["url"]).result
-                    else
-                      ENV["SOLR_URL"] || "http://localhost:8993/solr/blackligh"
-                    end
+      solr_url =
+        if File.exist? "config/blacklight.yml"
+          solr_config = YAML.load_file("config/blacklight.yml")[(ENV["RAILS_ENV"] || "development")]
+          ERB.new(solr_config["url"]).result
+        else
+          ENV["SOLR_URL"]
+        end
+
       proc {
         # type may be "binary", "xml", or "json"
         provide "marc_source.type", "xml"

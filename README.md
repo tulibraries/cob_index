@@ -23,6 +23,8 @@ Or install it yourself as:
 
 ## Usage
 
+### ingest
+
 `cob_index` is an executable.  You can use it to ingest files into SOLR_URL with
 
 ```
@@ -32,9 +34,14 @@ cob_index ingest $path_to_file
 `$path_file` can also be a URL.
 
 
-### Ingest switches
+#### Ingest switches
 `--commit` If this switch is passed (`cob_index ingest --commit`), then cob_index will send commit at end of ingest process.
 
+### deletes
+
+```
+cob_index delete  $path_to_file
+```
 
 ## Development
 

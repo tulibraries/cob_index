@@ -280,7 +280,70 @@ RSpec.describe CobIndex::SolrJsonWriter do
     end
   end
 
-  def context_with(hash)
-    Traject::Indexer::Context.new(output_hash: hash)
+  describe "delete_batch_query" do
+    skip "generates the correct batch query"  do
+
+      settings = {
+        "solr.url" => "http://example.com",
+        "nokogiri.each_record_xpath" => "/oai:OAI-PMH/oai:ListRecords/oai:record",
+        "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
+        "solr_writer.commit_on_close" => "false",
+        "writer_class_name" => "CobIndex::SolrJsonWriter",
+      }
+
+      indexer = CobIndex::NokogiriIndexer.new(settings)
+      allow(indexer).to receive(:default_namespaces) { settings["nokogiri.namespaces"] }
+
+      records = Traject::NokogiriReader.new(StringIO.new(
+  <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2020-03-03T04:16:09Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="marc21" set="blacklight" from="2020-03-02T20:47:11Z">https://na02.alma.exlibrisgroup.com/view/oai/01TULI_INST/request</request>
+  <ListRecords>
+    <record>
+      <header status="deleted">
+        <identifier>oai:alma.01TULI_INST:foo</identifier>
+        <datestamp>2020-03-03T03:54:35Z</datestamp>
+        <setSpec>blacklight</setSpec>
+        <setSpec>rapid_print_journals</setSpec>
+        <setSpec>blacklight_qa</setSpec>
+      </header>
+    </record>
+    <record>
+      <header status="deleted">
+        <identifier>oai:alma.01TULI_INST:bar</identifier>
+        <datestamp>2020-03-03T03:54:35Z</datestamp>
+        <setSpec>blacklight</setSpec>
+        <setSpec>rapid_print_journals</setSpec>
+        <setSpec>blacklight_qa</setSpec>
+      </header>
+    </record>
+  </ListRecords>
+</OAI-PMH>
+  XML
+      ), settings).to_a
+
+      id_proc = CobIndex::NokogiriIndexer.new.source_record_id_proc
+      context1 = context_with({}, record: records[0], source_record_id_proc: id_proc, settings: settings) 
+      context2 = context_with({}, record: records[1], source_record_id_proc: id_proc) 
+
+      deletes = [ context1, context2 ]
+      expect(indexer.writer.delete_batch_query(deletes)).to eq("id:(foo OR bar)")
+    end
+  end
+
+  def context_with(hash, record: nil, source_record_id_proc:  nil, settings: {})
+    context = Traject::Indexer::Context.new(output_hash: hash, settings: settings)
+
+    if (record)
+      context.source_record = record
+    end
+
+    if (source_record_id_proc)
+      context.source_record_id_proc = source_record_id_proc
+    end
+
+    context
   end
 end

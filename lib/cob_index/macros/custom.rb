@@ -149,7 +149,8 @@ module Traject
       def translate_subject_field!(field)
         if field.tag == "650"
           field.subfields.map! { |sf|
-            sf.value = subject_translations(sf.value) if sf.code == "a"
+            trimmed_sf = sf.value.sub(/ *[ ,.\/;:] *\Z/, "")
+            sf.value = subject_translations(trimmed_sf) if sf.code == "a"
             sf
           }
         end

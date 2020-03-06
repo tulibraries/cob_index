@@ -22,9 +22,6 @@ module CobIndex
         "solr_writer.commit_on_close" => commit
       }
 
-      require "pry"
-      binding.pry
-
       indexer = CobIndex::NokogiriIndexer.new(settings)
       indexer.load_config_file("#{File.dirname(__FILE__)}/cob_index/delete_config.rb")
       indexer.process(StringIO.new(xml))

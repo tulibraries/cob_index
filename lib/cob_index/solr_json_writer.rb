@@ -148,6 +148,11 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
   end
 
   def delete_batch_query(batch)
-    "id:(" + batch.flat_map { |c| c.source_record_id }.join(" OR ") + ")"
+    batch.flat_map { |c|
+      id = c.output_hash["id"].join
+      date = c.output_hash["record_update_date"].join
+
+      "(id:#{id} AND record_update_date:[0 TO #{date}])"
+    }.join(" OR ")
   end
 end

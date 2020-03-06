@@ -288,15 +288,9 @@ RSpec.describe CobIndex::SolrJsonWriter do
       "solr_writer.commit_on_close" => "false",
       "writer_class_name" => "CobIndex::SolrJsonWriter",
     } }
-    let(:indexer) { CobIndex::NokogiriIndexer.new(settings) }
 
-    before(:each) do
-      allow(indexer).to receive(:default_namespaces) { settings["nokogiri.namespaces"] }
-      allow(CobIndex::NokogiriIndexer).to receive(:default_namespaces) { settings["nokogiri.namespace"] }
-    end
-
-    skip "generates the correct batch query"  do
-
+    it "generates the correct batch query"  do
+      indexer = CobIndex::NokogiriIndexer.new(settings)
       records = Traject::NokogiriReader.new(StringIO.new(
                                               <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -306,7 +300,7 @@ RSpec.describe CobIndex::SolrJsonWriter do
   <ListRecords>
     <record>
       <header status="deleted">
-        <identifier>oai:alma.01TULI_INST:foo</identifier>
+        <identifier>oai:alma.01TULI_INST:111111111111111111</identifier>
         <datestamp>2020-03-03T03:54:35Z</datestamp>
         <setSpec>blacklight</setSpec>
         <setSpec>rapid_print_journals</setSpec>
@@ -315,7 +309,7 @@ RSpec.describe CobIndex::SolrJsonWriter do
     </record>
     <record>
       <header status="deleted">
-        <identifier>oai:alma.01TULI_INST:bar</identifier>
+        <identifier>oai:alma.01TULI_INST:222222222222222222</identifier>
         <datestamp>2020-03-03T03:54:35Z</datestamp>
         <setSpec>blacklight</setSpec>
         <setSpec>rapid_print_journals</setSpec>
@@ -327,16 +321,16 @@ RSpec.describe CobIndex::SolrJsonWriter do
   XML
       ), settings).to_a
 
-      id_proc = CobIndex::NokogiriIndexer.new.source_record_id_proc
-      context1 = context_with({}, record: records[0], source_record_id_proc: id_proc, settings: settings)
+      id_proc = indexer.source_record_id_proc
+      context1 = context_with({}, record: records[0], source_record_id_proc: id_proc)
       context2 = context_with({}, record: records[1], source_record_id_proc: id_proc)
 
       deletes = [ context1, context2 ]
-      expect(indexer.writer.delete_batch_query(deletes)).to eq("id:(foo OR bar)")
+      expect(subject.delete_batch_query(deletes)).to eq("id:(111111111111111111 OR 222222222222222222)")
     end
   end
 
-  def context_with(hash, record: nil, source_record_id_proc:  nil, settings: {})
+  def context_with(hash, record: nil, source_record_id_proc:  nil)
     context = Traject::Indexer::Context.new(output_hash: hash, settings: settings)
 
     if (record)

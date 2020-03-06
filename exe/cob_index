@@ -33,6 +33,8 @@ class App
   desc "Delete documents from solr endpoint"
   arg_name "Describe arguments to delete here"
   command :delete do |c|
+    c.desc "Commit docs after delete process closes."
+    c.switch ["commit"], default_value: false
 
     c.desc "Delete documents from solr"
     c.action do |global_options, options, args|

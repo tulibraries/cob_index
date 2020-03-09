@@ -146,7 +146,7 @@ module Traject
         }
 
         translations.default_proc = proc { |hash, key|
-          if translations.key? key.gsub!(/\.$/,"")
+          if translations.key? key.gsub!(/\.$/, "")
             hash[key]
           else
             subject
@@ -159,8 +159,7 @@ module Traject
       def translate_subject_field!(field)
         if field.tag == "650"
           field.subfields.map! { |sf|
-            trimmed_sf = sf.value.sub(/ *[ ,.\/;:] *\Z/, "")
-            sf.value = subject_translations(trimmed_sf) if sf.code == "a"
+            sf.value = subject_translations(sf.value) if sf.code == "a"
             sf
           }
         end

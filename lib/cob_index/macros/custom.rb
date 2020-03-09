@@ -129,7 +129,7 @@ module Traject
       end
 
       def subject_translations(subject)
-        { "Aliens" => "Noncitizens",
+        translations = { "Aliens" => "Noncitizens",
           "Illegal aliens" => "Undocumented immigrants",
           "Alien criminals" => "Noncitizen criminals",
           "Alien detention centers" => "Noncitizen detention centers",
@@ -143,7 +143,17 @@ module Traject
           "Illegal alien children" => "Undocumented immigrant children",
           "Illegal aliens in literature" => "Undocumented immigrants in literature",
           "Women illegal aliens" =>  "Women undocumented immigrants",
-        }.fetch(subject, subject)
+        }
+
+        translations.default_proc = proc { |hash, key|
+          if translations.key? key.gsub!(/\.$/,"")
+            hash[key]
+          else
+            subject
+          end
+        }
+
+        translations[subject]
       end
 
       def translate_subject_field!(field)

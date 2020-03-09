@@ -1196,12 +1196,17 @@ RSpec.describe Traject::Macros::Custom do
       end
     end
 
-    context "record has translatable subject topics." do
+    context "record has translatable subject topics. (Including if it ends in period)" do
       it "translates the subject topics" do
         record_text = <<-EOT
 <record xmlns="http://www.loc.gov/MARC21/slim">
   <datafield ind1=" " ind2="0" tag="650">
     <subfield code="a">Illegal aliens</subfield>
+    <subfield code="z">United States</subfield>
+    <subfield code="v">Pictorial works.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="0" tag="650">
+    <subfield code="a">Alien property.</subfield>
     <subfield code="z">United States</subfield>
     <subfield code="v">Pictorial works.</subfield>
   </datafield>
@@ -1216,6 +1221,7 @@ EOT
 
         expect(subject.map_record(record)["subject_topic_facet"]).to eq([
           "Undocumented immigrants",
+          "Noncitizen property",
           "Presidents' spouses",
         ])
       end

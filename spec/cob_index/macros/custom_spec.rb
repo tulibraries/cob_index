@@ -1126,6 +1126,24 @@ RSpec.describe Traject::Macros::Custom do
         ])
       end
     end
+
+    context "when a non-translatable subject is present in 650a with punctuation" do
+      it "keeps the punctuation" do
+        record_text = <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="650">
+            <subfield code="a">Test subject.</subfield>
+            <subfield code="z">United States</subfield>
+          </datafield>
+        </record>
+        EOT
+
+        record = MARC::XMLReader.new(StringIO.new(record_text)).first
+        subject.map_record(record)
+        expect(record.fields.first.value).to eq("Test subject.United States")
+      end
+    end
+
   end
 
   describe "#extract_genre_display" do

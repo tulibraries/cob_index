@@ -146,7 +146,7 @@ module Traject
         }
 
         translations.default_proc = proc { |hash, key|
-          key2 = key.gsub!(/\.$/, "")
+          key2 = key.gsub(/\.$/, "")
           if translations.key? key2
             hash[key2]
           else

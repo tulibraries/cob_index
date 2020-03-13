@@ -134,7 +134,7 @@ module Traject
           "Alien criminals" => "Noncitizen criminals",
           "Alien detention centers" => "Noncitizen detention centers",
           "Alien property" => "Noncitizen property",
-          "Aliens in art": "Noncitizens in art",
+          "Aliens in art" => "Noncitizens in art",
           "Aliens in literature" => "Noncitizens in literature",
           "Aliens in mass media" => "Noncitizens in mass media",
           "Aliens in motion pictures" => "Noncitizens in motion pictures",

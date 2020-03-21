@@ -17,7 +17,7 @@ module CobIndex
 
     def self.delete(commit: false, xml: "")
       settings = {
-        "nokogiri.each_record_xpath" => "/oai:OAI-PMH/oai:ListRecords/oai:record",
+        "nokogiri.each_record_xpath" => "//oai:record",
         "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
         "solr_writer.commit_on_close" => commit
       }

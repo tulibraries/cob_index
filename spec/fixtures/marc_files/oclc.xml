@@ -58,4 +58,10 @@
       <subfield code="a">(Production)1012488209</subfield>
     </datafield>
   </record>
+  <record>
+  <!-- 9. number includes a leading zero -->
+    <datafield ind1=" " ind2=" " tag="979">
+      <subfield code="a">ocm03885910</subfield>
+    </datafield>
+  </record>
 </collection>

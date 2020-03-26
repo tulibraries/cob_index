@@ -560,7 +560,7 @@ module Traject
                 field["a"].include?("OCLC")
 
               subfield = (field["a"].split(//) rescue [])
-                .map { |x| x[/\d+/] }.join("").sub!(/^0*/, '')
+                .map { |x| x[/\d+/] }.join("").sub!(/^0*/, "")
               acc << subfield unless subfield.empty?
             end
           end

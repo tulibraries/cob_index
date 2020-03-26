@@ -1445,6 +1445,12 @@ EOT
       end
     end
 
+    context "when oclc number has a leading zero" do
+      it "removes the leading zero" do
+        expect(subject.map_record(records[9])).to eq("oclc_number_display" => ["3885910"])
+      end
+    end
+
     context "when 035 field includes subfield 9 with ExL" do
       it "does not map record" do
         expect(subject.map_record(records[7])).to eq({})

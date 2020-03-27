@@ -280,6 +280,22 @@ RSpec.describe CobIndex::SolrJsonWriter do
     end
   end
 
+  describe "delete_batch_query" do
+    it "generates the correct batch query"  do
+      context1 = context_with({
+        "id" => ["foo"],
+        "record_update_date" => ["date1"],
+      })
+      context2 = context_with({
+        "id" => ["bar"],
+        "record_update_date" => ["date2"],
+      })
+
+      deletes = [ context1, context2 ]
+      expect(subject.delete_batch_query(deletes)).to eq("(id:foo AND record_update_date:[0 TO date1]) OR (id:bar AND record_update_date:[0 TO date2])")
+    end
+  end
+
   def context_with(hash)
     Traject::Indexer::Context.new(output_hash: hash)
   end

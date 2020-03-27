@@ -23,9 +23,27 @@ class App
     c.desc "Ingest files into SOLR_URL using tul_cob traject config"
     c.action do |global_options, options, args|
       opts = {}
-      opts.merge!(commit: options[:commit])
+      marc_xml = open(ARGV[0]).read
+      opts.merge!(commit: options[:commit], marc_xml: marc_xml)
 
       CobIndex::CLI.ingest(opts)
+    end
+  end
+
+  desc "Delete documents from solr endpoint"
+  arg_name "Describe arguments to delete here"
+  command :delete do |c|
+    c.desc "Commit docs after delete process closes."
+    c.switch ["commit"], default_value: false
+
+    c.desc "Delete documents from solr"
+    c.action do |global_options, options, args|
+      xml = open(ARGV[0]).read
+
+      opts = {}
+      opts.merge!(commit: options[:commit], xml: xml)
+
+      CobIndex::CLI.delete(opts)
     end
   end
 

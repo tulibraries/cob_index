@@ -82,4 +82,17 @@ RSpec.describe CobIndex do
       end
     end
   end
+
+  describe "harvest" do
+    let(:xml) { "" }
+
+    before(:example) do
+      allow(Alma::Electronic).to receive(:get_ids).and_return([])
+    end
+
+
+    it "does not fail smoke test" do
+      CobIndex::CLI.harvest()
+    end
+  end
 end

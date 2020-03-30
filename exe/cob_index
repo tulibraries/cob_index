@@ -47,6 +47,21 @@ class App
     end
   end
 
+  desc "Harvest documents from various endpoints."
+  arg_name "Describe arguments to delete"
+  command :harvest do |c|
+    c.desc "Type of harvest to perform. Defaults to Alma Electrnic harvest."
+    c.switch ["type"], default_value: "alma-electronic"
+
+    c.desc "Delete documents from solr"
+    c.action do |global_options, options, args|
+      opts = {}
+      opts.merge!(type: options[:type])
+
+      CobIndex::CLI.harvest(options)
+    end
+  end
+
   pre do |global, command, options, args|
     # Pre logic here
     # Return true to proceed; false to abort and not call the

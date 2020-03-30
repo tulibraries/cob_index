@@ -4,6 +4,9 @@ require "cob_index/version"
 require "cob_index/dot_properties"
 require "cob_index/nokogiri_indexer"
 require "traject"
+require "alma/electronic/batch_utils"
+require "logger"
+
 
 
 module CobIndex
@@ -25,6 +28,28 @@ module CobIndex
       indexer = CobIndex::NokogiriIndexer.new(settings)
       indexer.load_config_file("#{File.dirname(__FILE__)}/cob_index/delete_config.rb")
       indexer.process(StringIO.new(xml))
+    end
+
+
+    def self.harvest(type = nil)
+      Alma.configure { |config|
+        # TODO: fix so tul_cob config overrides this.
+        config.apikey = ENV["ALMA_API_KEY"]
+        config.timeout = 20
+      }
+
+      logger = Logger.new(STDOUT)
+
+      ids =  Alma::Electronic.get_ids
+        .map { |id| { collection_id: id.to_s } }
+
+      batch = Alma::Electronic::BatchUtils.new(ids: ids, logger: logger)
+
+      batch.get_collection_notes
+      batch.print_notes(filename: "collection_notes.json")
+
+      batch.get_service_notes
+      batch.print_notes(filename: "service_notes.json")
     end
   end
 end

@@ -43,6 +43,18 @@ cob_index ingest $path_to_file
 cob_index delete  $path_to_file
 ```
 
+### harvest
+
+```
+cob_index harvest  --type=alma-electronic
+```
+
+Runs pre defined harvesting endpoints for tul_cob. Note the only type currently defined is for the alma-electronic api and thus it is set by default.
+
+#### Harvest endpoint types
+##### alma-electronic
+`collection_notes.json` and `service_notes.json` files get outputed to the working directory when `cob_index harvest --type=alma-electronic` is run.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

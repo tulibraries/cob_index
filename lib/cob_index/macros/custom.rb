@@ -537,9 +537,14 @@ module Traject
           missing = rec.fields("ITM").select { |field| field["u"] == "MISSING" }
           technical = rec.fields("ITM").select { |field| field["u"] == "TECHNICAL" }
           unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
+          u_subfields = []
+          rec.fields("ITM").select { |field|
+            u_subfields << field["u"]
+          }
 
           acc.replace([true]) if rec.fields("HLD").length == 0 && (rec.fields("PRT").length == 0 && full_text_link.empty?)
           acc.replace([true]) if rec.fields("ITM").length == 1 && (!lost.empty? || !missing.empty? || !technical.empty? || !unassigned.empty?)
+          acc.replace([true]) if rec.fields("ITM").length > 1 && u_subfields.all? { |f| f == "LOST_LOAN" || f == "MISSING" || f == "TECHNICAL" || f == "UNASSIGNED" }
           acc.replace([true]) if rec.fields("HLD").length == 1 && !unwanted_library.empty?
 
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"

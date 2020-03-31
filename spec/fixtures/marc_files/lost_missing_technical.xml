@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
+<collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
 	<record>
 		<!-- 0. Only 1 lost item -->
     <controlfield tag="001">4</controlfield>
@@ -391,5 +391,87 @@
 			<subfield code="z">Connect to MyiLibrary resource.</subfield>
 		</datafield>
 	</record>
-
+	<record>
+		<!-- 9. All items lost or missing -->
+		<controlfield tag="001">4</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+		</datafield>
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22423620830003811</subfield>
+			<subfield code="b">0</subfield>
+			<subfield code="u">LOST_LOAN</subfield>
+			<subfield code="h">0</subfield>
+			<subfield code="g">stacks</subfield>
+			<subfield code="t">BOOK</subfield>
+			<subfield code="9">39074026623983</subfield>
+			<subfield code="e">stacks</subfield>
+			<subfield code="l">0</subfield>
+			<subfield code="8">23423620820003811</subfield>
+			<subfield code="j">0</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2018-04-26 14:44:39</subfield>
+			<subfield code="i">LB1033 .Y95 2018</subfield>
+			<subfield code="d">MAIN</subfield>
+			<subfield code="f">MAIN</subfield>
+		</datafield>
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22423620830003811</subfield>
+			<subfield code="b">0</subfield>
+			<subfield code="u">MISSING</subfield>
+			<subfield code="h">0</subfield>
+			<subfield code="g">stacks</subfield>
+			<subfield code="t">BOOK</subfield>
+			<subfield code="9">39074026623983</subfield>
+			<subfield code="e">stacks</subfield>
+			<subfield code="l">0</subfield>
+			<subfield code="8">23423620820003811</subfield>
+			<subfield code="j">0</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2018-04-26 14:44:39</subfield>
+			<subfield code="i">LB1033 .Y95 2018</subfield>
+			<subfield code="d">MAIN</subfield>
+			<subfield code="f">MAIN</subfield>
+		</datafield>
+	</record>
+	<record>
+		<!-- 10. Some items lost or missing -->
+		<controlfield tag="001">4</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+		</datafield>
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22423620830003811</subfield>
+			<subfield code="b">0</subfield>
+			<subfield code="u">LOST_LOAN</subfield>
+			<subfield code="h">0</subfield>
+			<subfield code="g">stacks</subfield>
+			<subfield code="t">BOOK</subfield>
+			<subfield code="9">39074026623983</subfield>
+			<subfield code="e">stacks</subfield>
+			<subfield code="l">0</subfield>
+			<subfield code="8">23423620820003811</subfield>
+			<subfield code="j">0</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2018-04-26 14:44:39</subfield>
+			<subfield code="i">LB1033 .Y95 2018</subfield>
+			<subfield code="d">MAIN</subfield>
+			<subfield code="f">MAIN</subfield>
+		</datafield>
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22423620830003811</subfield>
+			<subfield code="b">0</subfield>
+			<subfield code="h">0</subfield>
+			<subfield code="g">stacks</subfield>
+			<subfield code="t">BOOK</subfield>
+			<subfield code="9">39074026623983</subfield>
+			<subfield code="e">stacks</subfield>
+			<subfield code="l">0</subfield>
+			<subfield code="8">23423620820003811</subfield>
+			<subfield code="j">0</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2018-04-26 14:44:39</subfield>
+			<subfield code="i">LB1033 .Y95 2018</subfield>
+			<subfield code="d">MAIN</subfield>
+			<subfield code="f">MAIN</subfield>
+		</datafield>
+	</record>
 </collection>

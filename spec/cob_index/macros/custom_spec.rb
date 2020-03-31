@@ -1341,6 +1341,19 @@ EOT
         expect(subject.map_record(records[8])).to eq({})
       end
     end
+
+    context "when all fields are lost or missing" do
+      it "does suppress the file" do
+        expect(subject.map_record(records[9])).to eq("suppress_items_b" => [true])
+      end
+    end
+
+    context "when only some fields are lost or missing" do
+      it "doesn't suppress this file" do
+        expect(subject.map_record(records[10])).to eq({})
+      end
+    end
+
   end
 
   describe "full reindex #suppress_items" do

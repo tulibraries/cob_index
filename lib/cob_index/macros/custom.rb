@@ -532,10 +532,6 @@ module Traject
       def suppress_items
         lambda do |rec, acc, context|
           full_text_link = rec.fields("856").select { |field| field["u"] }
-          unassigned = rec.fields("ITM").select { |field| field["g"] == "UNASSIGNED" }
-          lost = rec.fields("ITM").select { |field| field["u"] == "LOST_LOAN" }
-          missing = rec.fields("ITM").select { |field| field["u"] == "MISSING" }
-          technical = rec.fields("ITM").select { |field| field["u"] == "TECHNICAL" }
           unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
           u_subfields = []
           rec.fields("ITM").select { |field|

@@ -35,14 +35,14 @@ module CobIndex
       Alma.configure { |config|
         # TODO: fix so tul_cob config overrides this.
         config.apikey = ENV["ALMA_API_KEY"]
-        config.timeout = 20
+        config.timeout = 300
       }
-
-      logger = Logger.new(STDOUT)
 
       ids =  Alma::Electronic.get_ids
         .map { |id| { collection_id: id.to_s } }
 
+      # TODO: Use Alma.configuration.logger.
+      logger = Logger.new(STDOUT)
       batch = Alma::Electronic::BatchUtils.new(ids: ids, logger: logger)
 
       batch.get_collection_notes

@@ -574,11 +574,17 @@ module Traject
           oclc_nums = []
           extract_oclc_number.call(rec, oclc_nums)
           oclc_nums.map do |oclc_num|
-            acc << `grep -o '^.*,#{oclc_num}$' lib/hathi_data/overlap.csv`.split(",").first
+            acc << lookup_hathi_bib_key_in_files(oclc_num)
           end
 
           acc.uniq!
         end
+      end
+
+      def lookup_hathi_bib_key_in_files(oclc_num)
+        base_path = "lib/hathi_data"
+        trailing_digit = oclc_num[-1]
+        `grep -o '^.*,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",").first
       end
 
       def extract_item_info

@@ -1471,6 +1471,52 @@ EOT
     end
   end
 
+  describe "#lookup_oclc_number" do
+    let(:path) { "oclc.xml" }
+
+    before do
+      subject.instance_eval do
+        to_field "hathi_bib_key_display", lookup_hathi_bib_key
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when there is no 035 or 979 field" do
+      it "does not map record" do
+        expect(subject.map_record(records[0])).to eq({})
+      end
+    end
+
+    context "when the record has an oclc number but it is not in the hathi overlap file" do
+      it "does not map record" do
+        expect(subject.map_record(records[1])).to eq({})
+      end
+    end
+
+    context "when the record has an oclc number and it is in the hathi overlap file" do
+      it "does not map record" do
+        expect(subject.map_record(records[10])).to eq("hathi_bib_key_display" => ["102691365"])
+      end
+    end
+
+    context "when the record has multiple oclc number and one is in the hathi overlap file" do
+      it "does not map record" do
+        expect(subject.map_record(records[11])).to eq("hathi_bib_key_display" => ["102691365"])
+      end
+    end
+
+    context "when the record has multiple oclc number and more than one is in the hathi overlap file" do
+      it "does not map record" do
+        expect(subject.map_record(records[12])["hathi_bib_key_display"]).to include("102691365", "102691351")
+      end
+    end
+  end
+
+
+
+
   describe "#extract_work_access_point" do
 
     before do

@@ -64,4 +64,28 @@
       <subfield code="a">ocm03885910</subfield>
     </datafield>
   </record>
+  <record>
+  <!-- 10. number matches a record in hathi overap file -->
+    <datafield ind1=" " ind2=" " tag="979">
+      <subfield code="a">ocm010498545</subfield>
+    </datafield>
+  </record>
+  <record>
+  <!-- 11. multiple oclc numbers, one number matches a record in hathi overap file -->
+    <datafield ind1=" " ind2=" " tag="035">
+      <subfield code="a">(OCoLC)938995310</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="979">
+      <subfield code="a">ocm010498545</subfield>
+    </datafield>
+  </record>
+  <record>
+  <!-- 12. multiple oclc numbers, multiple match a record in hathi overap file -->
+    <datafield ind1=" " ind2=" " tag="035">
+      <subfield code="a">(OCoLC)1474971</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="979">
+      <subfield code="a">ocn10498545</subfield>
+    </datafield>
+  </record>
 </collection>

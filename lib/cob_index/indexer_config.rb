@@ -201,6 +201,7 @@ to_field "sudoc_display", extract_marc("086|0*|a")
 to_field "gpo_display", extract_marc("074a")
 to_field "oclc_number_display", extract_oclc_number
 to_field "alma_mms_display", extract_marc("001")
+to_field "hathi_trust_bib_key_display", lookup_hathi_bib_key
 
 # Preceding Entry fields
 to_field "continues_display", extract_marc("780|00|iabdghkmnopqrstuxyz3:780|02|iabdghkmnopqrstuxyz3", trim_punctuation: true)

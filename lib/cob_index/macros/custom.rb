@@ -569,6 +569,18 @@ module Traject
         end
       end
 
+      def lookup_hathi_bib_key
+        lambda do |rec, acc|
+          oclc_nums = []
+          extract_oclc_number.call(rec, oclc_nums)
+          oclc_nums.map do |oclc_num|
+            acc << `grep -o '^.*,#{oclc_num}$' lib/hathi_data/overlap.csv`.split(",").first
+          end
+
+          acc.uniq!
+        end
+      end
+
       def extract_item_info
         lambda do |rec, acc, context|
           holding_ids = rec.fields("HLD").map  { |field| field["8"] }.compact.uniq

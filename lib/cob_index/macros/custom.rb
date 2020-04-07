@@ -582,7 +582,7 @@ module Traject
       end
 
       def lookup_hathi_bib_key_in_files(oclc_num)
-        base_path = "lib/hathi_data"
+        base_path = __dir__ + "/../../hathi_data"
         trailing_digit = oclc_num[-1]
         `grep -o '^.*,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",").first
       end

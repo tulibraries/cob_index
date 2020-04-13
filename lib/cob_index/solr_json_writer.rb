@@ -140,4 +140,19 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
         self.determine_solr_update_url.gsub(/\/update(\/json)?/, "/select")
       end
   end
+
+  def delete_batch(batch)
+    batch.each_slice(@batch_size) do |batch_slice|
+      delete(query: delete_batch_query(batch))
+    end
+  end
+
+  def delete_batch_query(batch)
+    batch.flat_map { |c|
+      id = c.output_hash["id"].join
+      date = c.output_hash["record_update_date"].join
+
+      "(id:#{id} AND record_update_date:[0 TO #{date}])"
+    }.join(" OR ")
+  end
 end

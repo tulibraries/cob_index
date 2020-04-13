@@ -4,18 +4,6 @@ require "yaml"
 require "cob_index"
 require "cob_index/solr_json_writer"
 
-if File.exist? "config/blacklight.yml"
-  solr_config = YAML.load_file("config/blacklight.yml")[(ENV["RAILS_ENV"] || "development")]
-  solr_url = ERB.new(solr_config["url"]).result
-else
-  solr_url = ENV["SOLR_URL"]
-end
-# A sample traject configuration, save as say `traject_config.rb`, then
-# run `traject -c traject_config.rb marc_file.marc` to index to
-# solr specified in config file, according to rules specified in
-# config file
-
-
 # To have access to various built-in logic
 # for pulling things out of MARC21, like `marc_languages`
 require "traject/macros/marc21_semantics"
@@ -34,21 +22,9 @@ extend Traject::Macros::MarcFormats
 require "unicode_normalize/normalize.rb"
 require "cob_index/macros/custom"
 extend Traject::Macros::Custom
+require "cob_index/default_config"
 
-settings do
-  # type may be "binary", "xml", or "json"
-  provide "marc_source.type", "xml"
-  # set this to be non-negative if threshold should be enforced
-  provide "solr_writer.max_skipped", -1
-  provide "solr.url", solr_url
-  provide "solr_writer.commit_on_close", false
-  provide "writer_class_name", "CobIndex::SolrJsonWriter"
-
-  if ENV["SOLR_AUTH_USER"] && ENV["SOLR_AUTH_PASSWORD"]
-    provide "solr_writer.basic_auth_user", ENV["SOLR_AUTH_USER"]
-    provide "solr_writer.basic_auth_password", ENV["SOLR_AUTH_PASSWORD"]
-  end
-end
+settings(&CobIndex::DefaultConfig.indexer_settings)
 
 each_record do |record, context|
   if record.fields("245").any? { |f| f["a"].to_s.downcase.include? "host bibliographic record for boundwith item barcode" }
@@ -225,6 +201,7 @@ to_field "sudoc_display", extract_marc("086|0*|a")
 to_field "gpo_display", extract_marc("074a")
 to_field "oclc_number_display", extract_oclc_number
 to_field "alma_mms_display", extract_marc("001")
+to_field "hathi_trust_bib_key_display", lookup_hathi_bib_key
 
 # Preceding Entry fields
 to_field "continues_display", extract_marc("780|00|iabdghkmnopqrstuxyz3:780|02|iabdghkmnopqrstuxyz3", trim_punctuation: true)

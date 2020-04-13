@@ -532,14 +532,14 @@ module Traject
       def suppress_items
         lambda do |rec, acc, context|
           full_text_link = rec.fields("856").select { |field| field["u"] }
-          unassigned = rec.fields("ITM").select { |field| field["g"] == "UNASSIGNED" }
-          lost = rec.fields("ITM").select { |field| field["u"] == "LOST_LOAN" }
-          missing = rec.fields("ITM").select { |field| field["u"] == "MISSING" }
-          technical = rec.fields("ITM").select { |field| field["u"] == "TECHNICAL" }
           unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
+          u_subfields = []
+          rec.fields("ITM").select { |field|
+            u_subfields << field["u"]
+          }
 
           acc.replace([true]) if rec.fields("HLD").length == 0 && (rec.fields("PRT").length == 0 && full_text_link.empty?)
-          acc.replace([true]) if rec.fields("ITM").length == 1 && (!lost.empty? || !missing.empty? || !technical.empty? || !unassigned.empty?)
+          acc.replace([true]) if rec.fields("ITM").length >= 1 && u_subfields.all? { |f| f == "LOST_LOAN" || f == "MISSING" || f == "TECHNICAL" || f == "UNASSIGNED" }
           acc.replace([true]) if rec.fields("HLD").length == 1 && !unwanted_library.empty?
 
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"
@@ -560,13 +560,31 @@ module Traject
                 field["a"].include?("OCLC")
 
               subfield = (field["a"].split(//) rescue [])
-                .map { |x| x[/\d+/] }.join("")
+                .map { |x| x[/\d+/] }.join("").sub!(/^0*/, "")
               acc << subfield unless subfield.empty?
             end
           end
 
           acc.uniq!
         end
+      end
+
+      def lookup_hathi_bib_key
+        lambda do |rec, acc|
+          oclc_nums = []
+          extract_oclc_number.call(rec, oclc_nums)
+          oclc_nums.map do |oclc_num|
+            acc << lookup_hathi_bib_key_in_files(oclc_num)
+          end
+
+          acc.uniq!
+        end
+      end
+
+      def lookup_hathi_bib_key_in_files(oclc_num)
+        base_path = __dir__ + "/../../hathi_data"
+        trailing_digit = oclc_num[-1]
+        `grep -o '^.*,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",").first
       end
 
       def extract_item_info

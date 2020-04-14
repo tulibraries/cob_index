@@ -218,7 +218,7 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.5)
       ast (~> 2.4.0)
-    pry (0.13.0)
+    pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-byebug (3.9.0)
@@ -345,7 +345,7 @@ DEPENDENCIES
   coveralls
   guard (~> 2.14)
   guard-rspec (~> 4.7)
-  pry (~> 0.11)
+  pry (~> 0.13)
   pry-byebug (~> 3.5)
   rake (~> 13.0)
   rspec (~> 3.0)

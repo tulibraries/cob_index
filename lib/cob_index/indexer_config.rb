@@ -183,6 +183,9 @@ to_field "url_more_links_display", extract_url_more_links
 to_field("electronic_resource_display", extract_electronic_resource, &sort_electronic_resource!)
 to_field "url_finding_aid_display", extract_url_finding_aid
 
+# Hathitrust Identifier fields
+to_field "hathi_trust_bib_key_display", lookup_hathi_bib_key
+
 # Availability
 to_field "availability_facet", extract_availability
 to_field "location_display", extract_marc("HLDbc")
@@ -201,7 +204,6 @@ to_field "sudoc_display", extract_marc("086|0*|a")
 to_field "gpo_display", extract_marc("074a")
 to_field "oclc_number_display", extract_oclc_number
 to_field "alma_mms_display", extract_marc("001")
-to_field "hathi_trust_bib_key_display", lookup_hathi_bib_key
 
 # Preceding Entry fields
 to_field "continues_display", extract_marc("780|00|iabdghkmnopqrstuxyz3:780|02|iabdghkmnopqrstuxyz3", trim_punctuation: true)
@@ -232,6 +234,3 @@ to_field "purchase_order", extract_purchase_order
 # a=create date, b=update date, c=Suppress from publishing, d=Originating system, e=Originating system ID, f=Originating system version
 to_field "record_creation_date", extract_marc("ADMa"), default("2001-01-01 01:01:01")
 to_field "record_update_date", extract_update_date, default("2002-02-02 02:02:02")
-
-each_record do |record, context|
-end

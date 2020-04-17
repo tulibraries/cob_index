@@ -496,6 +496,34 @@ RSpec.describe Traject::Macros::Custom do
         end
       end
 
+      describe "#extract_availability" do
+        let(:path) { "oclc.xml" }
+
+        before(:each) do
+          subject.instance_eval do
+            to_field "hathi_trust_bib_key_display", lookup_hathi_bib_key
+            to_field "availability_facet", extract_availability
+
+            settings do
+              provide "marc_source.type", "xml"
+            end
+          end
+        end
+
+        context "record has a matching hathitrust record" do
+          it "adds an online availability" do
+            expect(subject.map_record(records[11])).to eq({ "availability_facet" => ["Online"], "hathi_trust_bib_key_display" => ["102691365"] })
+          end
+        end
+
+        context "record does not have a matching hathitrust record" do
+          it "does not add online availability" do
+            expect(subject.map_record(records[2])).to eq({})
+          end
+        end
+
+      end
+
       describe "#extract_availability(purchase on demand)" do
 
         before do

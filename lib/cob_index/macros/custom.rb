@@ -330,7 +330,10 @@ module Traject
       end
 
       def extract_availability
-        lambda { |rec, acc|
+        lambda { |rec, acc, context|
+          if context.output_hash["hathi_trust_bib_key_display"].present?
+            acc << "Online"
+          end
           unless rec.fields("PRT").empty?
             rec.fields("PRT").each do |field|
               acc << "Online" unless field["9"] == "Not Available"

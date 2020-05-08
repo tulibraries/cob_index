@@ -535,20 +535,19 @@ module Traject
       def suppress_items
         lambda do |rec, acc, context|
           full_text_link = rec.fields("856").select { |field| field["u"] }
+          purchase_order_item = rec.fields("902").select { |field| field["a"] }
           unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
           u_subfields = []
           rec.fields("ITM").select { |field|
             u_subfields << field["u"]
           }
-
-          acc.replace([true]) if rec.fields("HLD").length == 0 && (rec.fields("PRT").length == 0 && full_text_link.empty?)
+          acc.replace([true]) if rec.fields("HLD").length == 0 && (rec.fields("PRT").length == 0 && full_text_link.empty?) && purchase_order_item.empty?
           acc.replace([true]) if rec.fields("ITM").length >= 1 && u_subfields.all? { |f| f == "LOST_LOAN" || f == "MISSING" || f == "TECHNICAL" || f == "UNASSIGNED" }
           acc.replace([true]) if rec.fields("HLD").length == 1 && !unwanted_library.empty?
 
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"
             context.skip!
           end
-
         end
       end
 

@@ -1370,6 +1370,19 @@ EOT
       end
     end
 
+    context "when purchase order fields are present" do
+      it "doesn't suppress this file" do
+        expect(subject.map_record(records[11])).to eq({})
+      end
+    end
+
+    context "when purchase order fields are not present" do
+      it "does suppress the file" do
+        expect(subject.map_record(records[12])).to eq("suppress_items_b" => [true])
+      end
+    end
+
+
     context "when all fields are lost or missing" do
       it "does suppress the file" do
         expect(subject.map_record(records[9])).to eq("suppress_items_b" => [true])

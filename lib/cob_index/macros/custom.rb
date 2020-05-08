@@ -535,7 +535,7 @@ module Traject
       def suppress_items
         lambda do |rec, acc, context|
           full_text_link = rec.fields("856").select { |field| field["u"] }
-          purchase_order_item = rec.fields("902").select { |field| field["a"] }
+          purchase_order_item = rec.fields("902").select { |field| field["a"].match?(/EBC-POD/) }
           unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
           u_subfields = []
           rec.fields("ITM").select { |field|

@@ -475,14 +475,21 @@
 		</datafield>
 	</record>
 	<record>
-		<!-- 11. Purchase order fields are present -->
-		<controlfield tag="001">11</controlfield>
-		<datafield ind1=" " ind2=" " tag="902">
-			<subfield code="a">test</subfield>
-		</datafield>
-	</record>
-	<record>
-		<!-- 12. Purchase order fields are not present -->
-		<controlfield tag="001">12</controlfield>
-	</record>
+	<!-- 11. Purchase order fields with EBC-POD are present -->
+	<controlfield tag="001">11</controlfield>
+	<datafield ind1=" " ind2=" " tag="902">
+		<subfield code="a">EBC-POD</subfield>
+	</datafield>
+</record>
+<record>
+	<!-- 12. Purchase order fields are not present -->
+	<controlfield tag="001">12</controlfield>
+</record>
+<record>
+	<!-- 13. Purchase order fields without EBC-POD are present -->
+	<controlfield tag="001">13</controlfield>
+	<datafield ind1=" " ind2=" " tag="902">
+		<subfield code="a">test</subfield>
+	</datafield>
+</record>
 </collection>

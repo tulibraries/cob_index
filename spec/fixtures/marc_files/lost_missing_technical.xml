@@ -482,7 +482,7 @@
 		</datafield>
 	</record>
 	<record>
-		<!-- 12. Purchase order fields are present -->
+		<!-- 12. Purchase order fields are not present -->
 		<controlfield tag="001">12</controlfield>
 	</record>
 </collection>

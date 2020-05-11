@@ -435,7 +435,7 @@
 	</record>
 	<record>
 		<!-- 10. Some items lost or missing -->
-		<controlfield tag="001">4</controlfield>
+		<controlfield tag="001">10</controlfield>
 		<datafield ind1=" " ind2=" " tag="HLD">
 		</datafield>
 		<datafield ind1=" " ind2=" " tag="ITM">
@@ -474,4 +474,22 @@
 			<subfield code="f">MAIN</subfield>
 		</datafield>
 	</record>
+	<record>
+	<!-- 11. Purchase order fields with EBC-POD are present -->
+	<controlfield tag="001">11</controlfield>
+	<datafield ind1=" " ind2=" " tag="902">
+		<subfield code="a">EBC-POD</subfield>
+	</datafield>
+</record>
+<record>
+	<!-- 12. Purchase order fields are not present -->
+	<controlfield tag="001">12</controlfield>
+</record>
+<record>
+	<!-- 13. Purchase order fields without EBC-POD are present -->
+	<controlfield tag="001">13</controlfield>
+	<datafield ind1=" " ind2=" " tag="902">
+		<subfield code="a">test</subfield>
+	</datafield>
+</record>
 </collection>

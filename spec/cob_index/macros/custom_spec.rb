@@ -1400,6 +1400,11 @@ EOT
       end
     end
 
+    context "has a malformed 902 field" do
+      it "doesn't raise an error" do
+        expect { subject.map_record(records[14]) }.not_to raise_error
+      end
+    end
   end
 
   describe "full reindex #suppress_items" do

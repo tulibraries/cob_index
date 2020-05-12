@@ -492,4 +492,11 @@
 		<subfield code="a">test</subfield>
 	</datafield>
 </record>
+<!-- 14. BAAAD Record-->
+<record>
+  <controlfield tag="001">991037333029003811</controlfield>
+  <datafield tag="902" ind1=" " ind2=" ">
+    <subfield code="A">SP: Academic Video Online 20191115</subfield>
+  </datafield>
+</record>
 </collection>

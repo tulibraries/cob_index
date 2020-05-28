@@ -29,7 +29,7 @@ module CobIndex
     def get_id(record)
       do_with_error_log("Failed to get id for record", record) do
         record.at_xpath("//oai:record/oai:header/oai:identifier", default_namespaces)
-          .text().scan(/[0-9]+{18}/).first
+          .text().scan(/[0-9]+{8}$/).first
       end
     end
 

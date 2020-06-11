@@ -35,7 +35,7 @@ RSpec.describe "custom methods" do
       end
     end
 
-    it "returns nil for [n.d.],''" do
+    it 'returns nil for [n.d.],""' do
       expect(four_digit_year '[n.d.],""').to eq(nil)
     end
 

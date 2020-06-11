@@ -22,10 +22,10 @@ RSpec.describe "custom methods" do
 
     context "when given an empty string" do
       it "returns nil" do
-        expect(four_digit_year "").to eq(nil)
-        expect(four_digit_year "\n").to eq(nil)
-        expect(four_digit_year "\n\n").to eq(nil)
-        expect(four_digit_year "      ").to eq(nil)
+        expect(four_digit_year("")).to eq(nil)
+        expect(four_digit_year("\n")).to eq(nil)
+        expect(four_digit_year("\n\n")).to eq(nil)
+        expect(four_digit_year("      ")).to eq(nil)
       end
     end
 

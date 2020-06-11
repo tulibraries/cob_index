@@ -1401,6 +1401,47 @@ EOT
         expect { subject.map_record(records[14]) }.not_to raise_error
       end
     end
+
+    context "when all items are inactive" do
+      record_text = <<-EOT
+<record>
+  <controlfield tag="001">4</controlfield>
+  <datafield ind1=" " ind2=" " tag="PRT">
+    <subfield code="9">Not Available</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="ITM">
+    <subfield code="u">FOO</subfield>
+  </datafield>
+</record>
+EOT
+
+      record = MARC::XMLReader.new(StringIO.new(record_text)).first
+      it "does suppress the file" do
+        expect(subject.map_record(record)).to eq("suppress_items_b" => [true])
+      end
+    end
+
+    context "when some items are active" do
+      record_text = <<-EOT
+<record>
+  <controlfield tag="001">4</controlfield>
+  <datafield ind1=" " ind2=" " tag="PRT">
+    <subfield code="9">Not Available</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="PRT">
+    <subfield code="9">Available</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="ITM">
+    <subfield code="u">FOO</subfield>
+  </datafield>
+</record>
+EOT
+
+      record = MARC::XMLReader.new(StringIO.new(record_text)).first
+      it "does NOT suppress the file" do
+        expect(subject.map_record(record)).to eq({})
+      end
+    end
   end
 
   describe "full reindex #suppress_items" do

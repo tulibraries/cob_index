@@ -28,7 +28,7 @@ RSpec.describe Traject::Macros::Custom do
     before do
       stub_const("ENV", ENV.to_hash.merge("SOLR_DISABLE_UPDATE_DATE_CHECK" => "false"))
       subject.instance_eval do
-to_field("lccn_display", Traject::Macros::Marc21.extract_marc("010ab", separator: nil), &normalize_lccn)
+        to_field("lccn_display", Traject::Macros::Marc21.extract_marc("010ab", separator: nil), &normalize_lccn)
         settings do
           provide "marc_source.type", "xml"
         end

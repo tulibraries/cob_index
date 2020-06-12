@@ -35,7 +35,7 @@ RSpec.describe Traject::Macros::Custom do
       end
     end
 
-    context "Latest is ADMa" do
+    context "The simple case" do
       let(:record_text) { '
         <record>
         <datafield ind1=" " ind2=" " tag="010">
@@ -44,7 +44,7 @@ RSpec.describe Traject::Macros::Custom do
         </record>
       ' }
 
-      it "finds latest date" do
+      it "keeps the number as is" do
         expect(subject.map_record(record)).to eq("lccn_display" => [ "87014950" ])
       end
     end

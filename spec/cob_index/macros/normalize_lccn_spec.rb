@@ -48,5 +48,34 @@ RSpec.describe Traject::Macros::Custom do
         expect(subject.map_record(record)).to eq("lccn_display" => [ "87014950" ])
       end
     end
+
+    context "LCCN includes a # symbol" do
+      let(:record_text) { '
+        <record>
+        <datafield ind1=" " ind2=" " tag="010">
+        <subfield code="a">sn#00061556</subfield>
+        </datafield>
+        </record>
+      ' }
+
+      it "removes the # symbol and empty spaces" do
+        expect(subject.map_record(record)).to eq("lccn_display" => [ "sn00061556" ])
+      end
+    end
+
+    context "LCCN includes a / symbol" do
+      let(:record_text) { '
+        <record>
+        <datafield ind1=" " ind2=" " tag="010">
+        <subfield code="a">25004346#//r822</subfield>
+        </datafield>
+        </record>
+      ' }
+
+      it "removes the / and all text to the right of it" do
+        expect(subject.map_record(record)).to eq("lccn_display" => [ "25004346" ])
+      end
+    end
+
   end
 end

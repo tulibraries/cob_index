@@ -416,10 +416,9 @@ module Traject
 
       def normalize_lccn
         Proc.new do |rec, acc|
-          orig = acc.dup
-          acc.map! { |x| StdNum::LCCN.normalize(x) }
-          acc << orig
-          acc.flatten!
+          acc.map! { |x|
+            formatted_x = x.gsub("#", " ")
+            StdNum::LCCN.normalize(formatted_x) }
           acc.uniq!
         end
       end

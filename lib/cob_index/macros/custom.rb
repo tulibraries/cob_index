@@ -419,7 +419,6 @@ module Traject
           acc.map! { |x|
             formatted_x = x.gsub("#", " ")
             StdNum::LCCN.normalize(formatted_x) }
-          acc.flatten!
           acc.uniq!
         end
       end

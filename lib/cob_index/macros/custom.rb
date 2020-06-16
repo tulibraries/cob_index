@@ -98,15 +98,13 @@ module Traject
 
       def extract_contributor
         lambda do |rec, acc|
-          s_fields = Traject::MarcExtractor.cached("700iabcqd:700ejlmnoprtu:710iabdc:710elmnopt:711iandcj:711elopt", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+          s_fields = Traject::MarcExtractor.cached("700i:700abcqd:700ejlmnoprtu:710i:710abdc:710elmnopt:711i:711andcj:711elopt", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
             extractor.collect_subfields(field, spec).first
           end
-
-          grouped_subfields = s_fields.each_slice(2).to_a
-          grouped_subfields.each do |link|
-            name = creator_name_trim_punctuation(link[0]) unless link[0].nil?
-            role = creator_role_trim_punctuation(link[1]) unless link[1].nil?
-            acc << [name, role].compact.join("|")
+          s_fields.each_slice(3) do |link|
+            link[1] = creator_name_trim_punctuation(link[1]) unless link[1].nil?
+            link[2] = creator_role_trim_punctuation(link[2]) unless link[2].nil?
+            acc << ['relation', 'name', 'role_or_title'].zip(link).to_h.reject { |k, v| v.nil? }.to_json
           end
           acc
         end

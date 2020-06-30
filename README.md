@@ -1,6 +1,6 @@
 # CobIndex
-[![Build Status](https://travis-ci.org/tulibraries/cob_index.svg?branch=master)](https://travis-ci.org/tulibraries/cob_index)
-[![Coverage Status](https://coveralls.io/repos/github/tulibraries/cob_index/badge.svg?branch=master)](https://coveralls.io/github/tulibraries/cob_index?branch=master)
+[![Build Status](https://travis-ci.org/tulibraries/cob_index.svg?branch=main)](https://travis-ci.org/tulibraries/cob_index)
+[![Coverage Status](https://coveralls.io/repos/github/tulibraries/cob_index/badge.svg?branch=main)](https://coveralls.io/github/tulibraries/cob_index?branch=main)
 
 Cob Index is a repository to hold the traject configuration files and scripts
 associated with indexing of the tul_cob books catalog.
@@ -71,4 +71,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the CobIndex project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/tulibraries/cob_index/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the CobIndex project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/tulibraries/cob_index/blob/main/CODE_OF_CONDUCT.md).

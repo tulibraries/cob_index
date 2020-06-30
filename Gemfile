@@ -8,7 +8,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gemspec
 
 gem "blacklight-marc", git: "https://github.com/projectblacklight/blacklight-marc.git", ref: "v7.0.0.rc1"
-gem "alma", git: "https://github.com/tulibraries/alma_rb.git", branch: "master"
+gem "alma", git: "https://github.com/tulibraries/alma_rb.git", branch: "main"
 
 
 group :debug do

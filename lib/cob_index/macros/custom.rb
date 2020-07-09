@@ -553,6 +553,7 @@ module Traject
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"
             context.skip!
           elsif acc == [true]
+            context.skip!
             DELETES << context
           end
         end

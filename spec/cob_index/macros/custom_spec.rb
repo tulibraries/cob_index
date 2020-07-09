@@ -1506,7 +1506,7 @@ EOT
 
     context "when a single item is lost" do
       it "does not maps lost record" do
-        expect(@indexer.process_record(records[0]).skip?).to eq(false)
+        expect(@indexer.process_record(records[0]).skip?).to eq(true)
         expect(DELETES).not_to be_empty
       end
     end

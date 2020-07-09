@@ -544,6 +544,9 @@ module Traject
           acc.replace([true]) if rec.fields("ITM").length >= 1 && u_subfields.all? { |f| f == "LOST_LOAN" || f == "MISSING" || f == "TECHNICAL" || f == "UNASSIGNED" }
           acc.replace([true]) if rec.fields("HLD").length == 1 && !unwanted_library.empty?
 
+          acc.replace([true]) if rec.fields("PRT").present? &&
+            rec.fields("PRT").all? { |f| f["9"] == "Not Available" }
+
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"
             context.skip!
           end

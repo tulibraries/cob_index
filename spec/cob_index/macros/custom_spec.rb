@@ -11,6 +11,15 @@ require "marc/record"
 include Traject::Macros::MarcFormats
 include Traject::Macros::Custom
 
+def get_record_id(r)
+  r.fields.find { |f| f.tag == "001" }.value
+end
+
+def in_deletes(record)
+  id = get_record_id(record)
+  DELETES.any? { |c| get_record_id(c.source_record) == id }
+end
+
 RSpec.describe "custom methods" do
 
   describe "#four_digit_year(field)" do
@@ -130,7 +139,7 @@ RSpec.describe Traject::Macros::Custom do
 
   let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
 
-  subject { test_class.new }
+  subject { test_class.new(writer: Traject::ArrayWriter.new) }
 
   describe "#extract_title_statement" do
     let(:path) { "title_statement_examples.xml" }
@@ -1320,79 +1329,87 @@ EOT
 
     context "when a single item is lost" do
       it "maps lost record" do
-        expect(subject.map_record(records[0])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[0]).skip?).to be true
+        expect(in_deletes(records[0]))
       end
     end
 
     context "when a single item is missing" do
       it "maps missing record" do
-        expect(subject.map_record(records[1])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[1]).skip?).to be true
+        expect(in_deletes(records[1]))
       end
     end
 
     context "when a single item is technical" do
       it "maps technical record" do
-        expect(subject.map_record(records[2])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[2]).skip?).to be true
+        expect(in_deletes(records[2]))
       end
     end
 
     context "when there are multiple items and one of the records is lost" do
       it "does not map to the field" do
-        expect(subject.map_record(records[3])).to eq({})
+        expect(subject.process_record(records[3]).skip?).to be false
+        expect(in_deletes(records[3]))
       end
     end
 
     context "when single holding is in empty library" do
       it "maps technical record" do
-        expect(subject.map_record(records[5])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[5]).skip?).to be true
+        expect(in_deletes(records[5]))
       end
     end
 
     context "when multiple item fields but single unassinged" do
       it "doesn't suppress this file" do
-        expect(subject.map_record(records[6])).to eq({})
+        expect(subject.process_record(records[6]).skip?).to be false
+        expect(in_deletes(records[6]))
       end
     end
 
     context "when there are no HLD, PRT, or 856['u'] fields" do
       it "does suppress this file" do
-        expect(subject.map_record(records[7])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[7]).skip?).to be true
+        expect(in_deletes(records[7]))
       end
     end
 
     context "when there are no HLD, PRT, but 856['u'] fields are present" do
       it "doesn't suppress this file" do
-        expect(subject.map_record(records[8])).to eq({})
+        expect(subject.process_record(records[8]).skip?).to be false
       end
     end
 
     context "when purchase order fields are present with EBC-POD" do
       it "doesn't suppress this file" do
-        expect(subject.map_record(records[11])).to eq({})
+        expect(subject.process_record(records[11]).skip?).to be false
       end
     end
 
     context "when purchase order fields are not present" do
       it "does suppress the file" do
-        expect(subject.map_record(records[12])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[12]).skip?).to be true
+        expect(in_deletes(records[7]))
       end
     end
 
     context "when purchase order fields are present without EBC-POD" do
       it "does suppress the file" do
-        expect(subject.map_record(records[13])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[13]).skip?).to be true
       end
     end
 
     context "when all fields are lost or missing" do
       it "does suppress the file" do
-        expect(subject.map_record(records[9])).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(records[9]).skip?).to be true
       end
     end
 
     context "when only some fields are lost or missing" do
       it "doesn't suppress this file" do
-        expect(subject.map_record(records[10])).to eq({})
+        expect(subject.process_record(records[10]).skip?).to be false
       end
     end
 
@@ -1417,7 +1434,7 @@ EOT
 
       record = MARC::XMLReader.new(StringIO.new(record_text)).first
       it "does suppress the file" do
-        expect(subject.map_record(record)).to eq("suppress_items_b" => [true])
+        expect(subject.process_record(record).skip?).to be true
       end
     end
 

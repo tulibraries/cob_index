@@ -1486,6 +1486,33 @@ EOT
     end
   end
 
+  describe "Non full reindex #suppress_items" do
+    let(:path) { "lost_missing_technical.xml" }
+
+    before do
+      stub_const("ENV", ENV.to_hash.merge("TRAJECT_FULL_REINDEX" => "no"))
+
+      @writer = Traject::ArrayWriter.new
+      @indexer = Traject::Indexer.new(writer: @writer) do
+        to_field "suppress_items_b", suppress_items
+      end
+
+      subject.instance_eval do
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when a single item is lost" do
+      it "does not maps lost record" do
+        expect(@indexer.process_record(records[0]).skip?).to eq(false)
+        expect(DELETES).not_to be_empty
+      end
+    end
+  end
+
+
   describe "#extract_oclc_number" do
     let(:path) { "oclc.xml" }
 

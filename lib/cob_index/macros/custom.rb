@@ -531,6 +531,9 @@ module Traject
         end
       end
 
+      # DELETES needs to be a global so we can access from indexer_config.
+      DELETES = Concurrent::Set.new
+
       def suppress_items
         lambda do |rec, acc, context|
           full_text_link = rec.fields("856").select { |field| field["u"] }
@@ -549,6 +552,8 @@ module Traject
 
           if acc == [true] && ENV["TRAJECT_FULL_REINDEX"] == "yes"
             context.skip!
+          elsif acc == [true]
+            DELETES << context
           end
         end
       end

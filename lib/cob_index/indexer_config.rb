@@ -234,3 +234,7 @@ to_field "purchase_order", extract_purchase_order
 # a=create date, b=update date, c=Suppress from publishing, d=Originating system, e=Originating system ID, f=Originating system version
 to_field "record_creation_date", extract_marc("ADMa"), default("2001-01-01 01:01:01")
 to_field "record_update_date", extract_update_date, default("2002-02-02 02:02:02")
+
+after_processing do
+  writer.delete_batch(DELETES)
+end

@@ -88,4 +88,10 @@
       <subfield code="a">ocn10498545</subfield>
     </datafield>
   </record>
+  <record>
+  <!-- 13. oclc numbers matches a record in hathi overap file, but with deny access -->
+    <datafield ind1=" " ind2=" " tag="035">
+      <subfield code="a">(OCoLC)17898455</subfield>
+    </datafield>
+  </record>
 </collection>

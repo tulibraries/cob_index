@@ -331,20 +331,31 @@ module Traject
 
       def extract_availability
         lambda { |rec, acc, context|
+
+          # In order to easily toggle on and off HathiTrust ETAS support, we are going to have two values that indicate online availability:
+          #   "Online": when we are not using ETAS, which includes all usual online available items plus Hathi items marked "allow"
+          #   "Online+ETAS": when we are using ETAS, which includes all usual online available items plus Hathi items,  "allow" and "deny"
+          # All non-Hathi Trust items will receive both both values in the availability facet so that they will appear in both facet groups.
+          # The expectation is that Blacklight will filter one of those values with a query param, and translate "Online+ETAS" to "Online" for display.
           if context.output_hash["hathi_trust_bib_key_display"].present?
-            acc << "Online"
+            acc << "Online+ETAS"
+            acc << "Online" if context.output_hash["hathi_trust_bib_key_display"].any? { |htbk| htbk.include?("allow") }
           end
           unless rec.fields("PRT").empty?
             rec.fields("PRT").each do |field|
-              acc << "Online" unless field["9"] == "Not Available"
+              unless field["9"] == "Not Available"
+                acc << "Online" << "Online+ETAS"
+              end
             end
           end
-          unless acc.include?("Online")
+          unless acc.include?("Online") || acc.include?("Online+Etas")
             rec.fields(["856"]).each do |field|
               z3 = [field["z"], field["3"]].join(" ")
               unless field["u"].nil?
                 unless NOT_FULL_TEXT.match(z3) || rec.fields("856").empty? || field["u"].include?(ARCHIVE_IT_LINKS)
-                  acc << "Online" if field.indicator1 == "4" && field.indicator2 != "2"
+                  if field.indicator1 == "4" && field.indicator2 != "2"
+                    acc << "Online" << "Online+ETAS"
+                  end
                 end
               end
             end
@@ -362,7 +373,7 @@ module Traject
           extract_purchase_order[rec, order]
           if order == [true]
             acc << "Request Rapid Access"
-            acc << "Online"
+            acc << "Online" << "Online+ETAS"
           end
 
           acc.uniq!
@@ -588,7 +599,8 @@ module Traject
       def lookup_hathi_bib_key_in_files(oclc_num)
         base_path = __dir__ + "/../../hathi_data"
         trailing_digit = oclc_num[-1]
-        `grep -o '^.*,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",").first
+        line = `egrep -o -m 1 '^.+,.+,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",")
+        { bib_key: line[1], access: line[0] }.to_json unless line.empty?
       end
 
       def extract_item_info

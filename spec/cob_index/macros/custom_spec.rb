@@ -1895,6 +1895,8 @@ EOT
           provide "marc_source.type", "xml"
         end
       end
+
+      ENV["SOLR_DISABLE_UPDATE_DATE_CHECK"] = nil
     end
 
     context "Latest is ADMa" do

@@ -712,7 +712,7 @@ module Traject
             latest_date = Time.now.utc.to_s
           end
 
-          if ENV["SOLR_DISABLE_UPDATE_DATE_CHECK"] == "yes"
+          if ENV["SOLR_DISABLE_UPDATE_DATE_CHECK"]
             latest_date = Time.now.utc.to_s
           end
 

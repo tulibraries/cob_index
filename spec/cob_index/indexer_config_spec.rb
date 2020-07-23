@@ -8,6 +8,10 @@ RSpec.describe "Traject configuration" do
   }
 
   context "neither SOLR_AUTH_USER, nor SOLR_AUTH_PASSWORD env variables are set" do
+    before do
+      ENV["SOLR_URL"] = "http://example.com:8090"
+    end
+
     it "does not set solr_writer.basic_auth_user" do
       expect(settings["solr_writer.basic_auth_user"]).to be_nil
     end

@@ -6,11 +6,13 @@ module CobIndex
     # across commands.
     def self.indexer_settings
       solr_url =
-        if File.exist? "config/blacklight.yml"
+        if ENV["SOLR_URL"]
+          ENV["SOLR_URL"]
+        elsif File.exist? "config/blacklight.yml"
           solr_config = YAML.load_file("config/blacklight.yml")[(ENV["RAILS_ENV"] || "development")]
           ERB.new(solr_config["url"]).result
         else
-          ENV["SOLR_URL"]
+          raise "Neither SOLR_URL environment variable nor blacklight config were found"
         end
 
       proc {

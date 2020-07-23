@@ -332,19 +332,27 @@ module Traject
       def extract_availability
         lambda { |rec, acc, context|
           if context.output_hash["hathi_trust_bib_key_display"].present?
-            acc << "Online"
+            if context.output_hash["hathi_trust_bib_key_display"].any? { |htbk| htbk.include?("allow") }
+              acc << "Online"
+            else
+              acc << "ETAS"
+            end
           end
           unless rec.fields("PRT").empty?
             rec.fields("PRT").each do |field|
-              acc << "Online" unless field["9"] == "Not Available"
+              unless field["9"] == "Not Available"
+                acc << "Online"
+              end
             end
           end
-          unless acc.include?("Online")
+          unless acc.include?("Online") || acc.include?("Online+Etas")
             rec.fields(["856"]).each do |field|
               z3 = [field["z"], field["3"]].join(" ")
               unless field["u"].nil?
                 unless NOT_FULL_TEXT.match(z3) || rec.fields("856").empty? || field["u"].include?(ARCHIVE_IT_LINKS)
-                  acc << "Online" if field.indicator1 == "4" && field.indicator2 != "2"
+                  if field.indicator1 == "4" && field.indicator2 != "2"
+                    acc << "Online"
+                  end
                 end
               end
             end
@@ -580,7 +588,6 @@ module Traject
           oclc_nums.map do |oclc_num|
             acc << lookup_hathi_bib_key_in_files(oclc_num)
           end
-
           acc.uniq!
         end
       end
@@ -588,7 +595,8 @@ module Traject
       def lookup_hathi_bib_key_in_files(oclc_num)
         base_path = __dir__ + "/../../hathi_data"
         trailing_digit = oclc_num[-1]
-        `grep -o '^.*,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",").first
+        line = `egrep -o -m 1 '^.+,.+,#{oclc_num}$' #{base_path}/trailing_#{trailing_digit}.csv`.split(",")
+        { bib_key: line[1], access: line[0] }.to_json unless line.empty?
       end
 
       def extract_item_info

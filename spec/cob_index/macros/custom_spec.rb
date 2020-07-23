@@ -506,9 +506,17 @@ RSpec.describe Traject::Macros::Custom do
           end
         end
 
-        context "record has a matching hathitrust record" do
-          it "adds an online availability" do
-            expect(subject.map_record(records[11])).to eq({ "availability_facet" => ["Online"], "hathi_trust_bib_key_display" => ["102691365"] })
+        context "record has a matching hathitrust record with allow status" do
+          it "adds an online an Online+ETAS availability entry" do
+            expect(subject.map_record(records[11])["availability_facet"]).to include("Online")
+          end
+        end
+
+        context "record has a matching hathitrust record with deny status" do
+          it "adds and Online+ETAS but not an Online entry" do
+            availability_facet = subject.map_record(records[13])["availability_facet"]
+            expect(availability_facet).to include("ETAS")
+            expect(availability_facet).not_to include("Online")
           end
         end
 
@@ -1583,21 +1591,27 @@ EOT
       end
     end
 
-    context "when the record has an oclc number and it is in the hathi overlap file" do
-      it "does not map record" do
-        expect(subject.map_record(records[10])).to eq("hathi_bib_key_display" => ["102691365"])
+    context "when the record has an oclc number in the hathi overlap file with status allow" do
+      it "maps a record" do
+        expect(subject.map_record(records[10])).to eq("hathi_bib_key_display" => [{ bib_key: "102691365", access: "allow" }.to_json])
+      end
+    end
+
+    context "when the record has an oclc number in the hathi overlap file wth status deny" do
+      it "maps record" do
+        expect(subject.map_record(records[13])).to eq("hathi_bib_key_display" => [{ bib_key: "102723748", access: "deny" }.to_json])
       end
     end
 
     context "when the record has multiple oclc number and one is in the hathi overlap file" do
-      it "does not map record" do
-        expect(subject.map_record(records[11])).to eq("hathi_bib_key_display" => ["102691365"])
+      it "maps record" do
+        expect(subject.map_record(records[11])).to eq("hathi_bib_key_display" => [{ bib_key: "102691365", access: "allow" }.to_json])
       end
     end
 
     context "when the record has multiple oclc number and more than one is in the hathi overlap file" do
-      it "does not map record" do
-        expect(subject.map_record(records[12])["hathi_bib_key_display"]).to include("102691365", "102691351")
+      it "maps a record" do
+        expect(subject.map_record(records[12])["hathi_bib_key_display"]).to include({ bib_key: "102691365", access: "allow" }.to_json, { bib_key: "102691351", access: "allow" }.to_json)
       end
     end
   end

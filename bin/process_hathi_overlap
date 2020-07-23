@@ -1,0 +1,53 @@
+#! /bin/bash
+
+# This script requires two files to be passed in as parameters
+# 1) HathiTrust Full Export file, available at https://www.hathitrust.org/hathifiles. Prefer the most recent file.
+# 2) HathiTrust Overlap File, to which metadata team can provide access. Documented at https://www.hathitrust.org/hathitrust-overlap-reports.
+# This script processes those files to generate a series of lookup files containing :
+# * the OCLC number for a HathiTrust item
+# * the HathiTrust Bib Key for that item
+# * the access status of theat item, which is either allow, or deny.
+# It will output 10 files (trailing_{0-9}.csv) in the directory where it is run, plus 3 dated intermediate files that are used as part of the process.
+
+set -e
+
+
+if ! [ -x "$(command -v csvgrep)" ]; then
+  "You need the csvkit set of tools for these scripts to run. Install them at https://csvkit.readthedocs.io" >&2
+  exit 1
+fi
+
+if [ -z "$1" ]
+  then
+    echo "Provide the path to a HathiTrust Full data file as the first paramater" >&2
+    exit 1 
+fi
+
+if [ -z "$2" ]
+  then
+    echo "Provide the path to a HathiTrust Overlap report as the second parameter" >&2
+    exit 1
+fi
+
+now=$(date "+%Y-%m-%d")
+
+hfd="hathi_full_dedupe-$now.csv"
+if [ ! -f $hfd ]; then
+  gunzip -c $1 | csvcut -t -c 2,4,8 -z 1310720 | csvgrep -c 1,2 -r ".+" | sort | uniq > $hfd  
+  echo "File $hfd"
+fi
+
+if [ ! -f overlap_all_unique-$now.csv ]; then 
+  csvgrep -t -c -4 -r ".+" $2 | csvcut -c 1 | csvsort | uniq  > overlap_all_unique-$now.csv
+  echo "File overlap_all_unique-$now.csv created"
+fi
+
+if [ ! -f hathi_filtered_by_overlap-$now.csv ]; then
+  csvgrep -c 3 -f overlap_all_unique-$now.csv hathi_full_dedupe-$now.csv > hathi_filtered_by_overlap-$now.csv
+  echo "File hathi_filtered_by_overlap-$now.csv created"
+fi
+
+for i in $(seq 0 9); do 
+  egrep ".*${i}$" hathi_filtered_by_overlap-$now.csv > trailing_${i}.csv
+done
+

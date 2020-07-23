@@ -455,7 +455,7 @@ RSpec.describe Traject::Macros::Custom do
         ' }
 
         it "indicator1 = 4 and indicator2 = NOT 2 maps to Online" do
-          expect(subject.map_record(record)).to eq("availability_facet" => ["Online", "Online+ETAS"])
+          expect(subject.map_record(record)).to eq("availability_facet" => ["Online"])
         end
       end
 
@@ -508,14 +508,14 @@ RSpec.describe Traject::Macros::Custom do
 
         context "record has a matching hathitrust record with allow status" do
           it "adds an online an Online+ETAS availability entry" do
-            expect(subject.map_record(records[11])["availability_facet"]).to include("Online", "Online+ETAS")
+            expect(subject.map_record(records[11])["availability_facet"]).to include("Online")
           end
         end
 
         context "record has a matching hathitrust record with deny status" do
           it "adds and Online+ETAS but not an Online entry" do
             availability_facet = subject.map_record(records[13])["availability_facet"]
-            expect(availability_facet).to include("Online+ETAS")
+            expect(availability_facet).to include("ETAS")
             expect(availability_facet).not_to include("Online")
           end
         end

@@ -95,4 +95,15 @@ RSpec.describe CobIndex do
       CobIndex::CLI.harvest()
     end
   end
+
+  describe "commit" do
+    let(:writer) { instance_double(Traject::SolrJsonWriter) }
+
+    it "sends a commit to solr" do
+      allow(Traject::SolrJsonWriter).to receive(:new) { writer }
+      allow(writer).to receive(:commit) { "committed" }
+
+      expect(CobIndex::CLI.commit).to eq("committed")
+    end
+  end
 end

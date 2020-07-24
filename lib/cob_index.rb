@@ -51,5 +51,11 @@ module CobIndex
       batch.get_service_notes
       batch.print_notes(filename: "service_notes.json")
     end
+
+    def self.commit
+      indexer = Traject::Indexer::MarcIndexer.new
+      indexer.load_config_file("#{File.dirname(__FILE__)}/cob_index/indexer_config.rb")
+      indexer.writer.commit
+    end
   end
 end

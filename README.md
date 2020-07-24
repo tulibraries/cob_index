@@ -37,6 +37,12 @@ cob_index ingest $path_to_file
 #### Ingest switches
 `--commit` If this switch is passed (`cob_index ingest --commit`), then cob_index will send commit at end of ingest process.
 
+#### Ingest ENV variables
+`ALMAOAI_LAST_HARVEST_FROM_DATE`: if provided used as one of the possible defaults for `extract_update_date` macro.
+
+`SOLR_DISABLE_UPDATE_DATE_CHECK`: When set to "yes" will make `extract_update_date` macro use `Time.now.utc.to_s` effectively overriding date versioning on Solr instance.
+
+
 ### deletes
 
 ```
@@ -50,6 +56,14 @@ cob_index harvest  --type=alma-electronic
 ```
 
 Runs pre defined harvesting endpoints for tul_cob. Note the only type currently defined is for the alma-electronic api and thus it is set by default.
+
+### commit
+
+```
+cob_index commit
+```
+
+Sends a commit command to the Solr instance.
 
 #### Harvest endpoint types
 ##### alma-electronic

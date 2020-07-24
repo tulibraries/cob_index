@@ -33,7 +33,8 @@ class App
   desc "Send commit command to the Solr instance."
   command :commit do |c|
     c.desc "Commit docs after ingest process closes."
-    c.desc "Send commit command to the Solr instance." do
+    c.desc "Send commit command to the Solr instance."
+    c.action do |global_options, options, args|
       CobIndex::CLI.commit
     end
   end

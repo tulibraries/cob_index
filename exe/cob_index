@@ -36,12 +36,15 @@ class App
     c.desc "Commit docs after delete process closes."
     c.switch ["commit"], default_value: false
 
+    c.desc "Suppress the documents instead of deleting them."
+    c.switch ["suppress"], default_value: false
+
     c.desc "Delete documents from solr"
     c.action do |global_options, options, args|
       xml = open(ARGV[0]).read
 
       opts = {}
-      opts.merge!(commit: options[:commit], xml: xml)
+      opts.merge!(commit: options[:commit], xml: xml, suppress: options[:suppress])
 
       CobIndex::CLI.delete(opts)
     end

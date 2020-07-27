@@ -36,7 +36,7 @@ RSpec.describe "Suppress configuration" do
   end
 
 
-  context "OAI record should be suppressed" do
+  context "record status = something not 'deleted'" do
     let(:record_text) {
       <<~EOT
       <record>
@@ -56,7 +56,7 @@ RSpec.describe "Suppress configuration" do
     end
   end
 
-  context "OAI record will not be suppressed" do
+  context "record status = 'deleted'" do
     let(:record_text) {
       <<~EOT
       <record>

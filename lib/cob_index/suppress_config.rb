@@ -17,4 +17,4 @@ end
 
 to_field "id", extract_id
 to_field "record_update_date", extract_datestamp
-to_field "suppress_items_b", Proc.new { |_, _| [true] }
+to_field "suppress_items_b", Proc.new { |_, acc| acc << true }

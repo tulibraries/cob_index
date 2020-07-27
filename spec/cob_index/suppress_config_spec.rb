@@ -77,6 +77,7 @@ RSpec.describe "Suppress configuration" do
       expect(context.output_hash).to eq({
         "id" => ["991022366369703811"],
         "record_update_date" => ["2020-03-03T03:54:35Z"],
+        "suppress_items_b" => [true],
       })
 
     end

@@ -81,6 +81,23 @@ RSpec.describe CobIndex do
         CobIndex::CLI.delete(commit: true, xml: "")
       end
     end
+
+    context "suppress switch is not set" do
+      it "loads the deleles_config" do
+        deletes_config_file = "#{File.dirname(__FILE__)}/cob_index/deletes_config.rb"
+          .sub("/spec/", "/lib/")
+        expect(@indexer).to receive(:load_config_file).with(deletes_config_file)
+      end
+    end
+
+    context "suppress is true" do
+      it "loads the suppression config" do
+        suppress_config_file = "#{File.dirname(__FILE__)}/cob_index/suppress_config.rb"
+          .sub("/spec/", "/lib/")
+        expect(@indexer).to receive(:load_config_file).with(suppress_config_file)
+        CobIndex::CLI.delete(suppress: true, xml: "")
+      end
+    end
   end
 
   describe "harvest" do

@@ -48,6 +48,14 @@ cob_index ingest $path_to_file
 ```
 cob_index delete  $path_to_file
 ```
+#### Ingest switches
+`--commit` If this switch is passed (`cob_index delete --commit`), then
+cob_index will send commit at end of delete process.
+
+`--suppress` If this switch is passed (`cob_index delete --suppress`), then
+instead of outright deleting the documents we enable a suppression field which
+we filter out at query time.
+
 
 ### harvest
 

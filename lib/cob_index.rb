@@ -18,7 +18,7 @@ module CobIndex
     end
 
 
-    def self.delete(commit: false, xml: "")
+    def self.delete(commit: false, suppress: false, xml: "")
       settings = {
         "nokogiri.each_record_xpath" => "//oai:record",
         "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
@@ -26,7 +26,13 @@ module CobIndex
       }
 
       indexer = CobIndex::NokogiriIndexer.new(settings)
-      indexer.load_config_file("#{File.dirname(__FILE__)}/cob_index/delete_config.rb")
+      config =
+        if suppress
+          "suppress_config"
+        else
+          "deletes_config"
+        end
+      indexer.load_config_file("#{File.dirname(__FILE__)}/cob_index/#{config}.rb")
       indexer.process(StringIO.new(xml))
     end
 

@@ -7,16 +7,14 @@ require "cob_index/default_config"
 
 settings(&CobIndex::DefaultConfig.indexer_settings)
 
-
-to_field "status", extract_status
-
 each_record do |record, context|
-
-  if context.output_hash["status"] != [ "deleted" ]
+  status = []
+  extract_status[record, status]
+  if status != [ "deleted" ]
     context.skip!
   end
 end
 
 to_field "id", extract_id
 to_field "record_update_date", extract_datestamp
-to_field "suppress_items_b", true
+to_field "suppress_items_b", Proc.new { |_, _| [true] }

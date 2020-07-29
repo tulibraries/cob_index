@@ -727,6 +727,58 @@ module Traject
           acc << latest_date unless latest_date.empty?
         end
       end
+
+      def process_lc_call_sort(data, result = "")
+        @alphabet ||= ("a".."z").to_a
+
+        if data.is_a? Array
+          return data.map { |segment| process_lc_call_sort(segment) }.join("")
+        end
+
+        # add interstitial 'Z's and normalize length
+        if data && data.downcase.match(/(^[[:alpha:]]+)(.*)/)
+          remainder = $2
+          alphas = $1.gsub(/([[:alpha:]]{1})/, 'Z\1').ljust(10, "a")
+          return process_lc_call_sort(remainder, "#{result}#{alphas}")
+        end
+
+        # pad left to normalize fractions, then right to normalize length
+        if data && data.match(/^(\d+(!\d+)?)(.*)/)
+          num, remainder, zeros = $1, $3, 5
+          zeros -= num.include?("!") ? num.length - num.index("!") - 1 : 0
+          num.sub!("!", "")
+          zeros.times { num.concat("0") }
+          raise "call no processing error" unless num.match(/^\d+$/)
+          num = num.each_char.to_a.map { |c| @alphabet[c.to_i] }.join("")
+          return process_lc_call_sort(remainder, "#{result}#{num.rjust(10, 'a')}")
+        end
+
+        return result
+      end
+
+      def extract_lc_call_number_sort
+        lambda do |rec, acc|
+          call_number = Traject::MarcExtractor.cached("090a", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+            extractor.collect_subfields(field, spec).first
+          end
+          return if call_number.empty?
+          # take the biggest one if there are several
+          call_number = call_number.sort { |call_number| call_number.size }.first
+          orig_number = call_number.dup
+          # disambiguate float decimals from segment separators
+          call_number.gsub!(/(\d)\.(\d)/, '\1!\2')
+
+          begin
+            acc << process_lc_call_sort(call_number.split("."))
+          rescue Exception => e
+            if e.message == "call no processing error"
+              raise "#{e.message}: #{orig_number}"
+            else
+              raise e
+            end
+          end
+        end
+      end
     end
   end
 end

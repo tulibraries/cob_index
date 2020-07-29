@@ -2122,4 +2122,34 @@ EOT
       end
     end
   end
+
+
+  describe "#extract_lc_call_number_sort" do
+
+    before do
+      stub_const("ENV", ENV.to_hash.merge("SOLR_DISABLE_UPDATE_DATE_CHECK" => "false"))
+      subject.instance_eval do
+        to_field "lc_call_number_sort", extract_lc_call_number_sort
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+
+      ENV["SOLR_DISABLE_UPDATE_DATE_CHECK"] = nil
+    end
+
+    context "Latest is ADMa" do
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+            <subfield code='a'>QA71.B5</subfield>
+          </datafield>
+        </record>
+      " }
+
+      it "extracts the call number" do
+        expect(subject.map_record(record)).to eq("lc_call_number_sort" => ["QA71.B5"])
+      end
+    end
+  end
 end

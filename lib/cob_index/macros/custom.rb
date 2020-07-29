@@ -727,6 +727,15 @@ module Traject
           acc << latest_date unless latest_date.empty?
         end
       end
+
+      def extract_lc_call_number_sort
+        lambda do |rec, acc|
+          call_number = Traject::MarcExtractor.cached("090a", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+            extractor.collect_subfields(field, spec).first
+          end
+          call_number.each { |call_number| acc << call_number }
+        end
+      end
     end
   end
 end

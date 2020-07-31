@@ -2122,4 +2122,56 @@ EOT
       end
     end
   end
+
+  describe "#extract_lc_call_number_sort" do
+
+    before do
+      subject.instance_eval do
+        to_field "lc_call_number_sort", extract_lc_call_number_sort
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    # this test is not sufficient by itself. See features/indices_spec.rb
+    # in tul_cob for tests that cover Solr document sorting
+    context "three records to be sorted by call number" do
+      let(:record_text_1) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+            <subfield code='a'>Q71.B5</subfield>
+          </datafield>
+        </record>
+      " }
+      let(:record_text_2) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+            <subfield code='a'>QA71.B5</subfield>
+          </datafield>
+        </record>
+      " }
+      let(:record_text_3) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+            <subfield code='a'>QA71.5.B5</subfield>
+          </datafield>
+        </record>
+      " }
+
+      let(:records) { [
+                        MARC::XMLReader.new(StringIO.new(record_text_1)).first,
+                        MARC::XMLReader.new(StringIO.new(record_text_2)).first,
+                        MARC::XMLReader.new(StringIO.new(record_text_3)).first
+                      ]}
+
+      it "converts the call number to a sortable code" do
+        sort_codes = {}
+        records.each_with_index { |record, i|
+          sort_codes[i] = subject.map_record(record)["lc_call_number_sort"]
+        }
+        expect(sort_codes.values.flatten.reverse.sort_by { |code| code.downcase }).to eq sort_codes.values.flatten
+      end
+    end
+  end
 end

@@ -2173,5 +2173,34 @@ EOT
         expect(sort_codes.values.flatten.reverse.sort_by { |code| code.downcase }).to eq sort_codes.values.flatten
       end
     end
+
+    context "records with empty call_number" do
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+            <subfield code='a'></subfield>
+          </datafield>
+        </record>
+      " }
+
+
+      it "does not map empty call_numbers" do
+        expect(subject.map_record(record)).to eq({})
+      end
+    end
+
+    context "records with no call_number" do
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+          </datafield>
+        </record>
+      " }
+
+
+      it "does not map empty call_numbers" do
+        expect(subject.map_record(record)).to eq({})
+      end
+    end
   end
 end

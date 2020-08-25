@@ -1,17 +1,4 @@
 GIT
-  remote: https://github.com/projectblacklight/blacklight-marc.git
-  revision: 582c68255d73e21926234f2ad5bb1ddf37dc6684
-  ref: v7.0.0.rc1
-  specs:
-    blacklight-marc (7.0.0.rc1)
-      blacklight (> 7.0.0.a, < 8.a)
-      library_stdnums
-      marc (>= 0.4.3, < 1.1)
-      marc-fastxmlwriter
-      rails
-      traject (~> 3.0)
-
-GIT
   remote: https://github.com/tulibraries/alma_rb.git
   revision: 72c28febc34b2bf772cc024643d1907cb92383b9
   branch: main
@@ -93,12 +80,20 @@ GEM
     ast (2.4.1)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    blacklight (7.7.0)
+    blacklight (7.10.0)
       deprecation
       globalid
       jbuilder (~> 2.7)
       kaminari (>= 0.15)
       rails (>= 5.1, < 7)
+      view_component
+    blacklight-marc (7.0.0)
+      blacklight (~> 7.0)
+      library_stdnums
+      marc (>= 0.4.3, < 1.1)
+      marc-fastxmlwriter
+      rails
+      traject (~> 3.0)
     builder (3.2.4)
     byebug (11.1.1)
     coderay (1.1.2)
@@ -325,9 +320,11 @@ GEM
     unf (0.1.4-java)
     unf_ext (0.0.7.7)
     unicode-display_width (1.7.0)
-    websocket-driver (0.7.2)
+    view_component (2.18.0)
+      activesupport (>= 5.0.0, < 7.0)
+    websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
-    websocket-driver (0.7.2-java)
+    websocket-driver (0.7.3-java)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xml-simple (1.1.5)
@@ -341,7 +338,7 @@ PLATFORMS
 DEPENDENCIES
   alma!
   binding_of_caller (~> 0.7)
-  blacklight-marc!
+  blacklight-marc
   bundler (>= 1.16)
   cob_index!
   coveralls

@@ -756,11 +756,19 @@ module Traject
         return result
       end
 
+      def build_call_number(rec, tags)
+        return [] if tags.empty?
+        call_numbers = Traject::MarcExtractor.cached("#{tags.shift}ab", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+          extracted = extractor.collect_subfields(field, spec).first
+          extracted.gsub(/\s+/, "") if extracted
+        end
+        return build_call_number(rec, tags) if call_numbers.empty?
+        return call_numbers
+      end
+
       def extract_lc_call_number_sort
         lambda do |rec, acc|
-          call_number = Traject::MarcExtractor.cached("090a", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
-            extractor.collect_subfields(field, spec).first
-          end
+          call_number = build_call_number(rec, ["090", "050"])
           call_number.reject! { |call_number| call_number.blank? }
           return if call_number.empty?
           # take the biggest one if there are several

@@ -2146,7 +2146,7 @@ EOT
       " }
       let(:record_text_2) { "
         <record>
-          <datafield ind1=' ' ind2=' ' tag='090'>
+          <datafield ind1=' ' ind2=' ' tag='050'>
             <subfield code='a'>QA71.B5</subfield>
           </datafield>
         </record>
@@ -2154,7 +2154,8 @@ EOT
       let(:record_text_3) { "
         <record>
           <datafield ind1=' ' ind2=' ' tag='090'>
-            <subfield code='a'>QA71.5.B5</subfield>
+            <subfield code='a'>QA71</subfield>
+            <subfield code='b'>.5.B5</subfield>
           </datafield>
         </record>
       " }

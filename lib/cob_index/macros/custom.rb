@@ -473,14 +473,32 @@ module Traject
         end
       end
 
+      def library_and_locations(rec)
+        rec.fields(["ITM"]).reduce([]) do |acc, field|
+          if field["f"] != "RES_SHARE" && field["u"] != "MISSING"
+            location = {
+              # TODO: Should we be using same logic as for display item?
+              library: Traject::TranslationMap.new("libraries_map")[field["f"]],
+              current_location: field["g"],
+            }
+            acc << location
+          end
+
+          acc
+        end
+      end
+
       def extract_library
         lambda do |rec, acc|
-          rec.fields(["ITM"]).each do |field|
-            if field["f"] != "RES_SHARE" && field["u"] != "MISSING"
-              acc << Traject::TranslationMap.new("libraries_map")[field["f"]]
-            end
-            acc.uniq!
-          end
+          acc.replace library_and_locations(rec).map { |r| r[:library] }.uniq
+        end
+      end
+
+      def extract_location_facet
+        lambda do |rec, acc|
+          acc.replace library_and_locations(rec).map { |r|
+            r.slice(:library, :current_location).values.join(" - ")
+          }
         end
       end
 

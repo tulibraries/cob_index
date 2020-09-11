@@ -2123,6 +2123,38 @@ EOT
     end
   end
 
+  describe "#extract_location_facet" do
+    before do
+      subject.instance_eval do
+        to_field "location_facet", extract_location_facet
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when one item is missing" do
+      let(:record_text) {
+        '
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
+            <subfield code="u">MISSING</subfield>
+            <subfield code="f">MAIN</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">stacks</subfield>
+            <subfield code="f">JAPAN</subfield>
+          </datafield>
+        </record>
+        '
+      }
+      it "does not include missing item" do
+        expect(subject.map_record(record)).to eq("location_facet" => ["Japan Campus Library - stacks"])
+      end
+    end
+  end
+
   describe "#extract_lc_call_number_sort" do
 
     before do

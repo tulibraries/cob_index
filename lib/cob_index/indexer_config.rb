@@ -194,6 +194,7 @@ to_field "call_number_t", extract_marc_with_flank("HLDhi")
 to_field "call_number_alt_display", extract_marc("ITMjk")
 to_field "call_number_alt_t", extract_marc_with_flank("ITMjk")
 to_field "library_facet", extract_library
+to_field "location_facet", extract_marc("HLDbc")
 
 # URL Fields
 to_field "url_more_links_display", extract_url_more_links

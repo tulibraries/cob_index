@@ -474,17 +474,23 @@ module Traject
       end
 
       def library_and_locations(rec)
-        rec.fields(["ITM"]).reduce([]) do |acc, field|
-          if field["f"] != "RES_SHARE" && field["u"] != "MISSING"
-            location = {
-              # TODO: Should we be using same logic as for display item?
-              library: Traject::TranslationMap.new("libraries_map")[field["f"]],
-              current_location: field["g"],
-            }
-            acc << location
-          end
+        libraries_map = Traject::TranslationMap.new("libraries_map")
+        locations_map = Traject::TranslationMap.new("locations")
 
-          acc
+        rec.fields(["ITM"]).reduce([]) do |acc, field|
+          library = field["f"]
+          status = field["u"]
+          location = field["g"]
+          location = "ASRS" if library == "ASRS"
+
+          next acc if [ "RES_SHARE", "KIOSK" ].include?(library) ||
+            [ "EMPTY", "LOST_LOAN", "MISSING",  "TECHNICAL", "UNASSIGNED"].include?(status) ||
+            [ "UNASSIGNED" ].include?(location) || location.blank?
+
+          acc << {
+            library: libraries_map[library] || library,
+            current_location: (locations_map[library][location] rescue location)
+          }
         end
       end
 

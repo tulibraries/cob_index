@@ -2133,14 +2133,45 @@ EOT
       end
     end
 
-    context "when one item is missing" do
+    context "with items that should not be included" do
       let(:record_text) {
         '
         <record xmlns="http://www.loc.gov/MARC21/slim">
           <datafield ind1=" " ind2=" " tag="ITM">
             <subfield code="g">storage</subfield>
+            <subfield code="u">EMPTY</subfield>
+            <subfield code="f">JAPAN</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
+            <subfield code="u">LOST_LOAN</subfield>
+            <subfield code="f">JAPAN</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
             <subfield code="u">MISSING</subfield>
-            <subfield code="f">MAIN</subfield>
+            <subfield code="f">JAPAN</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
+            <subfield code="u">TECHNICAL</subfield>
+            <subfield code="f">JAPAN</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
+            <subfield code="u">UNASSIGNED</subfield>
+            <subfield code="f">JAPAN</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
+            <subfield code="f">KIOSK</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">storage</subfield>
+            <subfield code="f">RES_SHARE</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="f">JAPAN</subfield>
           </datafield>
           <datafield ind1=" " ind2=" " tag="ITM">
             <subfield code="g">stacks</subfield>
@@ -2149,9 +2180,28 @@ EOT
         </record>
         '
       }
-      it "does not include missing item" do
-        expect(subject.map_record(record)).to eq("location_facet" => ["Japan Campus Library - stacks"])
+
+      it "does not include any item that should not be included" do
+        expect(subject.map_record(record)).to eq("location_facet" => ["Japan Campus Library - Stacks"])
       end
+    end
+
+    context "any location in ASRS library" do
+      let(:record_text) {
+        '
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2=" " tag="ITM">
+            <subfield code="g">foo</subfield>
+            <subfield code="f">ASRS</subfield>
+          </datafield>
+        </record>
+        '
+      }
+
+      it "should map locations to BookBot" do
+        expect(subject.map_record(record)).to eq("location_facet" => ["Charles Library - BookBot"])
+      end
+
     end
   end
 

@@ -19,7 +19,7 @@ namespace :locations do
 
     library_list.each do |code|
       location_response = HTTParty.get("https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/#{code}/locations?apikey=#{apikey}")
-      locations = location_response["locations"]["location"]
+      locations = (location_response.dig("locations","location") || [])
       location_list[code] =  {}
       locations.each do |l|
         if code == "RES_SHARE"

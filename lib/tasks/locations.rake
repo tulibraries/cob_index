@@ -35,7 +35,7 @@ namespace :locations do
       end
     end
 
-    file_path = "#{File.dirname}/../translation_maps/locations.yaml"
+    file_path = "#{File.dirname(__FILE__)}/../translation_maps/locations.yaml"
     File.open(file_path, "w+") do |file|
       file.write(
         location_list.to_yaml)

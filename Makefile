@@ -17,4 +17,4 @@ load-data:
 	bin/load-data
 
 test-relevancy:
-	bundle exec rspec $(RELEVANCY_SPECS_PATH)
+	bundle exec rspec --require $(RELEVANCY_SPECS_PATH)/spec_helper.rb $(RELEVANCY_SPECS_PATH)

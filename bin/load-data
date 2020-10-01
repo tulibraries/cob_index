@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# This script is used to load data into the Sorl instance.
+# However, sometimes Solr is still loading and we need to wait until it's done
+# before we can begin.
+
+while [[ "$STATUS" != "200" ]]; do
+  echo waiting for setup to complete or equal 200.
+  echo "currently: $STATUS"
+  sleep 2
+  STATUS=$(curl -s -o /dev/null -w "%{http_code}" $SOLR_URL/select)
+done
+
+
+echo $SOLR_URL
+echo $RELEVANCY_FIXTURES_PATH plus
+find $RELEVANCY_FIXTURES_PATH -type f -name '*.xml'  -exec bundle exec cob_index ingest '{}' \;
+
+bundle exec cob_index commit

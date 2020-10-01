@@ -9,6 +9,7 @@ gemspec
 
 gem "blacklight-marc"
 gem "alma", git: "https://github.com/tulibraries/alma_rb.git", branch: "main"
+gem "rsolr"
 
 
 group :debug do

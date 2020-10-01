@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  solr:
+    image: "solr:${SOLR_VERSION}"
+    volumes:
+      - $PWD/solr/configs/:/opt/solr/configs
+    ports:
+      - "${SOLR_PORT}:8983"
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - blacklight
+      - /opt/solr/configs/tul_cob-catalog-solr
+      - "-Xms256m"
+      - "-Xmx512m"

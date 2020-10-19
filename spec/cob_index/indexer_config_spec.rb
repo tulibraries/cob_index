@@ -6,6 +6,7 @@ RSpec.describe "Traject configuration" do
     indexer.load_config_file("lib/cob_index/indexer_config.rb")
     indexer.settings
   }
+  let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
 
   context "neither SOLR_AUTH_USER, nor SOLR_AUTH_PASSWORD env variables are set" do
     before do
@@ -74,6 +75,50 @@ RSpec.describe "Traject configuration" do
 
     it "does not set solr_writer.basic_auth_password" do
       expect(settings["solr_writer.basic_auth_password"]).to eq("bar")
+    end
+  end
+
+  describe "lc_inner_facet field" do
+    before do
+      stub_const("ENV", ENV.to_hash.merge("SOLR_URL" => "foo"))
+      indexer.load_config_file("lib/cob_index/indexer_config.rb")
+    end
+
+    context "050a subfield present" do
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='050'>
+            <subfield code='a'>QA71</subfield>
+            <subfield code='b'>.5.B5</subfield>
+          </datafield>
+        </record>
+      " }
+
+      it "extracts 50a field" do
+        expect(indexer.map_record(record)["lc_inner_facet"]).to eq(["QA - Mathematics"])
+      end
+    end
+  end
+
+  describe "lc_outer_facet field" do
+    before do
+      stub_const("ENV", ENV.to_hash.merge("SOLR_URL" => "foo"))
+      indexer.load_config_file("lib/cob_index/indexer_config.rb")
+    end
+
+    context "050a subfield present" do
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='050'>
+            <subfield code='a'>QA71</subfield>
+            <subfield code='b'>.5.B5</subfield>
+          </datafield>
+        </record>
+      " }
+
+      it "extracts 50a field" do
+        expect(indexer.map_record(record)["lc_outer_facet"]).to eq(["Q - Science"])
+      end
     end
   end
 end

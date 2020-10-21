@@ -4,7 +4,7 @@ require "bundler/setup"
 require "library_stdnums"
 require "active_support/core_ext/object/blank"
 require "time"
-require 'lc_solr_sortable'
+require "lc_solr_sortable"
 
 # A set of custom traject macros (extractors and normalizers) used by the
 module Traject

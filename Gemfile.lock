@@ -9,6 +9,13 @@ GIT
       httparty
       xml-simple
 
+GIT
+  remote: https://github.com/tulibraries/lc_solr_sortable
+  revision: 82d6d74ec3c3c9e3fa5652c3c1701748db37c6ed
+  branch: main
+  specs:
+    lc_solr_sortable (0.1.0)
+
 PATH
   remote: .
   specs:
@@ -350,6 +357,7 @@ DEPENDENCIES
   coveralls
   guard (~> 2.14)
   guard-rspec (~> 4.7)
+  lc_solr_sortable!
   pry (~> 0.13)
   pry-byebug (~> 3.5)
   rake (~> 13.0)

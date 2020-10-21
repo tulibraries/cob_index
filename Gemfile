@@ -10,7 +10,7 @@ gemspec
 gem "blacklight-marc"
 gem "alma", git: "https://github.com/tulibraries/alma_rb.git", branch: "main"
 gem "rsolr"
-
+gem "lc_solr_sortable", git: "https://github.com/tulibraries/lc_solr_sortable", branch: "main"
 
 group :debug do
   gem "binding_of_caller", "~> 0.7", platform: "mri"

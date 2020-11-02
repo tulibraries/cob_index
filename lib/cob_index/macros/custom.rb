@@ -754,28 +754,55 @@ module Traject
       end
 
       def build_call_number(rec, tags)
-        return [] if tags.empty?
+        return nil if tags.empty?
         call_numbers = Traject::MarcExtractor.cached("#{tags.shift}ab", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
           extracted = extractor.collect_subfields(field, spec).first
           extracted.gsub(/\s+/, "") if extracted
         end
         return build_call_number(rec, tags) if call_numbers.empty?
-        return call_numbers
+        # take the biggest one if there are several 090 or 050 for some reason
+        return call_numbers.compact.reject { |call_number| call_number.empty? }.sort { |call_number| call_number.size }.first
+      end
+
+      def extract_lc_outer_facet
+        lambda do |rec, acc|
+          call_number = build_call_number(rec, ["090", "050"])
+          next if call_number.nil?
+          first_letter = call_number.lstrip.slice(0, 1)
+          letters = call_number.match(/^([[:alpha:]]*)/)[0]
+          lc1letter = Traject::TranslationMap.new("callnumber_map")[first_letter] unless Traject::TranslationMap.new("callnumber_map")[letters].nil?
+          acc.replace [lc1letter]
+        end
+      end
+
+      def extract_lc_inner_facet
+        lambda do |rec, acc|
+          call_number = build_call_number(rec, ["090", "050"])
+          next if call_number.nil?
+          first_letter = call_number.lstrip.slice(0, 1)
+          letters = call_number.match(/^([[:alpha:]]*)/)[0]
+          lc1letter = Traject::TranslationMap.new("callnumber_map")[first_letter] unless Traject::TranslationMap.new("callnumber_map")[letters].nil?
+          lc_rest = Traject::TranslationMap.new("callnumber_map")[letters]
+          acc.replace [lc_rest]
+        end
       end
 
       def extract_lc_call_number_sort
         lambda do |rec, acc|
           call_number = build_call_number(rec, ["090", "050"])
-          call_number.reject! { |call_number| call_number.blank? }
-          return if call_number.empty?
-          # take the biggest one if there are several
-          call_number = call_number.sort { |call_number| call_number.size }.first
+          return if call_number.nil?
           begin
             acc << ::LcSolrSortable.convert(call_number)
           rescue Exception => e
             e.message << " call no: #{call_number}"
             raise e
           end
+        end
+      end
+
+      def extract_lc_call_number_display
+        lambda do |rec, acc|
+          acc << build_call_number(rec, ["090", "050"])
         end
       end
     end

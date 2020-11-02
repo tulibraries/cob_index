@@ -40,21 +40,9 @@ to_field "language_display", extract_lang("008[35-37]:041a:041d:041e:041g:041j")
 to_field("format", marc_formats, &normalize_format)
 
 #LC call number
-to_field "lc_call_number_display", extract_marc("090ab:050ab")
-to_field "lc_outer_facet", extract_marc("090a:050a") do |record, accumulator|
-  next unless accumulator.any?
-  first_letter = accumulator[0].lstrip.slice(0, 1)
-  letters = accumulator[0].match(/^([[:alpha:]]*)/)[0]
-  lc1letter = Traject::TranslationMap.new("callnumber_map")[first_letter] unless Traject::TranslationMap.new("callnumber_map")[letters].nil?
-  accumulator.replace [lc1letter]
-end
-
-to_field "lc_inner_facet", extract_marc("090a:050a") do |_record, accumulator|
-  next unless accumulator.any?
-  letters = accumulator[0].match(/^([[:alpha:]]*)/)[0]
-  lc_rest = Traject::TranslationMap.new("callnumber_map")[letters]
-  accumulator.replace [lc_rest]
-end
+to_field "lc_call_number_display", extract_lc_call_number_display
+to_field "lc_outer_facet", extract_lc_outer_facet
+to_field "lc_inner_facet", extract_lc_inner_facet
 
 # Title fields
 # Used on the full record page

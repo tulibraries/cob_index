@@ -98,6 +98,25 @@ RSpec.describe "Traject configuration" do
         expect(indexer.map_record(record)["lc_inner_facet"]).to eq(["QA - Mathematics"])
       end
     end
+
+    context "050a and 090 subfields present" do
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='050'>
+            <subfield code='a'>KF71</subfield>
+            <subfield code='b'>.5.B5</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='090'>
+            <subfield code='a'>QA71</subfield>
+            <subfield code='b'>.5.B5</subfield>
+          </datafield>
+        </record>
+      " }
+
+      it "extracts 90a field" do
+        expect(indexer.map_record(record)["lc_inner_facet"]).to eq(["QA - Mathematics"])
+      end
+    end
   end
 
   describe "lc_outer_facet field" do

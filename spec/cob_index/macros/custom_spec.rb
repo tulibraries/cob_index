@@ -2239,6 +2239,10 @@ EOT
             <subfield code='a'>QA71</subfield>
             <subfield code='b'>.5.B5</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='050'>
+            <subfield code='a'>AA71</subfield>
+            <subfield code='b'>100000000.5.B5</subfield>
+          </datafield>
         </record>
       " }
 
@@ -2248,7 +2252,7 @@ EOT
                         MARC::XMLReader.new(StringIO.new(record_text_3)).first
                       ]}
 
-      it "converts the call number to a sortable code" do
+      it "converts the call number to a sortable code, using 090 with 050 as a fallback" do
         sort_codes = {}
         records.each_with_index { |record, i|
           sort_codes[i] = subject.map_record(record)["lc_call_number_sort"]

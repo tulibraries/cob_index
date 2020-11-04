@@ -2205,6 +2205,18 @@ EOT
     end
   end
 
+  describe "#build_call_number" do
+    let(:record) {
+      r = MARC::Record.new
+      r.append MARC::DataField.new("050", "", "", ["a", "Z7004.D5"], ["b", "C63 1990"], ["a", "P327"])
+      r
+    }
+
+    it "ignores superfluous subfield[code='a'] nodes" do
+      expect(subject.build_call_number(record, ["050"])).to eq("Z7004.D5 C63 1990")
+    end
+  end
+
   describe "#extract_lc_call_number_sort" do
 
     before do

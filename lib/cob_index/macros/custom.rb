@@ -756,8 +756,8 @@ module Traject
       def build_call_number(rec, tags)
         return nil if tags.empty?
         call_numbers = Traject::MarcExtractor.cached("#{tags.shift}ab", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+          field.subfields.uniq! { |sf| sf.code }
           extracted = extractor.collect_subfields(field, spec).first
-          extracted.gsub(/\s+/, "") if extracted
         end
         return build_call_number(rec, tags) if call_numbers.empty?
         # take the biggest one if there are several 090 or 050 for some reason
@@ -766,7 +766,7 @@ module Traject
 
       def extract_lc_outer_facet
         lambda do |rec, acc|
-          call_number = build_call_number(rec, ["090", "050"])
+          call_number = build_call_number(rec, ["090", "050"]).gsub(/\s+/, "")
           next if call_number.nil?
           first_letter = call_number.lstrip.slice(0, 1)
           letters = call_number.match(/^([[:alpha:]]*)/)[0]
@@ -777,7 +777,7 @@ module Traject
 
       def extract_lc_inner_facet
         lambda do |rec, acc|
-          call_number = build_call_number(rec, ["090", "050"])
+          call_number = build_call_number(rec, ["090", "050"])&.gsub(/\s+/, "")
           next if call_number.nil?
           first_letter = call_number.lstrip.slice(0, 1)
           letters = call_number.match(/^([[:alpha:]]*)/)[0]
@@ -789,7 +789,7 @@ module Traject
 
       def extract_lc_call_number_sort
         lambda do |rec, acc|
-          call_number = build_call_number(rec, ["090", "050"])
+          call_number = build_call_number(rec, ["090", "050"])&.gsub(/\s+/, "")
           return if call_number.nil?
           begin
             acc << ::LcSolrSortable.convert(call_number)

@@ -85,6 +85,24 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 To run the executable without installing, run `bundle exec cob_index`.
 
+### Spot reindexing workflow
+
+Sometimes it may be convenient to reindex a particular record in the production / qa Solr index to allow an acceptance tester to proceed
+without requiring a full reindex. In that case, a workflow like the following example can be used:
+
+```sh
+# set up some env vars to make this easy
+export SOLR_URL_PROD="https://$SOLRCLOUD_USER:$SOLRCLOUD_PASSWORD@$SOLRCLOUD_HOST/solr/$CATALOG_COLLECTION"
+export SOLR_DISABLE_UPDATE_DATE_CHECK=true
+export ID=99999999999381
+export XML_HEADER="<?xml version=\"1.0\"?>"
+export COLL_TAG_OPEN="<collection xmlns=\"http://www.loc.gov/MARC21/slim\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd\">"
+export COLL_TAG_CLOSE="</collection>"
+# fetch the record and wrap it in a <collection> tag
+curl "$SOLR_URL_PROD/document?id=$ID" | jq -r '.response.docs[0].marc_display_raw' | xargs -0 -J % -- echo $XML_HEADER $COLL_TAG_OPEN % $COLL_TAG_CLOSE | xmllint --format - > copied-record.xml
+# ...and ingest!
+SOLR_URL=$SOLR_URL_PROD bundle exec cob_index ingest --commit copied-record.xml
+```
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/tulibraries/cob_index. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.

@@ -95,13 +95,8 @@ without requiring a full reindex. In that case, a workflow like the following ex
 export SOLR_URL_PROD="https://$SOLRCLOUD_USER:$SOLRCLOUD_PASSWORD@$SOLRCLOUD_HOST/solr/$CATALOG_COLLECTION"
 export SOLR_DISABLE_UPDATE_DATE_CHECK=true
 export ID=99999999999381
-export XML_HEADER="<?xml version=\"1.0\"?>"
-export COLL_TAG_OPEN="<collection xmlns=\"http://www.loc.gov/MARC21/slim\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd\">"
-export COLL_TAG_CLOSE="</collection>"
-# fetch the record and wrap it in a <collection> tag
-curl "$SOLR_URL_PROD/document?id=$ID" | jq -r '.response.docs[0].marc_display_raw' | xargs -0 -J % -- echo $XML_HEADER $COLL_TAG_OPEN % $COLL_TAG_CLOSE | xmllint --format - > copied-record.xml
-# ...and ingest!
-SOLR_URL=$SOLR_URL_PROD bundle exec cob_index ingest --commit copied-record.xml
+SOLR_URL=$SOLR_URL_PROD bundle exec cob_index ingest 
+ --commit https://librarysearch.temple.edu/catalog/${ID}.xml
 ```
 ## Contributing
 

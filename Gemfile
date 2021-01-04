@@ -13,7 +13,7 @@ gem "rsolr"
 gem "lc_solr_sortable", git: "https://github.com/tulibraries/lc_solr_sortable", branch: "main"
 
 group :debug do
-  gem "binding_of_caller", "~> 0.7", platform: "mri"
+  gem "binding_of_caller", "~> 1.0", platform: "mri"
   gem "guard", "~> 2.14", platform: "mri"
   gem "guard-rspec", "~> 4.7", platform: "mri"
   gem "pry", "~> 0.13", platform: "mri"

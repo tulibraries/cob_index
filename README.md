@@ -1,9 +1,9 @@
-# CobIndex
+# TUL catalog indexing (cob_index)
 [![Build Status](https://travis-ci.org/tulibraries/cob_index.svg?branch=main)](https://travis-ci.org/tulibraries/cob_index)
 [![Coverage Status](https://coveralls.io/repos/github/tulibraries/cob_index/badge.svg?branch=main)](https://coveralls.io/github/tulibraries/cob_index?branch=main)
 
-Cob Index is a repository to hold the traject configuration files and scripts
-associated with indexing of the tul_cob books catalog.
+**cob_index** is a repository that holds the [Traject](https://github.com/traject/traject) configuration files and scripts
+associated with the customized MARCXML-Solr metadata transformations and indexing for Temple University Libraries' Library Search ([tul_cob](https://github.com/tulibraries/tul_cob)).
 
 ## Installation
 
@@ -95,7 +95,7 @@ without requiring a full reindex. In that case, a workflow like the following ex
 export SOLR_URL_PROD="https://$SOLRCLOUD_USER:$SOLRCLOUD_PASSWORD@$SOLRCLOUD_HOST/solr/$CATALOG_COLLECTION"
 export SOLR_DISABLE_UPDATE_DATE_CHECK=true
 export ID=99999999999381
-SOLR_URL=$SOLR_URL_PROD bundle exec cob_index ingest 
+SOLR_URL=$SOLR_URL_PROD bundle exec cob_index ingest
  --commit https://librarysearch.temple.edu/catalog/${ID}.xml
 ```
 ## Contributing

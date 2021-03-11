@@ -127,16 +127,16 @@ PRESSER:
   plc: Listening Library
   UNASSIGNED: Location information not available
 KARDON:
-  a_rare: Remote Storage, Remote Storage - Ambler
-  b_rare: Remote Storage, Remote Storage - Blockson
-  g_remote: Remote Storage, Remote Storage - Ginsburg
-  l_remote: Remote Storage, Remote Storage - Law
-  p_govdocmf: Remote Storage, Government Documents
-  p_GovDocs: Remote Storage, Government Documents
-  p_media: Remote Storage, Media
-  p_micro: Remote Storage, Microform
-  p_oversize: Remote Storage, Remote Storage - Charles
-  p_remote: Remote Storage, Remote Storage - Charles
+  a_rare: Remote Storage - Ambler
+  b_rare: Remote Storage - Blockson
+  g_remote: Remote Storage - Ginsburg
+  l_remote: Remote Storage - Law
+  p_govdocmf: Government Documents
+  p_GovDocs: Government Documents
+  p_media: Media
+  p_micro: Microform
+  p_oversize: Remote Storage - Charles
+  p_remote: Remote Storage - Charles
 ROME:
   exhibit: Exhibits
   fiction: Fiction

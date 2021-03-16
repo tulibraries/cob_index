@@ -103,4 +103,14 @@
       <subfield code="t">t</subfield>
     </datafield>
   </record>
+
+  <record>
+    <!-- 5. 700 with subfield i-->
+    <datafield ind1="1" ind2="2" tag="700">
+      <subfield code="i">Container of (work):</subfield>
+      <subfield code="a">Baldwin, James,</subfield>
+      <subfield code="d">1924-1987.</subfield>
+      <subfield code="t">Giovanni's room.</subfield>
+    </datafield>
+    </record>
 </collection>

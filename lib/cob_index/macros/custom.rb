@@ -103,8 +103,8 @@ module Traject
           end
           s_fields.each_slice(3) do |link|
             link[1] = creator_name_trim_punctuation(link[1]) unless link[1].nil?
-            link[2] = creator_role_trim_punctuation(link[2]) unless link[2].nil?
-            acc << ['relation', 'name', 'role_or_title'].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+            link[2]= creator_role_trim_punctuation(link[2]) unless link[2].nil?
+            acc << ["relation", "name", "role"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
           end
           acc
         end

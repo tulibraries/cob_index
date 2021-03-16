@@ -286,14 +286,14 @@ RSpec.describe Traject::Macros::Custom do
       let(:path) { "creator_multiple_subfields.xml" }
 
       it "extracts subfields multiple times if multiple subfields are present" do
-        expected = { "contributor_display" => [JSON.dump({"name" => "United States. Department of Agriculture. Economic Research Service"})] }
+        expected = { "contributor_display" => [JSON.dump({ "name" => "United States. Department of Agriculture. Economic Research Service" })] }
         expect(subject.map_record(records[0])).to eq(expected)
       end
 
       it "does not change order of subfields if something is nil" do
-        expected = { "contributor_display" => [JSON.dump({"name" => "Oliveira, Victor J.", "role" => "Test Another plain text field"}),
-                                               JSON.dump({"name" => "Two"}),
-                                               JSON.dump({"name" => "Three", "role" => "Test"})] }
+        expected = { "contributor_display" => [JSON.dump({ "name" => "Oliveira, Victor J.", "role" => "Test Another plain text field" }),
+                                               JSON.dump({ "name" => "Two" }),
+                                               JSON.dump({ "name" => "Three", "role" => "Test" })] }
         expect(subject.map_record(records[1])).to eq(expected)
       end
     end
@@ -306,21 +306,21 @@ RSpec.describe Traject::Macros::Custom do
 
     context "Tag 700 contributor with values in all the subfields" do
       it "extracts contributor field in an expected way" do
-        expected = { "contributor_display" => [JSON.dump({"name" => "a b c d q", "role" => "e j l m n o p r t u"})] }
+        expected = { "contributor_display" => [JSON.dump({ "name" => "a b c d q", "role" => "e j l m n o p r t u" })] }
         expect(subject.map_record(records[1])).to eq(expected)
       end
     end
 
     context "Tag 710 contributor with values in all the subfields" do
       it "extracts contributor field idisaplayexpected way" do
-        expected = { "contributor_display" => [JSON.dump({"name" => "a b d c", "role" => "e l m n o p t"})] }
+        expected = { "contributor_display" => [JSON.dump({ "name" => "a b d c", "role" => "e l m n o p t" })] }
         expect(subject.map_record(records[2])).to eq(expected)
       end
     end
 
     context "Tag 711 contributor with values in all the subfields" do
       it "extracts contributor field in an expected way" do
-        expected = { "contributor_display" => [JSON.dump({"name" => "a n d c j", "role" => "e l o p t"})] }
+        expected = { "contributor_display" => [JSON.dump({ "name" => "a n d c j", "role" => "e l o p t" })] }
         expect(subject.map_record(records[3])).to eq(expected)
       end
     end
@@ -328,16 +328,16 @@ RSpec.describe Traject::Macros::Custom do
     context "All three contributor fields (700, 710, 711) with all values." do
       it "extracts contributor fields display expected way" do
         expected = { "contributor_display" => [
-                       JSON.dump({"name" => "a b c q d", "role" => "e j l m n o p r t u"}),
-                       JSON.dump({"name" =>"a b d c", "role" => "e l m n o p t"}),
-                       JSON.dump({"name" =>"a n d c j", "role" => "e l o p t"})] }
+                       JSON.dump({ "name" => "a b c q d", "role" => "e j l m n o p r t u" }),
+                       JSON.dump({ "name" => "a b d c", "role" => "e l m n o p t" }),
+                       JSON.dump({ "name" => "a n d c j", "role" => "e l o p t" })] }
         expect(subject.map_record(records[4])).to eq(expected)
       end
     end
 
     context "Tag 700 contains i subfield" do
       it "extracts contributor fields display expected way" do
-        expected = { "contributor_display" => [JSON.dump({"relation" => "Container of (work):", "name" => "Baldwin, James, 1924-1987", "role" => "Giovanni's room"})] }
+        expected = { "contributor_display" => [JSON.dump({ "relation" => "Container of (work):", "name" => "Baldwin, James, 1924-1987", "role" => "Giovanni's room" })] }
         expect(subject.map_record(records[5])).to eq(expected)
       end
     end

@@ -11,7 +11,6 @@ gem "blacklight-marc"
 gem "alma", git: "https://github.com/tulibraries/alma_rb.git", branch: "main"
 gem "rsolr"
 gem "lc_solr_sortable", git: "https://github.com/tulibraries/lc_solr_sortable", branch: "main"
-gem "mimemagic", "0.3.6"
 
 group :debug do
   gem "binding_of_caller", "~> 1.0", platform: "mri"

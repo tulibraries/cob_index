@@ -127,6 +127,41 @@ module Traject
         end
       end
 
+      def extract_uniform_title
+        lambda do |rec, acc|
+          s_fields = Traject::MarcExtractor.cached("130adfklmnoprs:240adfklmnoprs:730i:730al", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+            extractor.collect_subfields(field, spec).first
+          end
+          s_fields.each_slice(2) do |link|
+            # require "pry"
+            # binding.pry
+
+            if link.count == 2
+              acc << ["relation", "title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+            else
+              acc << ["title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+            end
+          end
+          acc
+        end
+      end
+
+      def extract_additional_title
+        lambda do |rec, acc|
+          s_fields = Traject::MarcExtractor.cached("210ab:246i:246abfgnp:247abcdefgnp:740anp", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+            extractor.collect_subfields(field, spec).first
+          end
+          s_fields.each_slice(2) do |link|
+            if link.count == 2
+              acc << ["relation", "title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+            else
+              acc << ["title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+            end
+          end
+          acc
+        end
+      end
+
       def subject_translations(subject)
         translations = { "Aliens" => "Noncitizens",
           "Illegal aliens" => "Undocumented immigrants",

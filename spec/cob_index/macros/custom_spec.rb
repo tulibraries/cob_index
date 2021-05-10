@@ -343,6 +343,59 @@ RSpec.describe Traject::Macros::Custom do
     end
   end
 
+  describe "#extract_uniform_title" do
+    let(:path) { "title_statement_examples.xml" }
+    before(:each) do
+      subject.instance_eval do
+        to_field "title_uniform_display", extract_uniform_title
+
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "Tag 730 contains i subfield" do
+      it "extracts uniform title fields display with subfield i expected way" do
+        expected = { "title_uniform_display" => [JSON.dump({ "relation" => "Container of (work):", "title" => "Scar of shame (Motion picture)" })] }
+        expect(subject.map_record(records[4])).to eq(expected)
+      end
+    end
+
+    context "Tag 130 and not 730" do
+      it "extracts uniform title fields display without subfield i expected way" do
+        expected = { "title_uniform_display" => [JSON.dump({ "title" => "Japan (Eyewitness travel guides)" })] }
+        expect(subject.map_record(records[5])).to eq(expected)
+      end
+    end
+  end
+
+  describe "#extract_additional_title" do
+    let(:path) { "title_statement_examples.xml" }
+    before(:each) do
+      subject.instance_eval do
+        to_field "title_addl_display", extract_additional_title
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "Tag 246 contains i subfield" do
+      it "extracts additional title fields display with subfield i expected way" do
+        expected = { "title_addl_display" => [JSON.dump({ "relation" => "At head of title:", "title" => "Roof Garden Commission" })] }
+        expect(subject.map_record(records[6])).to eq(expected)
+      end
+    end
+
+    context "Tag 246 without subfield i" do
+      it "extracts additional title fields display without subfield i expected way" do
+        expected = { "title_addl_display" => [JSON.dump({ "title" => "Lattice detour" })] }
+        expect(subject.map_record(records[7])).to eq(expected)
+      end
+    end
+  end
+
   describe "#extract_lang" do
     let(:path) { "extract_lang.xml" }
     before(:each) do

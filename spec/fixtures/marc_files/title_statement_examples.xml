@@ -28,4 +28,30 @@
       <subfield code="h">[video recording]</subfield>
     </datafield>
   </record>
+  <record>
+    <!-- 4. 730 subfield i -->
+    <datafield ind1="0" ind2="4" tag="730">
+      <subfield code="i">Container of (work):</subfield>
+      <subfield code="a">Scar of shame (Motion picture)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <!-- 5. 130 -->
+    <datafield ind1="0" ind2="4" tag="130">
+      <subfield code="a">Japan (Eyewitness travel guides)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <!-- 6. 246 subfield i -->
+    <datafield ind1="1" ind2=" " tag="246">
+      <subfield code="i">At head of title:</subfield>
+      <subfield code="a">Roof Garden Commission</subfield>
+    </datafield>
+  </record>
+  <record>
+    <!-- 7. 246 subfield i -->
+    <datafield ind1="1" ind2=" " tag="246">
+      <subfield code="a">Lattice detour</subfield>
+    </datafield>
+  </record>
 </collection>

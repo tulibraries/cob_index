@@ -85,6 +85,22 @@ RSpec.describe "custom methods" do
     end
   end
 
+  describe "#transform_date_added(date)" do
+    context "date is longer that 8 characters" do
+      let(:date) { "20210506040627.0" }
+      it "only returns the first 8 characters" do
+        expect(transform_date_added(date)).to eq("20210506")
+      end
+    end
+
+    context "date is less than 8 characters" do
+      let(:date) { "2021" }
+      it "returns the characters present" do
+        expect(transform_date_added(date)).to eq("2021")
+      end
+    end
+  end
+
   describe "#creator_name_trim_punctuation(name)" do
     context "removes trailing comma, slash" do
       let(:input) { "Richard M. Restak." }
@@ -174,6 +190,26 @@ RSpec.describe Traject::Macros::Custom do
     end
   end
 
+  describe "#extract_date_added" do
+    let(:path) { "date_added_examples.xml" }
+    before(:each) do
+      subject.instance_eval do
+        to_field "date_added_facet", extract_date_added
+
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "997a subfield present" do
+      it "extracts date_added field in an expected way" do
+        expected = { "date_added_facet" => ["20210506"] }
+        expect(subject.map_record(records[0])).to eq(expected)
+      end
+    end
+  end
+
   describe "#extract_creator" do
     let(:path) { "creator_examples.xml" }
     before(:each) do
@@ -187,7 +223,7 @@ RSpec.describe Traject::Macros::Custom do
     end
 
     context "No name available" do
-      it "does not extract a cretor" do
+      it "does not extract a creator" do
         expect(subject.map_record(records[0])).to eq({})
       end
     end

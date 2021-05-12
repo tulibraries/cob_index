@@ -126,6 +126,9 @@ to_field "date_period_display", extract_marc("388a")
 to_field "collection_display", extract_marc("973at")
 to_field "collection_area_display", extract_marc("974at")
 
+# Date added Fields
+to_field "date_added_facet", extract_date_added
+
 # Series fields
 to_field "title_series_display", extract_marc("830av:490av:440anpv:800abcdefghjklmnopqrstuv:810abcdeghklmnoprstuv:811acdefghjklnpqstuv", alternate_script: false)
 to_field "title_series_vern_display", extract_marc("830av:490av:440anpv:800abcdefghjklmnopqrstuv:810abcdeghklmnoprstuv:811acdefghjklnpqstuv", alternate_script: :only)

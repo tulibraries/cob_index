@@ -36,6 +36,10 @@ module Traject
         role.sub(/ *[ ,.\/;:] *\Z/, "")
       end
 
+      def transform_date_added(date)
+        date[0..7]
+      end
+
       def extract_title_statement
         lambda do |rec, acc|
           titles = []
@@ -62,6 +66,14 @@ module Traject
           end
 
           acc.replace(titles)
+        end
+      end
+
+      def extract_date_added
+        lambda do |rec, acc|
+          rec.fields(["997"]).each do |field|
+            acc << transform_date_added(field["a"]) unless field["a"].nil?
+          end
         end
       end
 
@@ -133,9 +145,6 @@ module Traject
             extractor.collect_subfields(field, spec).first
           end
           s_fields.each_slice(2) do |link|
-            # require "pry"
-            # binding.pry
-
             if link.count == 2
               acc << ["relation", "title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
             else

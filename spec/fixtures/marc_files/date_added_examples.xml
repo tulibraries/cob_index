@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
+  <record>
+    <!-- 0. added_date field is present -->
+    <datafield ind1=' ' ind2='0' tag='997'>
+      <subfield code='a'>20210506155502.0</subfield>
+    </datafield>
+  </record>
+</collection>

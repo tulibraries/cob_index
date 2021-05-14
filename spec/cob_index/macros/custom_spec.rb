@@ -204,7 +204,7 @@ RSpec.describe Traject::Macros::Custom do
 
     context "997a subfield present" do
       it "extracts date_added field in an expected way" do
-        expected = { "date_added_facet" => ["20210506"] }
+        expected = { "date_added_facet" => [20210506] }
         expect(subject.map_record(records[0])).to eq(expected)
       end
     end

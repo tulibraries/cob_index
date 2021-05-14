@@ -65,6 +65,14 @@ module Traject
         end
       end
 
+      def extract_date_added
+        lambda do |rec, acc|
+          rec.fields(["997"]).each do |field|
+            acc << field["a"].ljust(8, "0")[0..7].to_i unless field["a"].nil?
+          end
+        end
+      end
+
       def extract_creator
         lambda do |rec, acc|
           s_fields = Traject::MarcExtractor.cached("100abcqd:100ejlmnoprtu:110abdc:110elmnopt:111andcj:111elopt", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
@@ -133,9 +141,6 @@ module Traject
             extractor.collect_subfields(field, spec).first
           end
           s_fields.each_slice(2) do |link|
-            # require "pry"
-            # binding.pry
-
             if link.count == 2
               acc << ["relation", "title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
             else

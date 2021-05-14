@@ -174,6 +174,33 @@ RSpec.describe Traject::Macros::Custom do
     end
   end
 
+  describe "#extract_date_added" do
+    let(:path) { "date_added_examples.xml" }
+    before(:each) do
+      subject.instance_eval do
+        to_field "date_added_facet", extract_date_added
+
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "997a subfield present" do
+      it "extracts date_added field in an expected way" do
+        expected = { "date_added_facet" => [20210506] }
+        expect(subject.map_record(records[0])).to eq(expected)
+      end
+    end
+
+    context "997a subfield present but shorter than expected" do
+      it "extracts padded date_added field" do
+        expected = { "date_added_facet" => [20210000] }
+        expect(subject.map_record(records[1])).to eq(expected)
+      end
+    end
+  end
+
   describe "#extract_creator" do
     let(:path) { "creator_examples.xml" }
     before(:each) do
@@ -187,7 +214,7 @@ RSpec.describe Traject::Macros::Custom do
     end
 
     context "No name available" do
-      it "does not extract a cretor" do
+      it "does not extract a creator" do
         expect(subject.map_record(records[0])).to eq({})
       end
     end

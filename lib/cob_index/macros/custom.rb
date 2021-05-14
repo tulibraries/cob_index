@@ -36,10 +36,6 @@ module Traject
         role.sub(/ *[ ,.\/;:] *\Z/, "")
       end
 
-      def transform_date_added(date)
-        date[0..7]
-      end
-
       def extract_title_statement
         lambda do |rec, acc|
           titles = []
@@ -72,7 +68,7 @@ module Traject
       def extract_date_added
         lambda do |rec, acc|
           rec.fields(["997"]).each do |field|
-            acc << transform_date_added(field["a"]).to_i unless field["a"].nil?
+            acc << field["a"].ljust(8, "0")[0..7].to_i unless field["a"].nil?
           end
         end
       end

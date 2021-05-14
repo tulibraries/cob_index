@@ -85,22 +85,6 @@ RSpec.describe "custom methods" do
     end
   end
 
-  describe "#transform_date_added(date)" do
-    context "date is longer that 8 characters" do
-      let(:date) { "20210506040627.0" }
-      it "only returns the first 8 characters" do
-        expect(transform_date_added(date)).to eq("20210506")
-      end
-    end
-
-    context "date is less than 8 characters" do
-      let(:date) { "2021" }
-      it "returns the characters present" do
-        expect(transform_date_added(date)).to eq("2021")
-      end
-    end
-  end
-
   describe "#creator_name_trim_punctuation(name)" do
     context "removes trailing comma, slash" do
       let(:input) { "Richard M. Restak." }
@@ -206,6 +190,13 @@ RSpec.describe Traject::Macros::Custom do
       it "extracts date_added field in an expected way" do
         expected = { "date_added_facet" => [20210506] }
         expect(subject.map_record(records[0])).to eq(expected)
+      end
+    end
+
+    context "997a subfield present but shorter than expected" do
+      it "extracts padded date_added field" do
+        expected = { "date_added_facet" => [20210000] }
+        expect(subject.map_record(records[1])).to eq(expected)
       end
     end
   end

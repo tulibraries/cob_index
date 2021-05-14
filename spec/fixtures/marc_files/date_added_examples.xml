@@ -6,4 +6,11 @@
       <subfield code='a'>20210506155502.0</subfield>
     </datafield>
   </record>
+
+  <record>
+    <!-- 1. added_date field is shorter than 8 characters -->
+    <datafield ind1=' ' ind2='0' tag='997'>
+      <subfield code='a'>2021</subfield>
+    </datafield>
+  </record>
 </collection>

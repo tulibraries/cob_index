@@ -14,6 +14,8 @@ done
 
 echo $SOLR_URL
 echo $RELEVANCY_FIXTURES_PATH plus
+
+bundle exec cob_index delete
 find $RELEVANCY_FIXTURES_PATH -type f -name '*.xml'  -exec bundle exec cob_index ingest '{}' \;
 
 bundle exec cob_index commit

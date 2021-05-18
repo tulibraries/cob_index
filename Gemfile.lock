@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/tulibraries/lc_solr_sortable
-  revision: 56dda0c39bbc3cfc30c6a26543c4279b8ee161f0
+  revision: 395a05dc7d53cc88f476446e91471b95601d20ab
   branch: main
   specs:
     lc_solr_sortable (0.1.0)
@@ -231,6 +231,10 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry (0.13.1-java)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+      spoon (~> 0.0)
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
@@ -309,6 +313,8 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     slop (3.6.0)
+    spoon (0.0.6)
+      ffi
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)

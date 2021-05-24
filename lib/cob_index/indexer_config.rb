@@ -164,7 +164,7 @@ to_field "subject_topic_facet", extract_subject_topic_facet
 to_field "subject_era_facet", extract_marc("648a:650y:651y:654y:655y:690y:647y", trim_punctuation: true)
 to_field "subject_region_facet", marc_geo_facet
 to_field "genre_facet", extract_genre
-to_field "genre_t", extract_genre_display
+to_field "genre_ms", extract_genre_display
 
 to_field "subject_t", extract_marc_with_flank(%W(
   600#{A_TO_U}

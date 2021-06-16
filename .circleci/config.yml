@@ -7,23 +7,44 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.7.2-node
+      - image: zookeeper:3.7
+        name: zoo
+        environment:
+          ZOO_CFG_EXTRA: "4lw.commands.whitelist=mntr,conf,ruok"
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD
-
+      - image: solr:8.3
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
+        environment:
+          ZK_HOST: "zoo:2181"
     executor: ruby/default
     steps:
       - checkout
+
       - run:
           name: Which bundler?
           command: bundle -v
+
       - ruby/bundle-install
+
       - run:
           name: lint
           command: bundle exec rubocop
+
       - run:
           name: test
           command: bundle exec rake
 
       - coveralls/upload:
           path_to_lcov: ./coverage/lcov/project.lcov
+
+      - run:
+          name: Install Solr Documents
+          command: make load-data
+
+      - run:
+          name: Run relevancy Tests
+          command: make test-relevancy

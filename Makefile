@@ -1,7 +1,10 @@
 include .env
 export
 
-up:
+init:
+	git submodule update --init --recursive
+
+up: init
 	docker-compose up -d
 
 down:
@@ -13,7 +16,7 @@ tty-solr:
 ps:
 	docker-compose ps
 
-load-data:
+load-data: init
 	bin/load-data
 
 test-relevancy:

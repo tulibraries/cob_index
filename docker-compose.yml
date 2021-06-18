@@ -2,9 +2,9 @@ version: "3.7"
 
 services:
   solr:
-    image: "solr:${SOLR_VERSION}"
-    volumes:
-      - $PWD/solr/configs/:/opt/solr/configs
+    build:
+      context: .
+      dockerfile: .docker/solr/Dockerfile
     ports:
       - "${SOLR_PORT}:8983"
     entrypoint:

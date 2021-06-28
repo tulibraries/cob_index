@@ -132,7 +132,7 @@ GEM
       ffi (>= 1.0.0)
       rake
     formatador (0.2.5)
-    gli (2.20.0)
+    gli (2.20.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     guard (2.17.0)

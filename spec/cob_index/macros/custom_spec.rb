@@ -421,6 +421,55 @@ RSpec.describe Traject::Macros::Custom do
         expect(subject.map_record(records[7])).to eq(expected)
       end
     end
+
+    # BL-1514
+    context "Mixed bag including 246a" do
+      let(:record_text) { '
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1="0" ind2=" " tag="210">
+            <subfield code="a">J. neurosurg.</subfield>
+          </datafield>
+          <datafield ind1="1" ind2=" " tag="246">
+            <subfield code="a">JNS</subfield>
+          </datafield>
+          <datafield ind1="0" ind2="2" tag="740">
+            <subfield code="a">Report on the Traumatic Coma Data Bank.</subfield>
+          </datafield>
+          <datafield ind1="0" ind2="2" tag="740">
+            <subfield code="a">Journal of neurosurgery.</subfield>
+            <subfield code="p">Spine.</subfield>
+          </datafield>
+          <datafield ind1="0" ind2="2" tag="740">
+            <subfield code="a">Journal of neurosurgery.</subfield>
+            <subfield code="p">Pediatrics.</subfield>
+          </datafield>
+        </record>
+      ' }
+
+      it "extracts additional title fields display without subfield i expected way" do
+        expected = { "title_addl_display" => [
+          { "title" => "J. neurosurg." },
+          { "title" => "JNS" },
+          { "title" => "Report on the Traumatic Coma Data Bank." },
+          { "title" => "Journal of neurosurgery. Spine." },
+          { "title" => "Journal of neurosurgery. Pediatrics." }
+        ].map(&:to_json) }
+        expect(subject.map_record(record)).to eq(expected)
+      end
+    end
+
+    context "contains 246i but no title (i.e. other 246 fields)" do
+      let(:record_text) { '
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1="1" ind2=" " tag="246">
+            <subfield code="i">Foo</subfield>
+          </datafield>
+        </record>
+      ' }
+      it "should just skip this because that's a mistake" do
+        expect(subject.map_record(record)).to eq({})
+      end
+    end
   end
 
   describe "#extract_lang" do

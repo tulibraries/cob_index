@@ -154,16 +154,26 @@ module Traject
       def extract_additional_title
         lambda do |rec, acc|
           s_fields = Traject::MarcExtractor.cached("210ab:246i:246abfgnp:247abcdefgnp:740anp", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
-            extractor.collect_subfields(field, spec).first
-          end
-          s_fields.each_slice(2) do |link|
-            if link.count == 2
-              acc << ["relation", "title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+            value  = extractor.collect_subfields(field, spec).first
+
+            if spec.tag == "246" && spec.subfields == ["i"]
+              { "relation" => value }
             else
-              acc << ["title"].zip(link).to_h.reject { |k, v| v.nil? }.to_json
+              { "title" => value }
             end
           end
-          acc
+
+          relation = nil
+          s_fields.each do |value|
+            if relation && value["title"].present?
+              acc << relation.merge(value).to_json
+              relation = nil
+            elsif value["relation"].present?
+              relation = value.dup
+            elsif value["title"].present?
+              acc << value.to_json
+            end
+          end
         end
       end
 

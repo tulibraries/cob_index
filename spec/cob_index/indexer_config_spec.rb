@@ -140,4 +140,36 @@ RSpec.describe "Traject configuration" do
       end
     end
   end
+
+  describe "donor_info_display" do
+    before do
+      stub_const("ENV", ENV.to_hash.merge("SOLR_URL" => "foo"))
+      indexer.load_config_file("lib/cob_index/indexer_config.rb")
+    end
+
+    context "mmsid mapped to donor" do
+      let(:record_text) { '
+        <record>
+          <controlfield tag="001">991037327694403811</controlfield>
+        </record>
+      ' }
+
+      it "adds a donor" do
+        expect(indexer.map_record(record)["donor_info_display"]).to eq(["Wister S. and Harriet H. Baisch"])
+      end
+    end
+
+
+    context "mmsid not mapped to donor" do
+      let(:record_text) { '
+        <record>
+          <controlfield tag="001">foo</controlfield>
+        </record>
+      ' }
+
+      it "adds a donor" do
+        expect(indexer.map_record(record)["donor_info_display"]).to eq(nil)
+      end
+    end
+  end
 end

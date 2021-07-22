@@ -193,6 +193,9 @@ to_field "url_finding_aid_display", extract_url_finding_aid
 # Hathitrust Identifier fields
 to_field "hathi_trust_bib_key_display", lookup_hathi_bib_key
 
+# Donor Info fields
+to_field "donor_info_display", extract_marc("001", translation_map: "donor_info")
+
 # Availability
 to_field "availability_facet", extract_availability
 to_field "location_display", extract_marc("HLDbc")

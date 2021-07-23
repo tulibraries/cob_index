@@ -1,5 +1,4 @@
 # TUL catalog indexing (cob_index)
-[![Build Status](https://travis-ci.org/tulibraries/cob_index.svg?branch=main)](https://travis-ci.org/tulibraries/cob_index)
 [![Coverage Status](https://coveralls.io/repos/github/tulibraries/cob_index/badge.svg?branch=main)](https://coveralls.io/github/tulibraries/cob_index?branch=main)
 
 **cob_index** is a repository that holds the [Traject](https://github.com/traject/traject) configuration files and scripts

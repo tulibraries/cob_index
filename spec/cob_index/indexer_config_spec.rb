@@ -155,7 +155,7 @@ RSpec.describe "Traject configuration" do
       ' }
 
       it "adds a donor" do
-        expect(indexer.map_record(record)["donor_info_display"]).to eq(["Wister S. and Harriet H. Baisch"])
+        expect(indexer.map_record(record)["donor_info_display"]).to eq(["Baisch, Wister S. and Harriet H."])
       end
     end
 

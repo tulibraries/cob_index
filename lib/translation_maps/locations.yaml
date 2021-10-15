@@ -20,9 +20,11 @@ CLAEDTECH:
   reserves: Reserves
   UNASSIGNED: Location information not available
 ASRS:
+  amb_media: BookBot
+  ambler: BookBot
+  ASRS: BookBot
   media: BookBot
   reference: BookBot
-  ASRS: BookBot
   UNASSIGNED: Location information not available
 MAIN:
   serials: Journals (3rd floor)

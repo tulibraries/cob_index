@@ -853,6 +853,16 @@ module Traject
           acc << build_call_number(rec, ["090", "050"])
         end
       end
+
+      def extract_donor
+        lambda do |rec, acc|
+          rec.fields(["541"]).each do |field|
+            if field.indicator1 == "1" && field["c"] == "Gift"
+              acc << field["a"]
+            end
+          end
+        end
+      end
     end
   end
 end

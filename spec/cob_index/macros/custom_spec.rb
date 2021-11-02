@@ -2441,4 +2441,41 @@ EOT
       end
     end
   end
+
+  describe "#extract_donor" do
+    let(:path) { "donor_541_field.xml" }
+
+    before do
+      subject.instance_eval do
+        to_field "donor_info_display", extract_donor
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when there is no 541 field" do
+      it "does not map record" do
+        expect(subject.map_record(records[0])).to eq({})
+      end
+    end
+
+    context "when 541 field has indicator1=1 AND subfield c is Gift" do
+      it "maps record" do
+        expect(subject.map_record(records[1])).to eq("donor_info_display" => ["Donor name"])
+      end
+    end
+
+    context "when 541 field has indicator1, but not subfield c" do
+      it "does not map record" do
+        expect(subject.map_record(records[2])).to eq({})
+      end
+    end
+
+    context "when 541 field has subfield c equals Gift, but not indicator1" do
+      it "does not map record" do
+        expect(subject.map_record(records[3])).to eq({})
+      end
+    end
+  end
 end

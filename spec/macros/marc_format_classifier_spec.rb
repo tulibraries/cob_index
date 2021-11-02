@@ -175,7 +175,5 @@ RSpec.describe MarcFormatClassifier, type: :lib do
         it { is_expected.to_not include("Government Document") }
       end
     end
-
   end
-
 end

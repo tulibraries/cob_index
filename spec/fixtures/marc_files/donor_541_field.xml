@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
+  <record>
+    <!-- 0. No 541 info available -->
+  </record>
+  <record>
+    <!-- 1. 541 with indicator1=1 AND subfield c equals Gift-->
+    <datafield ind1="1" ind2=" " tag="541">
+      <subfield code="a">Donor name</subfield>
+      <subfield code="c">Gift</subfield>
+    </datafield>
+  </record>
+  <record>
+    <!-- 2. 541 with indicator1=1 NOT subfield c equals Gift-->
+    <datafield ind1="1" ind2=" " tag="541">
+      <subfield code="a">Donor name</subfield>
+    </datafield>
+  </record>
+  <record>
+    <!-- 3. 541 with indicator1=1 NOT subfield c equals Gift-->
+    <datafield ind1="2" ind2=" " tag="541">
+      <subfield code="a">Donor name</subfield>
+      <subfield code="c">Gift</subfield>
+    </datafield>
+  </record>
+</collection>

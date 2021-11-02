@@ -55,9 +55,10 @@ module Traject
 
         formats.concat genre
 
-        # If it"s a Dissertation, we decide it"s NOT a book
+        # If it"s a Dissertation, we decide it"s NOT a book or archival material
         if thesis?
           formats.delete("Book")
+          formats.delete("Archival Material")
           formats << "Dissertation/Thesis"
         end
 

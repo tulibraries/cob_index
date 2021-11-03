@@ -153,6 +153,7 @@ RSpec.describe MarcFormatClassifier, type: :lib do
     context "Thesis" do
       it "says thesis" do
         expect(classifier_for("thesis.xml").formats).to include("Dissertation/Thesis")
+        expect(classifier_for("thesis.xml").formats).to_not include("Archival Material")
       end
     end
     context "Conference Proceedings" do

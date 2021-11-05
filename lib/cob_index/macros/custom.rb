@@ -857,8 +857,9 @@ module Traject
       def extract_donor
         lambda do |rec, acc|
           rec.fields(["541"]).each do |field|
-            if field.indicator1 == "1" && field["c"] == "Gift"
-              acc << field["a"]
+            subfield_c = field["c"]&.gsub(/\W/, "")
+            if field.indicator1 == "1" && subfield_c == "Gift"
+              acc << field["a"]&.chomp(";").strip
             end
           end
         end

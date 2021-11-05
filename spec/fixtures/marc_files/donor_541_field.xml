@@ -23,4 +23,11 @@
       <subfield code="c">Gift</subfield>
     </datafield>
   </record>
+  <record>
+    <!-- 4. 541 with subfield c strips punctuation-->
+    <datafield ind1="1" ind2=" " tag="541">
+      <subfield code="a">Donor name   ;</subfield>
+      <subfield code="c">Gift   ;</subfield>
+    </datafield>
+  </record>
 </collection>

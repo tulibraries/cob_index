@@ -2477,5 +2477,11 @@ EOT
         expect(subject.map_record(records[3])).to eq({})
       end
     end
+
+    context "when 541 subfield c has extra punctuation" do
+      it "does map record" do
+        expect(subject.map_record(records[4])).to eq("donor_info_ms" => ["Donor name"])
+      end
+    end
   end
 end

@@ -859,7 +859,7 @@ module Traject
           rec.fields(["541"]).each do |field|
             subfield_c = field["c"]&.gsub(/\W/, "")
             if field.indicator1 == "1" && subfield_c == "Gift"
-              acc << field["a"]
+              acc << field["a"]&.chomp(";").strip
             end
           end
         end

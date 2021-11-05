@@ -2447,7 +2447,7 @@ EOT
 
     before do
       subject.instance_eval do
-        to_field "donor_info_display", extract_donor
+        to_field "donor_info_ms", extract_donor
         settings do
           provide "marc_source.type", "xml"
         end
@@ -2462,7 +2462,7 @@ EOT
 
     context "when 541 field has indicator1=1 AND subfield c is Gift" do
       it "maps record" do
-        expect(subject.map_record(records[1])).to eq("donor_info_display" => ["Donor name"])
+        expect(subject.map_record(records[1])).to eq("donor_info_ms" => ["Donor name"])
       end
     end
 

@@ -88,7 +88,7 @@ module Traject
         marc_genre_008_26   = Traject::TranslationMap.new("marc_genre_008_26").to_hash
         marc_genre_008_33   = Traject::TranslationMap.new("marc_genre_008_33").to_hash
         resource_type_codes = Traject::TranslationMap.new("resource_type_codes").to_hash
-
+        integrating_resource = marc_genre_leader_7.fetch(record.leader[7], nil) if record.leader[7] == "i"
         # Leader Field
 
         leader = record.leader
@@ -106,6 +106,10 @@ module Traject
           }
         }
 
+        unless cf008.nil?
+          website_or_database = marc_genre_008_21.fetch(cf008.value[21], nil) == "website" || marc_genre_008_21.fetch(cf008.value[21], nil) == "database"
+        end
+
         # Additional qualifiers
         additional_qualifier = nil
         case results
@@ -113,6 +117,9 @@ module Traject
           additional_qualifier = marc_genre_008_21.fetch(cf008.value[21], nil) unless cf008.nil? # Controlfield 008[21]
           additional_qualifier ||= marc_genre_008_21.fetch(cf006.value[4], nil) unless cf006.nil?  # Controlfield 006[4]
           additional_qualifier ||= "serial"
+          if integrating_resource.present? && (additional_qualifier.nil? || !website_or_database.present?)
+            additional_qualifier = "book"
+          end
         when "video" # Projected medium
           additional_qualifier = marc_genre_008_33.fetch(cf008.value[33], nil) unless cf008.nil? # Controlfield 008[33]
           additional_qualifier ||= marc_genre_008_33.fetch(cf006.value[16], nil) unless cf006.nil? # Controlfield 006[16]

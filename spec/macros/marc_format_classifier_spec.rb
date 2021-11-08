@@ -87,6 +87,11 @@ RSpec.describe MarcFormatClassifier, type: :lib do
         expect(classifier_for("data_06m_006-9d_7c.xml").genre).to include("Database")
       end
     end
+    context "008[21]!= d or w Leader 07=i" do
+      it "says Book" do
+        expect(classifier_for("integrating_resources.xml").genre).to include("Book")
+      end
+    end
     context "Audio recording" do
       it "says audio" do
         expect(classifier_for("audio.xml").genre).to include("Audio")

@@ -1,0 +1,167 @@
+<record xmlns="http://www.loc.gov/MARC21/slim">
+<leader>02388cai a2200469Mi 4500</leader>
+<controlfield tag="005">20200825063215.6</controlfield>
+<controlfield tag="006">m o d</controlfield>
+<controlfield tag="007">cr cnu---unuuu</controlfield>
+<controlfield tag="008">180306c20189999nyuuu o 0 2eng d</controlfield>
+<controlfield tag="001">991037715253103811</controlfield>
+<datafield ind1=" " ind2=" " tag="019">
+<subfield code="a">1027188932</subfield>
+<subfield code="a">1027374853</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="020">
+<subfield code="a">0199984166</subfield>
+<subfield code="q">(electronic book)</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="020">
+<subfield code="a">9780199984169</subfield>
+<subfield code="q">(electronic book)</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="035">
+<subfield code="a">(OCoLC)1026729173</subfield>
+<subfield code="z">(OCoLC)1027188932</subfield>
+<subfield code="z">(OCoLC)1027374853</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="035">
+<subfield code="a">(OCoLC)on1026729173</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="040">
+<subfield code="a">YDX</subfield>
+<subfield code="b">eng</subfield>
+<subfield code="e">rda</subfield>
+<subfield code="c">YDX</subfield>
+<subfield code="d">YDX</subfield>
+<subfield code="d">OCLCO</subfield>
+<subfield code="d">OCLCF</subfield>
+<subfield code="d">AZU</subfield>
+<subfield code="d">UKOUP</subfield>
+<subfield code="d">UWO</subfield>
+<subfield code="d">OCLCO</subfield>
+<subfield code="d">OTZ</subfield>
+<subfield code="d">BRX</subfield>
+<subfield code="d">LEAUB</subfield>
+<subfield code="d">OCLCQ</subfield>
+<subfield code="d">ZHM</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="049">
+<subfield code="a">TEUU</subfield>
+</datafield>
+<datafield ind1=" " ind2="4" tag="050">
+<subfield code="a">ML55</subfield>
+<subfield code="b">.O94 2018</subfield>
+</datafield>
+<datafield ind1="0" ind2="4" tag="082">
+<subfield code="a">780.86/64</subfield>
+<subfield code="2">23</subfield>
+</datafield>
+<datafield ind1="0" ind2="4" tag="245">
+<subfield code="a">The Oxford handbook of music and queerness /</subfield>
+<subfield code="c">edited by Fred Everett Maus and Sheila Whiteley.</subfield>
+</datafield>
+<datafield ind1="3" ind2="0" tag="246">
+<subfield code="a">Music and queerness</subfield>
+</datafield>
+<datafield ind1=" " ind2="1" tag="264">
+<subfield code="a">[New York, NY] :</subfield>
+<subfield code="b">Oxford University Press,</subfield>
+<subfield code="c">2018-</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="300">
+<subfield code="a">1 online resource</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="336">
+<subfield code="a">text</subfield>
+<subfield code="b">txt</subfield>
+<subfield code="2">rdacontent</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="337">
+<subfield code="a">computer</subfield>
+<subfield code="b">c</subfield>
+<subfield code="2">rdamedia</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="338">
+<subfield code="a">online resource</subfield>
+<subfield code="b">cr</subfield>
+<subfield code="2">rdacarrier</subfield>
+</datafield>
+<datafield ind1="0" ind2=" " tag="588">
+<subfield code="a">
+Online resource; title from home page (viewed on March 20, 2018).
+</subfield>
+</datafield>
+<datafield ind1="0" ind2="0" tag="505">
+<subfield code="t">
+Queer as Trad: LGBTQ Performers and Irish Traditional Music in the United States /
+</subfield>
+<subfield code="r">Tes Slominsky.</subfield>
+</datafield>
+<datafield ind1="8" ind2=" " tag="520">
+<subfield code="a">
+This handbook is currently in development, with individual articles publishing online in advance of print publication. At this time, we cannot add information about unpublished articles in this handbook, however the table of contents will continue to grow as additional articles pass through the review process and are added to the site. Please note that the online publication date for this handbook is the date that the first article in the title was published online.
+</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="590">
+<subfield code="a">
+Access is available to the Temple Community through use of a networked computer with a Temple IP address.
+</subfield>
+</datafield>
+<datafield ind1=" " ind2="0" tag="650">
+<subfield code="a">Homosexuality and music.</subfield>
+</datafield>
+<datafield ind1=" " ind2="7" tag="650">
+<subfield code="a">Homosexuality and music.</subfield>
+<subfield code="2">fast</subfield>
+<subfield code="0">(OCoLC)fst00959821</subfield>
+</datafield>
+<datafield ind1=" " ind2="0" tag="655">
+<subfield code="a">Electronic books.</subfield>
+</datafield>
+<datafield ind1="1" ind2=" " tag="700">
+<subfield code="a">Maus, Fred Everett,</subfield>
+<subfield code="e">editor.</subfield>
+</datafield>
+<datafield ind1="1" ind2=" " tag="700">
+<subfield code="a">Whiteley, Sheila,</subfield>
+<subfield code="d">1941-</subfield>
+<subfield code="e">editor.</subfield>
+</datafield>
+<datafield ind1="0" ind2="8" tag="776">
+<subfield code="i">Print version :</subfield>
+<subfield code="z">9780199793525</subfield>
+</datafield>
+<datafield ind1=" " ind2="0" tag="830">
+<subfield code="a">Oxford handbooks online</subfield>
+</datafield>
+<datafield ind1="4" ind2="0" tag="856">
+<subfield code="u">
+http://libproxy.temple.edu/login?url=https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199793525.001.0001/oxfordhb-9780199793525
+</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="902">
+<subfield code="a">Oxford Handbooks Online</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="979">
+<subfield code="a">on1026729173</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="ADM">
+<subfield code="b">2021-08-01 16:09:20</subfield>
+<subfield code="e">on1026729173</subfield>
+<subfield code="d">OCLC</subfield>
+<subfield code="f">20200825063215.6</subfield>
+<subfield code="a">2020-08-26 20:01:55</subfield>
+<subfield code="c">false</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="PRT">
+<subfield code="updated">2020-08-26 20:04:00</subfield>
+<subfield code="i">61529947810003811</subfield>
+<subfield code="c">Oxford Handbooks Online [Perpetual Access]</subfield>
+<subfield code="created">2020-08-26 20:03:56</subfield>
+<subfield code="j">62529947800003811</subfield>
+<subfield code="a">53530118890003811</subfield>
+<subfield code="b">
+https://sandbox01-na.alma.exlibrisgroup.com/view/uresolver/01TULI_INST/openurl?u.ignore_date_coverage=true&rft.mms_id=991037715253103811
+</subfield>
+<subfield code="9">Available</subfield>
+<subfield code="8">53530118890003811</subfield>
+</datafield>
+</record>

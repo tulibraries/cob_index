@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-require "cob_index/version"
-require "cob_index/dot_properties"
-require "cob_index/nokogiri_indexer"
 require "traject"
 require "alma/electronic/batch_utils"
 require "logger"
 
 
-
 module CobIndex
+  autoload :Macros, "cob_index/macros"
+  autoload :DefaultConfig, "cob_index/default_config"
+  autoload :DotProperties, "cob_index/dot_properties"
+  autoload :Version, "cob_index/version"
+  autoload :NokogiriIndexer, "cob_index/nokogiri_indexer"
+
   module CLI
     def self.ingest(commit: false, marc_xml: "")
       indexer = Traject::Indexer::MarcIndexer.new("solr_writer.commit_on_close": commit)

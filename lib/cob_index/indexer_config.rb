@@ -24,7 +24,7 @@ require "cob_index/macros/custom"
 extend Traject::Macros::Custom
 extend CobIndex::Macros::Transformations
 
-COMPANY_NAMES = CobIndex::Util.load_list_file("company_names")
+CORPORATE_NAMES = CobIndex::Util.load_list_file("corporate_names")
 
 settings(&CobIndex::DefaultConfig.indexer_settings)
 
@@ -85,7 +85,7 @@ to_field "title_sort", extract_marc("245abcfgknps", alternate_script: false, fir
 
 # Creator/contributor fields
 to_field "creator_t", extract_marc_with_flank("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true)
-to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), filter_values(COMPANY_NAMES)
+to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), filter_values(CORPORATE_NAMES)
 to_field "creator_display", extract_creator
 to_field "contributor_display", extract_contributor
 to_field "creator_vern_display", extract_creator_vern

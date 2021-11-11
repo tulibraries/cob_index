@@ -12,7 +12,7 @@ module Traject
     module Custom
       ARCHIVE_IT_LINKS = "archive-it.org/collections/"
       NOT_FULL_TEXT = /book review|publisher description|sample text|View cover art|Image|cover image|table of contents/i
-      GENRE_STOP_WORDS = /CD-ROM|CD-ROMs|Compact discs|Computer network resources|Databases|Electronic book|Electronic books|Electronic government information|Electronic journal|Electronic journals|Electronic newspapers|Electronic reference sources|Electronic resource|Full text|Internet resource|Internet resources|Internet videos|Online databases|Online resources|Periodical|Periodicals|Sound recordings|Streaming audio|Streaming video|Video recording|Videorecording|Web site|Web sites|Périodiques|Congrès|Ressource Internet|Périodqiue électronique|Online-Publikation|Elektronische Publikation|Diccionarios|Libros electrónicos|Périodique électronique \(Descripteur de forme\)/i
+      GENRE_STOP_WORDS = CobIndex::Util.load_list_file("genre_stop_words").to_regex
       SEPARATOR = " — "
       A_TO_Z = ("a".."z").to_a.join("")
 

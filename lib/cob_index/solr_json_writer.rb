@@ -137,7 +137,7 @@ class CobIndex::SolrJsonWriter < Traject::SolrJsonWriter
       if settings["solr.select_url"]
         check_solr_update_url(settings["solr.select_url"])
       else
-        self.determine_solr_update_url.gsub(/\/update(\/json)?/, "/select")
+        @solr_update_url.gsub(/\/update(\/json)?/, "/select")
       end
   end
 

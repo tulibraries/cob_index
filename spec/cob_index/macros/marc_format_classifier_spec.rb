@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 require "traject"
-require "cob_index/macros/marc_format_classifier"
 
 # Include custom traject macros
-require "cob_index/macros/custom"
-extend Traject::Macros::Custom
+extend CobIndex::Macros::Custom
 
-MarcFormatClassifier = Traject::Macros::MarcFormatClassifier
+MarcFormatClassifier = CobIndex::Macros::MarcFormatClassifier
 
 def classifier_for(filename)
   record = MARC::XMLReader.new("./spec/fixtures/marc_files/#{filename}").to_a.first

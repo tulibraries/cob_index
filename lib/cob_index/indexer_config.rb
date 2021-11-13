@@ -2,26 +2,21 @@
 
 require "yaml"
 require "cob_index"
-require "cob_index/solr_json_writer"
 
 # To have access to various built-in logic
 # for pulling things out of MARC21, like `marc_languages`
 require "traject/macros/marc21_semantics"
 extend  Traject::Macros::Marc21Semantics
 
-# Overrides the trim_punctuation method to remove periods preceded by parentheses
-require "cob_index/macros/custom_marc21"
+# Add the Marc21 overrides.
+Traject::Macros::Marc21.include(CobIndex::Macros::Marc21)
 
-
-# To have access to the traject marc format/carrier classifier
-require "cob_index/macros/marc_format_classifier"
-extend Traject::Macros::MarcFormats
+extend CobIndex::Macros::MarcFormats
 
 # Include custom traject macros
+extend CobIndex::Macros::Custom
+
 # include unicode normalize for thread safety
-require "unicode_normalize/normalize.rb"
-require "cob_index/macros/custom"
-extend Traject::Macros::Custom
 extend CobIndex::Macros::Transformations
 
 CORPORATE_NAMES = CobIndex::Util.load_list_file("corporate_names")

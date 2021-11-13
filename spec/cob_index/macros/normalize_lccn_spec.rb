@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
 require "rspec"
-require "cob_index/macros/marc_format_classifier"
-require "cob_index/macros/custom"
-require "traject/macros/marc21_semantics"
-
 require "traject/indexer"
 require "marc/record"
 
-include Traject::Macros::MarcFormats
-include Traject::Macros::Custom
+include CobIndex::Macros::MarcFormats
+include CobIndex::Macros::Custom
 
-RSpec.describe Traject::Macros::Custom do
+RSpec.describe CobIndex::Macros::Custom do
   let(:test_class) do
     Class.new(Traject::Indexer)
   end

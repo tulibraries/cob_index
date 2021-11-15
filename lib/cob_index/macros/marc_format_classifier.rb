@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# An equivalent file to this one is found in the traject project under the namespace
+# Traject::Macros::MarcFormatClassifier.
+#
+# This is our custom implemenation of that file.
+
 # To use the marc_format macro, in your configuration file:
 #
 #     require "traject/macros/marc_format_classifier"

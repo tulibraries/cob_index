@@ -11,6 +11,8 @@ require "marc/fastxmlwriter"
 # the analytical work to think it through, some of this is
 # def specific to Marc21.
 module CobIndex::Macros::Marc21
+  # This is our custom implementation of a method found in Traject::Macros::Marc21
+  #
   # Trims punctuation mostly from end, and occasionally from beginning
   # of string. Not nearly as complex logic as SolrMarc's version, just
   # pretty simple.

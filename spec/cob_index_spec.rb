@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe CobIndex do
-  it "has a version number" do
-    expect(CobIndex::VERSION).not_to be nil
-  end
-
   describe "ingest" do
     before(:example) do
       @indexer = instance_double("Traject::Indexer::MarcIndexer")

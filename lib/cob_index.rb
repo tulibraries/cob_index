@@ -3,12 +3,12 @@
 require "traject"
 require "alma/electronic/batch_utils"
 require "logger"
+require "cob_index/version"
 
 module CobIndex
   autoload :Macros, "cob_index/macros"
   autoload :DefaultConfig, "cob_index/default_config"
   autoload :DotProperties, "cob_index/dot_properties"
-  autoload :Version, "cob_index/version"
   autoload :NokogiriIndexer, "cob_index/nokogiri_indexer"
   autoload :Util, "cob_index/util"
   autoload :CoreExtensions, "cob_index/core_extensions"

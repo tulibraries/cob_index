@@ -3,11 +3,14 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "cob_index/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "cob_index"
-  spec.version       = CobIndex::VERSION
+  # The following is not real version.
+  # But the version is required by bundler.
+  # See our releases in GitHub for real versioning information.
+  # https://github.com/tulibraries/cob_index/releases
+  spec.version       = "0.1.0"
   spec.authors       = ["David Kinzer"]
   spec.email         = ["dtkinzer@gmail.com"]
 

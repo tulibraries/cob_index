@@ -1,17 +1,11 @@
 # frozen_string_literal: true
 
 require "rspec"
-require "cob_index/macros/transformations"
-require "cob_index/macros/marc_format_classifier"
-require "cob_index/macros/custom"
-require "cob_index/macros"
-
 require "traject/indexer"
 require "marc/record"
 
-include Traject::Macros::MarcFormats
-
-include Traject::Macros::Custom
+include CobIndex::Macros::MarcFormats
+include CobIndex::Macros::Custom
 
 RSpec.describe CobIndex::Macros::Transformations do
   let(:test_class) do
@@ -28,7 +22,7 @@ RSpec.describe CobIndex::Macros::Transformations do
       subject.instance_eval do
 
         extend Traject::Macros::Marc21
-        extend Traject::Macros::MarcFormats
+        extend CobIndex::Macros::MarcFormats
         extend CobIndex::Macros::Transformations
         to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), filter_values([
           "FOO",

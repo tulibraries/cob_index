@@ -8,8 +8,8 @@ require "traject/macros/marc21_semantics"
 require "traject/indexer"
 require "marc/record"
 
-include Traject::Macros::MarcFormats
-include Traject::Macros::Custom
+include CobIndex::Macros::MarcFormats
+include CobIndex::Macros::Custom
 
 RSpec.describe "custom methods" do
 
@@ -56,7 +56,7 @@ RSpec.describe "custom methods" do
 
   describe "#flank(field)" do
     let(:input) {}
-    subject { Traject::Macros::Custom.flank input }
+    subject { CobIndex::Macros::Custom.flank input }
     context "nil" do
       it "returns an empty string" do
         expect(subject).to be_nil
@@ -119,7 +119,7 @@ RSpec.describe "custom methods" do
   end
 end
 
-RSpec.describe Traject::Macros::Custom do
+RSpec.describe CobIndex::Macros::Custom do
   let(:test_class) do
     Class.new(Traject::Indexer)
   end

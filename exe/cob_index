@@ -9,8 +9,6 @@ class App
 
   program_desc "Wrapper cli app for indexing tul_cob app"
 
-  version CobIndex::VERSION
-
   subcommand_option_handling :normal
   arguments :strict
 

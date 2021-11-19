@@ -30,4 +30,10 @@
       <subfield code="c">Gift   ;</subfield>
     </datafield>
   </record>
+  <record>
+    <!-- 5. 541 without subfield a-->
+    <datafield ind1="1" ind2=" " tag="541">
+      <subfield code="c">Gift   ;</subfield>
+    </datafield>
+  </record>
 </collection>

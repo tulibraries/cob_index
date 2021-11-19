@@ -2483,5 +2483,11 @@ EOT
         expect(subject.map_record(records[4])).to eq("donor_info_ms" => ["Donor name"])
       end
     end
+
+    context "when 541 has no subfield a" do
+      it "does not map record" do
+        expect(subject.map_record(records[5])).to eq({})
+      end
+    end
   end
 end

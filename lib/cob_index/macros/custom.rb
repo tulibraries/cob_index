@@ -856,9 +856,10 @@ module CobIndex::Macros::Custom
   def extract_donor
     lambda do |rec, acc|
       rec.fields(["541"]).each do |field|
+        subfield_a = field["a"]&.chomp(";")&.strip
         subfield_c = field["c"]&.gsub(/\W/, "")
         if field.indicator1 == "1" && subfield_c == "Gift"
-          acc << field["a"]&.chomp(";").strip
+          acc << subfield_a
         end
       end
     end

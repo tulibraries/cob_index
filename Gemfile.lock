@@ -345,6 +345,7 @@ GEM
 PLATFORMS
   java
   ruby
+  universal-java-11
 
 DEPENDENCIES
   alma!
@@ -365,4 +366,4 @@ DEPENDENCIES
   simplecov-lcov
 
 BUNDLED WITH
-   2.1.4
+   2.2.31

@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.7.2-node
+      - image: circleci/jruby:9.2.19.0
       - image: zookeeper:3.7
         name: zoo
         environment:
@@ -23,6 +23,11 @@ jobs:
     executor: ruby/default
     steps:
       - checkout
+
+      # https://discuss.circleci.com/t/how-to-get-ffi-working-on-ruby-2-7-2-image/37787/2
+      - run:
+          name: fix ffi not installing
+          command: sudo ln -s /usr/lib/x86_64-linux-gnu/libffi.so.7 /usr/lib/x86_64-linux-gnu/libffi.so.6
 
       - run:
           name: Which bundler?

@@ -1483,6 +1483,12 @@ EOT
       end
     end
 
+    context "when a single item is lost and paid" do
+      it "maps lost and paid record" do
+        expect(subject.map_record(records[15])).to eq("suppress_items_b" => [true])
+      end
+    end
+
     context "when there are multiple items and one of the records is lost" do
       it "does not map to the field" do
         expect(subject.map_record(records[3])).to eq({})

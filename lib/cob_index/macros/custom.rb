@@ -531,7 +531,7 @@ module CobIndex::Macros::Custom
       location = "ASRS" if library == "ASRS"
 
       next acc if [ "RES_SHARE", "KIOSK" ].include?(library) ||
-        [ "EMPTY", "LOST_LOAN", "MISSING",  "TECHNICAL", "UNASSIGNED"].include?(status) ||
+        [ "EMPTY", "LOST_LOAN", "LOST_LOAN_AND_PAID", "MISSING",  "TECHNICAL", "UNASSIGNED"].include?(status) ||
         [ "UNASSIGNED" ].include?(location) || location.blank?
 
       acc << {
@@ -620,7 +620,7 @@ module CobIndex::Macros::Custom
         u_subfields << field["u"]
       }
       acc.replace([true]) if rec.fields("HLD").length == 0 && (rec.fields("PRT").length == 0 && full_text_link.empty?) && purchase_order_item.empty?
-      acc.replace([true]) if rec.fields("ITM").length >= 1 && u_subfields.all? { |f| f == "LOST_LOAN" || f == "MISSING" || f == "TECHNICAL" || f == "UNASSIGNED" }
+      acc.replace([true]) if rec.fields("ITM").length >= 1 && u_subfields.all? { |f| f == "LOST_LOAN" || f == "LOST_LOAN_AND_PAID" || f == "MISSING" || f == "TECHNICAL" || f == "UNASSIGNED" }
       acc.replace([true]) if rec.fields("HLD").length == 1 && !unwanted_library.empty?
 
       acc.replace([true]) if rec.fields("PRT").present? &&

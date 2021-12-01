@@ -1,12 +1,12 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@0.1.2 
+  ruby: circleci/ruby@1.2
   coveralls: coveralls/coveralls@1.0.6
 
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.7.2-node
+      - image: cimg/ruby:2.7.5-node
       - image: zookeeper:3.7
         name: zoo
         environment:
@@ -28,7 +28,7 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
-      - ruby/bundle-install
+      - run: bundle install
 
       - run:
           name: lint

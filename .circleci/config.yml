@@ -28,6 +28,8 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
+      - run: bundle install
+
       - run:
           name: lint
           command: bundle exec rubocop

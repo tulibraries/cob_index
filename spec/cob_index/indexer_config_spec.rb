@@ -140,4 +140,30 @@ RSpec.describe "Traject configuration" do
       end
     end
   end
+
+  describe "creator_facet field" do
+    before do
+      stub_const("ENV", ENV.to_hash.merge("SOLR_URL" => "foo"))
+      indexer.load_config_file("lib/cob_index/indexer_config.rb")
+    end
+
+    context "Unwanted corp present" do
+      # Note: that "Books24x7, Inc" is excluded via ./lib/list/corporate_names.txt
+      let(:record_text) { "
+        <record>
+          <datafield ind1=' ' ind2=' ' tag='100'>
+            <subfield code='b'>FOO</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='100'>
+            <subfield code='a'>Books24x7, Inc</subfield>
+          </datafield>
+        </record>
+      " }
+
+      it "it removes the unwanted corp" do
+        expect(indexer.map_record(record)["creator_facet"]).to eq(["FOO"])
+      end
+    end
+
+  end
 end

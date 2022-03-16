@@ -2,7 +2,7 @@
 <collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
 	<record>
 		<!-- 0. Only 1 lost item -->
-    <controlfield tag="001">4</controlfield>
+		<controlfield tag="001">4</controlfield>
 		<datafield ind1=" " ind2=" " tag="ITM">
 			<subfield code="r">22423620830003811</subfield>
 			<subfield code="b">0</subfield>
@@ -24,7 +24,7 @@
 	</record>
 	<record>
 		<!-- 1. Only 1 missing item -->
-    <controlfield tag="001">1</controlfield>
+		<controlfield tag="001">1</controlfield>
 		<datafield ind1=" " ind2=" " tag="ITM">
 			<subfield code="r">22426566810003811</subfield>
 			<subfield code="b">0</subfield>
@@ -45,7 +45,7 @@
 	</record>
 	<record>
 		<!-- 2. Only 1 technical item -->
-    <controlfield tag="001">2</controlfield>
+		<controlfield tag="001">2</controlfield>
 		<datafield ind1=" " ind2=" " tag="ITM">
 			<subfield code="r">22337125590003811</subfield>
 			<subfield code="b">0</subfield>
@@ -65,7 +65,7 @@
 	</record>
 	<record>
 		<!-- 3. Multiple items with one lost -->
-    <controlfield tag="001">3</controlfield>
+		<controlfield tag="001">3</controlfield>
 		<datafield ind1=" " ind2=" " tag="HLD">
 		</datafield>
 		<datafield ind1=" " ind2=" " tag="ITM">
@@ -333,56 +333,52 @@
 			<subfield code="f">MAIN</subfield>
 		</datafield>
 	</record>
-
-  <!-- 5. Single holding in EMPTY library -->
-  <record>
-    <controlfield tag="001">991014245629703811</controlfield>
-    <datafield ind1=" " ind2=" " tag="HLD">
-      <subfield code="b">EMPTY</subfield>
-      <subfield code="c">UNASSIGNED</subfield>
-      <subfield code="x">RETENTION: -</subfield>
-      <subfield code="8">22289831490003811</subfield>
-    </datafield>
-  </record>
-
-  <!-- 6. PR #1108 One unassigned -->
-  <record xmlns="http://www.loc.gov/MARC21/slim">
-    <controlfield tag="001">991026206569703811</controlfield>
+	<!-- 5. Single holding in EMPTY library -->
+	<record>
+		<controlfield tag="001">991014245629703811</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+			<subfield code="b">EMPTY</subfield>
+			<subfield code="c">UNASSIGNED</subfield>
+			<subfield code="x">RETENTION: -</subfield>
+			<subfield code="8">22289831490003811</subfield>
+		</datafield>
+	</record>
+	<!-- 6. PR #1108 One unassigned -->
+	<record xmlns="http://www.loc.gov/MARC21/slim">
+		<controlfield tag="001">991026206569703811</controlfield>
 		<datafield ind1=" " ind2=" " tag="HLD">
 		</datafield>
-    <datafield ind1=" " ind2=" " tag="ITM">
-      <subfield code="r">22311821240003811</subfield>
-      <subfield code="b">1</subfield>
-      <subfield code="g">serials</subfield>
-      <subfield code="9">39074501003446</subfield>
-      <subfield code="e">serials</subfield>
-      <subfield code="8">23311820530003811</subfield>
-      <subfield code="c">315 JL-SE 1986</subfield>
-      <subfield code="a">0</subfield>
-      <subfield code="q">2017-06-20 11:30:46</subfield>
-      <subfield code="i">WB 100 .N34</subfield>
-      <subfield code="d">GINSBURG</subfield>
-      <subfield code="f">GINSBURG</subfield>
-    </datafield>
-    <datafield ind1=" " ind2=" " tag="ITM">
-      <subfield code="r">22311838780003811</subfield>
-      <subfield code="b">0</subfield>
-      <subfield code="g">UNASSIGNED</subfield>
-      <subfield code="e">UNASSIGNED</subfield>
-      <subfield code="8">23311838770003811</subfield>
-      <subfield code="a">0</subfield>
-      <subfield code="q">2017-06-20 11:30:46</subfield>
-      <subfield code="i">Shelved by title</subfield>
-      <subfield code="d">EMPTY</subfield>
-      <subfield code="f">EMPTY</subfield>
-    </datafield>
-  </record>
-
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22311821240003811</subfield>
+			<subfield code="b">1</subfield>
+			<subfield code="g">serials</subfield>
+			<subfield code="9">39074501003446</subfield>
+			<subfield code="e">serials</subfield>
+			<subfield code="8">23311820530003811</subfield>
+			<subfield code="c">315 JL-SE 1986</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2017-06-20 11:30:46</subfield>
+			<subfield code="i">WB 100 .N34</subfield>
+			<subfield code="d">GINSBURG</subfield>
+			<subfield code="f">GINSBURG</subfield>
+		</datafield>
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22311838780003811</subfield>
+			<subfield code="b">0</subfield>
+			<subfield code="g">UNASSIGNED</subfield>
+			<subfield code="e">UNASSIGNED</subfield>
+			<subfield code="8">23311838770003811</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2017-06-20 11:30:46</subfield>
+			<subfield code="i">Shelved by title</subfield>
+			<subfield code="d">EMPTY</subfield>
+			<subfield code="f">EMPTY</subfield>
+		</datafield>
+	</record>
 	<!-- 7. Empty HLD and PRT with no 856["u"] present -->
-  <record>
-    <controlfield tag="001">991014245629703811</controlfield>
-  </record>
-
+	<record>
+		<controlfield tag="001">991014245629703811</controlfield>
+	</record>
 	<!-- 8. Empty HLD and PRT with 856["u"] present -->
 	<record>
 		<controlfield tag="001">991014245629703811</controlfield>
@@ -475,50 +471,66 @@
 		</datafield>
 	</record>
 	<record>
-	<!-- 11. Purchase order fields with EBC-POD are present -->
-	<controlfield tag="001">11</controlfield>
-	<datafield ind1=" " ind2=" " tag="902">
-		<subfield code="a">EBC-POD</subfield>
-	</datafield>
-</record>
-<record>
-	<!-- 12. Purchase order fields are not present -->
-	<controlfield tag="001">12</controlfield>
-</record>
-<record>
-	<!-- 13. Purchase order fields without EBC-POD are present -->
-	<controlfield tag="001">13</controlfield>
-	<datafield ind1=" " ind2=" " tag="902">
-		<subfield code="a">test</subfield>
-	</datafield>
-</record>
-<!-- 14. BAAAD Record-->
-<record>
-  <controlfield tag="001">991037333029003811</controlfield>
-  <datafield tag="902" ind1=" " ind2=" ">
-    <subfield code="A">SP: Academic Video Online 20191115</subfield>
-  </datafield>
-</record>
-<!-- 15. 1 lost and paid item -->
-<record>
-	<controlfield tag="001">4</controlfield>
-	<datafield ind1=" " ind2=" " tag="ITM">
-		<subfield code="r">22423620830003811</subfield>
-		<subfield code="b">0</subfield>
-		<subfield code="u">LOST_LOAN_AND_PAID</subfield>
-		<subfield code="h">0</subfield>
-		<subfield code="g">stacks</subfield>
-		<subfield code="t">BOOK</subfield>
-		<subfield code="9">39074026623983</subfield>
-		<subfield code="e">stacks</subfield>
-		<subfield code="l">0</subfield>
-		<subfield code="8">23423620820003811</subfield>
-		<subfield code="j">0</subfield>
-		<subfield code="a">0</subfield>
-		<subfield code="q">2018-04-26 14:44:39</subfield>
-		<subfield code="i">LB1033 .Y95 2018</subfield>
-		<subfield code="d">MAIN</subfield>
-		<subfield code="f">MAIN</subfield>
-	</datafield>
-</record>
+		<!-- 11. Purchase order fields with EBC-POD are present -->
+		<controlfield tag="001">11</controlfield>
+		<datafield ind1=" " ind2=" " tag="902">
+			<subfield code="a">EBC-POD</subfield>
+		</datafield>
+	</record>
+	<record>
+		<!-- 12. Purchase order fields are not present -->
+		<controlfield tag="001">12</controlfield>
+	</record>
+	<record>
+		<!-- 13. Purchase order fields without EBC-POD are present -->
+		<controlfield tag="001">13</controlfield>
+		<datafield ind1=" " ind2=" " tag="902">
+			<subfield code="a">test</subfield>
+		</datafield>
+	</record>
+	<!-- 14. BAAAD Record-->
+	<record>
+		<controlfield tag="001">991037333029003811</controlfield>
+		<datafield tag="902" ind1=" " ind2=" ">
+			<subfield code="A">SP: Academic Video Online 20191115</subfield>
+		</datafield>
+	</record>
+	<!-- 15. 1 lost and paid item -->
+	<record>
+		<controlfield tag="001">4</controlfield>
+		<datafield ind1=" " ind2=" " tag="ITM">
+			<subfield code="r">22423620830003811</subfield>
+			<subfield code="b">0</subfield>
+			<subfield code="u">LOST_LOAN_AND_PAID</subfield>
+			<subfield code="h">0</subfield>
+			<subfield code="g">stacks</subfield>
+			<subfield code="t">BOOK</subfield>
+			<subfield code="9">39074026623983</subfield>
+			<subfield code="e">stacks</subfield>
+			<subfield code="l">0</subfield>
+			<subfield code="8">23423620820003811</subfield>
+			<subfield code="j">0</subfield>
+			<subfield code="a">0</subfield>
+			<subfield code="q">2018-04-26 14:44:39</subfield>
+			<subfield code="i">LB1033 .Y95 2018</subfield>
+			<subfield code="d">MAIN</subfield>
+			<subfield code="f">MAIN</subfield>
+		</datafield>
+	</record>
+	<!-- 16. Single holding intref -->
+	<record>
+		<controlfield tag="001">991014245629703811</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+			<subfield code="b">GINSBURG</subfield>
+			<subfield code="c">intref</subfield>
+		</datafield>
+	</record>
+	<!-- 17. Single holding techserv -->
+	<record>
+		<controlfield tag="001">991014245629703811</controlfield>
+		<datafield ind1=" " ind2=" " tag="HLD">
+			<subfield code="b">MAIN</subfield>
+			<subfield code="c">techserv</subfield>
+		</datafield>
+	</record>
 </collection>

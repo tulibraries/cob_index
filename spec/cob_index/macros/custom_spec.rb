@@ -1496,8 +1496,20 @@ EOT
     end
 
     context "when single holding is in empty library" do
-      it "maps technical record" do
+      it "suppresses the file" do
         expect(subject.map_record(records[5])).to eq("suppress_items_b" => [true])
+      end
+    end
+
+    context "when single holding is intref" do
+      it "suppresses the file" do
+        expect(subject.map_record(records[16])).to eq("suppress_items_b" => [true])
+      end
+    end
+
+    context "when single holding is techserv" do
+      it "suppresses the file" do
+        expect(subject.map_record(records[16])).to eq("suppress_items_b" => [true])
       end
     end
 

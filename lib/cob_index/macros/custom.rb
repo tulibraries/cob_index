@@ -614,7 +614,7 @@ module CobIndex::Macros::Custom
     lambda do |rec, acc, context|
       full_text_link = rec.fields("856").select { |field| field["u"] }
       purchase_order_item = rec.fields("902").select { |field| field["a"].match?(/EBC-POD/) if field["a"] }
-      unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" }
+      unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" || field["c"] == "intref" || field["c"] == "techserv" }
       u_subfields = []
       rec.fields("ITM").select { |field|
         u_subfields << field["u"]

@@ -73,6 +73,7 @@ RES_SHARE:
   OUT_RS_REQ: Borrowing Resource Sharing Requests
   IN_RS_REQ: Lending Resource Sharing Requests
 JAPAN:
+  archives: Archives
   media: Media
   osaka: Osaka Collection
   reference: Reference

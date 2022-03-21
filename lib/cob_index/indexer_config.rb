@@ -117,7 +117,7 @@ to_field "music_key_display", extract_marc("384a")
 to_field "audience_display", extract_marc("385am")
 to_field "creator_group_display", extract_marc("386aim")
 to_field "date_period_display", extract_marc("388a")
-to_field "collection_display", extract_marc("973at")
+to_field "collection_ms", extract_marc("973at")
 to_field "collection_area_display", extract_marc("974at")
 
 # Date added Fields

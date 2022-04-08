@@ -313,19 +313,32 @@ module CobIndex::Macros::Custom
     end
   end
 
+
+
+
+  # BL-192
+  # Sort so that the electronic records are ordered descending by date coverage/starting with the most recent.
+  # In the cases where there is multiple coverage statements with overlapping ranges, order by the end date.
+  # When there is no end date (ex. Available from ####),  list at top and order by start date, listing those with widest coverage first.
   def sort_electronic_resource!
+    require "pry"
     lambda do |rec, acc, context|
       begin
         acc.sort_by! { |r|
           subfields = JSON.parse(r)
-          available = /Available from (\d{4})( until (\d{4}))?/.match(subfields["availability"])
-          title = subfields["title"]
-          subtitle = subfields["subtitle"]
-          unless available
-            available = []
-          end
-          [available[1] || "9999", available[3] || "9999", "#{title}", "#{subtitle}"]
-        }.reverse!
+          available = /Available from (\d{4})( until (\d{4}))?/.match(subfields["availability"]) || []
+          year_start = (available[1] || 1).to_i
+          year_end = (available[3] || 9999).to_i
+          range = year_end - year_start
+          title = subfields["title"].to_s
+          subtitle = subfields["subtitle"].to_s
+
+          # Order by year_end descending.
+          # Then descending range (large year span comes first).
+          # Then order by ascending title.
+          # Then order by ascending subtitle.
+          [ 1.0/year_end, 1.0/range, title, subtitle]
+        }
       rescue
         logger.error("Failed `sort_electronic_resource!` on sorting #{rec}")
         acc

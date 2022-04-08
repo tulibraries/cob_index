@@ -321,7 +321,6 @@ module CobIndex::Macros::Custom
   # In the cases where there is multiple coverage statements with overlapping ranges, order by the end date.
   # When there is no end date (ex. Available from ####),  list at top and order by start date, listing those with widest coverage first.
   def sort_electronic_resource!
-    require "pry"
     lambda do |rec, acc, context|
       begin
         acc.sort_by! { |r|

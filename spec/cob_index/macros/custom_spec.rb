@@ -1166,34 +1166,108 @@ RSpec.describe CobIndex::Macros::Custom do
         end
       end
 
-      context "multiple PRT fields present" do
+      context "multiple PRT with same from date but different until date" do
         let(:record_text) { '
           <record>
             <!-- 2. Only multiple PRT field  -->
             <datafield tag="PRT" ind1=" " ind2=" ">
-              <subfield code="a">foo</subfield>
-              <subfield code="b">https://sandbox01-na.alma.exlibrisgroup.com/view/uresolver/01TULI_INST/openurl?u.ignore_date_coverage=true&amp;rft.mms_id=991026913959703811</subfield>
-              <subfield code="f">Access full text online.</subfield>
-              <subfield code="d">MAIN</subfield>
-              <subfield code="8">53377910870003811</subfield>
+              <subfield code="c">foo</subfield>
+              <subfield code="g">foo</subfield>
+              <subfield code="9">Available from 1973 until 2020</subfield>
+            </datafield>
+            <datafield tag="PRT" ind1=" " ind2=" ">
+              <subfield code="c">foo</subfield>
+              <subfield code="g">zoo</subfield>
+              <subfield code="9">Available from 1973 until 2021</subfield>
+            </datafield>
+          </record>
+        ' }
+
+        it "uses the end date to break the sorting tie" do
+          expect(subject.map_record(record)).to eq(
+            "url_more_links_display" => [
+                { title: "foo", subtitle: "zoo", availability: "Available from 1973 until 2021" }.to_json,
+                { title: "foo", subtitle: "foo", availability: "Available from 1973 until 2020" }.to_json,
+            ]
+          )
+        end
+      end
+      context "multiple PRT with different from date but same until date" do
+        let(:record_text) { '
+          <record>
+            <!-- 2. Only multiple PRT field  -->
+            <datafield tag="PRT" ind1=" " ind2=" ">
+              <subfield code="c">foo</subfield>
+              <subfield code="g">foo</subfield>
+              <subfield code="9">Available from 1973 until 2020</subfield>
+            </datafield>
+            <datafield tag="PRT" ind1=" " ind2=" ">
+              <subfield code="c">foo</subfield>
+              <subfield code="g">bar</subfield>
+              <subfield code="9">Available from 1972 until 2020</subfield>
+            </datafield>
+          </record>
+        ' }
+
+        it "uses the date range size to break the sorting tie" do
+          expect(subject.map_record(record)).to eq(
+            "url_more_links_display" => [
+                { title: "foo", subtitle: "bar", availability: "Available from 1972 until 2020" }.to_json,
+                { title: "foo", subtitle: "foo", availability: "Available from 1973 until 2020" }.to_json,
+            ]
+          )
+        end
+      end
+
+      context "multiple PRT with same date range and title" do
+        let(:record_text) { '
+          <record>
+            <!-- 2. Only multiple PRT field  -->
+            <datafield tag="PRT" ind1=" " ind2=" ">
+              <subfield code="c">foo</subfield>
+              <subfield code="g">foo</subfield>
               <subfield code="9">Available</subfield>
             </datafield>
             <datafield tag="PRT" ind1=" " ind2=" ">
-              <subfield code="a">bar</subfield>
-              <subfield code="b">https://sandbox01-na.alma.exlibrisgroup.com/view/uresolver/01TULI_INST/openurl?u.ignore_date_coverage=true&amp;rft.mms_id=991026913959703811</subfield>
-              <subfield code="f">Access full text online.</subfield>
-              <subfield code="d">MAIN</subfield>
-              <subfield code="8">53377910870003811</subfield>
+              <subfield code="c">foo</subfield>
+              <subfield code="g">bar</subfield>
               <subfield code="9">Not Available</subfield>
             </datafield>
           </record>
         ' }
 
-        it "reverses the order of multipe PRT fields" do
+        it "uses the subtile to break the sorting tie" do
           expect(subject.map_record(record)).to eq(
             "url_more_links_display" => [
-                { portfolio_id: "bar", public_note: "Access full text online.", availability: "Not Available" }.to_json,
-                { portfolio_id: "foo", public_note: "Access full text online.", availability: "Available" }.to_json,
+                { title: "foo", subtitle: "bar", availability: "Not Available" }.to_json,
+                { title: "foo", subtitle: "foo", availability: "Available" }.to_json,
+            ]
+          )
+        end
+      end
+
+      context "multiple PRT with same date range" do
+        let(:record_text) { '
+          <record>
+            <!-- 2. Only multiple PRT field  -->
+            <datafield tag="PRT" ind1=" " ind2=" ">
+              <subfield code="c">foo</subfield>
+              <subfield code="g">foo</subfield>
+              <subfield code="9">Available</subfield>
+            </datafield>
+            <datafield tag="PRT" ind1=" " ind2=" ">
+              <subfield code="c">bar</subfield>
+              <subfield code="g">foo</subfield>
+              <subfield code="9">Not Available</subfield>
+            </datafield>
+          </record>
+        ' }
+
+        it "uses the title to break the sorting tie" do
+          expect(subject.map_record(record)).to eq(
+            "url_more_links_display" => [
+                { title: "bar", subtitle: "foo", availability: "Not Available" }.to_json,
+                { title: "foo", subtitle: "foo", availability: "Available" }.to_json,
             ]
           )
         end

@@ -337,7 +337,7 @@ module CobIndex::Macros::Custom
           # Then descending range (large year span comes first).
           # Then order by ascending title.
           # Then order by ascending subtitle.
-          [ 1.0/year_end, 1.0/range, title, subtitle]
+          [ 1.0 / year_end, 1.0 / range, title, subtitle]
         }
       rescue
         logger.error("Failed `sort_electronic_resource!` on sorting #{rec}")

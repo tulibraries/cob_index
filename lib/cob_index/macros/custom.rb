@@ -286,8 +286,8 @@ module CobIndex::Macros::Custom
           portfolio_id: f["a"],
           collection_id: f["i"],
           service_id: f["j"],
-          title: f["c"],
-          subtitle: f["g"],
+          collection_name: f["c"],
+          coverage_statement: f["g"],
           public_note: f["f"],
           availability: f["9"] }
           .delete_if { |k, v| v.blank? }
@@ -325,18 +325,24 @@ module CobIndex::Macros::Custom
       begin
         acc.sort_by! { |r|
           subfields = JSON.parse(r)
-          available = /Available from (\d{4})( until (\d{4}))?/.match(subfields["availability"]) || []
-          year_start = (available[1] || 1).to_i
-          year_end = (available[3] || 9999).to_i
-          range = year_end - year_start
-          title = subfields["title"].to_s
-          subtitle = subfields["subtitle"].to_s
+          available = /Available from (\d{2}\/\d{2}\/\d{4}) until (\d{2}\/\d{2}\/\d{4})?/.match(subfields["coverage_statement"]) ||
+                      /Available from (\d{2}\/\d{2}\/\d{4}).?/.match(subfields["coverage_statement"]) ||
+                      /Available from (\d{4}) until (\d{4})?/.match(subfields["coverage_statement"]) ||
+                      /Available from (\d{4})?/.match(subfields["coverage_statement"]) ||
+                      []
+
+          start_year = available[1].last(4) unless available[1].nil?
+          start_year_sort = (start_year || 1).to_i
+          end_year = available[2].last(4) unless available[2].nil?
+          end_year_sort = (end_year || 9999).to_i
+          range = end_year_sort - start_year_sort
+          collection_name = subfields["collection_name"].to_s
 
           # Order by year_end descending.
           # Then descending range (large year span comes first).
           # Then order by ascending title.
           # Then order by ascending subtitle.
-          [ 1.0 / year_end, 1.0 / range, title, subtitle]
+          [ 1.0 / end_year_sort, 1.0 / range, collection_name ]
         }
       rescue
         logger.error("Failed `sort_electronic_resource!` on sorting #{rec}")

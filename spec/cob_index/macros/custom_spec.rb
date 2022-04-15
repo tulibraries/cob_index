@@ -1184,8 +1184,8 @@ RSpec.describe CobIndex::Macros::Custom do
         it "uses the end date to break the sorting tie" do
           expect(subject.map_record(record)).to eq(
             "url_more_links_display" => [
-                { collection_name: "foo", coverage_statement: "Available from 1973 until 2021" }.to_json,
-                { collection_name: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
+                { title: "foo", coverage_statement: "Available from 1973 until 2021" }.to_json,
+                { title: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
             ]
           )
         end
@@ -1208,8 +1208,8 @@ RSpec.describe CobIndex::Macros::Custom do
         it "uses the date range size to break the sorting tie" do
           expect(subject.map_record(record)).to eq(
             "url_more_links_display" => [
-                { collection_name: "foo", coverage_statement: "Available from 1972 until 2020" }.to_json,
-                { collection_name: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
+                { title: "foo", coverage_statement: "Available from 1972 until 2020" }.to_json,
+                { title: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
             ]
           )
         end
@@ -1233,8 +1233,8 @@ RSpec.describe CobIndex::Macros::Custom do
         it "uses the title to break the sorting tie" do
           expect(subject.map_record(record)).to eq(
             "url_more_links_display" => [
-                { collection_name: "bar", coverage_statement: "Available from 1973 until 2020" }.to_json,
-                { collection_name: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
+                { title: "bar", coverage_statement: "Available from 1973 until 2020" }.to_json,
+                { title: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
             ]
           )
         end

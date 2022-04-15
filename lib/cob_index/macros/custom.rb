@@ -331,9 +331,10 @@ module CobIndex::Macros::Custom
                       /Available from (\d{4})?/.match(subfields["coverage_statement"]) ||
                       []
 
-          year_start = (available[1].last(4) || 1).to_i
-          just_year = available[2].gsub("/", "").last(4) unless available[2].nil?
-          year_end = (just_year || 9999).to_i
+          just_start_year = available[1].last(4) unless available[1].nil?
+          year_start = (just_start_year || 1).to_i
+          just_end_year = available[2].last(4) unless available[2].nil?
+          year_end = (just_end_year || 9999).to_i
           range = year_end - year_start
           collection_name = subfields["collection_name"].to_s
 

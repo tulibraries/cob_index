@@ -331,18 +331,18 @@ module CobIndex::Macros::Custom
                       /Available from (\d{4})?/.match(subfields["coverage_statement"]) ||
                       []
 
-          just_start_year = available[1].last(4) unless available[1].nil?
-          year_start = (just_start_year || 1).to_i
-          just_end_year = available[2].last(4) unless available[2].nil?
-          year_end = (just_end_year || 9999).to_i
-          range = year_end - year_start
+          start_year = available[1].last(4) unless available[1].nil?
+          start_year_sort = (start_year || 1).to_i
+          end_year = available[2].last(4) unless available[2].nil?
+          end_year_sort = (end_year || 9999).to_i
+          range = end_year_sort - start_year_sort
           collection_name = subfields["collection_name"].to_s
 
           # Order by year_end descending.
           # Then descending range (large year span comes first).
           # Then order by ascending title.
           # Then order by ascending subtitle.
-          [ 1.0 / year_end, 1.0 / range, collection_name ]
+          [ 1.0 / end_year_sort, 1.0 / range, collection_name ]
         }
       rescue
         logger.error("Failed `sort_electronic_resource!` on sorting #{rec}")

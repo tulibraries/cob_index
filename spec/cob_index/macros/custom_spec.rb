@@ -1221,11 +1221,11 @@ RSpec.describe CobIndex::Macros::Custom do
             <!-- 2. Only multiple PRT field  -->
             <datafield tag="PRT" ind1=" " ind2=" ">
               <subfield code="c">foo</subfield>
-              <subfield code="g">Available from 1973 until 2020</subfield>
+              <subfield code="g">Available from 01/01/1973 until 01/01/2020</subfield>
             </datafield>
             <datafield tag="PRT" ind1=" " ind2=" ">
               <subfield code="c">bar</subfield>
-              <subfield code="g">Available from 1973 until 2020</subfield>
+              <subfield code="g">Available from 01/01/1973 until 01/01/2020</subfield>
             </datafield>
           </record>
         ' }
@@ -1233,8 +1233,8 @@ RSpec.describe CobIndex::Macros::Custom do
         it "uses the title to break the sorting tie" do
           expect(subject.map_record(record)).to eq(
             "url_more_links_display" => [
-                { title: "bar", coverage_statement: "Available from 1973 until 2020" }.to_json,
-                { title: "foo", coverage_statement: "Available from 1973 until 2020" }.to_json,
+                { title: "bar", coverage_statement: "Available from 01/01/1973 until 01/01/2020" }.to_json,
+                { title: "foo", coverage_statement: "Available from 01/01/1973 until 01/01/2020" }.to_json,
             ]
           )
         end

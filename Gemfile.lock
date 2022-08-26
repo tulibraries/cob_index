@@ -251,7 +251,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    pry (0.13.1)
+    pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-byebug (3.10.1)
@@ -384,7 +384,7 @@ DEPENDENCIES
   guard (~> 2.18)
   guard-rspec (~> 4.7)
   lc_solr_sortable!
-  pry (~> 0.13)
+  pry (~> 0.14)
   pry-byebug (~> 3.10)
   rake (~> 13.0)
   rsolr

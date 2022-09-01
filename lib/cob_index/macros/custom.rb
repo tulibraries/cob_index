@@ -607,11 +607,8 @@ module CobIndex::Macros::Custom
     end
   end
 
-  def extract_marc_with_flank(*args)
-    marc_proc = extract_marc(*args)
-
+  def wrap_begin_end(*args)
     lambda do |record, accumulator, context|
-      accumulator << marc_proc.call(record, accumulator, context)
       accumulator.map! { |v| flank v }
     end
   end

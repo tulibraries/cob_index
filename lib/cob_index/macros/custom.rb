@@ -315,7 +315,6 @@ module CobIndex::Macros::Custom
 
 
 
-
   # BL-192
   # Sort so that the electronic records are ordered descending by date coverage/starting with the most recent.
   # In the cases where there is multiple coverage statements with overlapping ranges, order by the end date.
@@ -604,22 +603,6 @@ module CobIndex::Macros::Custom
       rec.fields(["264"]).each do |field|
         acc << four_digit_year(field["c"]) if field.indicator2 == "4"
       end
-    end
-  end
-
-  def wrap_begin_end(*args)
-    lambda do |record, accumulator, context|
-      accumulator.map! { |v| flank v }
-    end
-  end
-
-  def flank(string = "", starts = nil, ends = nil)
-    starts ||= "matchbeginswith"
-    ends ||= "matchendswith"
-    if !string.to_s.empty? && !string.match(/^#{starts}/)
-      "#{starts} #{string} #{ends}"
-    else
-      string
     end
   end
 

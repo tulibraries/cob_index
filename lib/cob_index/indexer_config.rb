@@ -49,10 +49,10 @@ to_field "title_uniform_vern_display", extract_marc("130adfklmnoprs:240adfklmnop
 to_field "title_addl_display", extract_additional_title
 to_field "title_addl_vern_display", extract_marc("210ab:246abfgnp:247abcdefgnp:740anp", alternate_script: :only)
 
-to_field "title_t", extract_marc_with_flank("245a")
-to_field "subtitle_t", extract_marc_with_flank("245b")
-to_field "title_statement_t", extract_marc_with_flank("245abfgknps")
-to_field "title_uniform_t", extract_marc_with_flank("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst")
+to_field "title_t", extract_marc("245a"), wrap_begin_end
+to_field "subtitle_t", extract_marc("245b"), wrap_begin_end
+to_field "title_statement_t", extract_marc("245abfgknps"), wrap_begin_end
+to_field "title_uniform_t", extract_marc("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst"), wrap_begin_end
 
 to_field "work_access_point", extract_work_access_point
 
@@ -67,23 +67,23 @@ to_field "title_addl_t",
     247abcdefgnp
     740anp
                }.join(":"))
-to_field "title_added_entry_t", extract_marc_with_flank(%W{
+to_field "title_added_entry_t", extract_marc(%W{
   700gklmnoprst
   710fgklmnopqrst
   711fgklnpst
 
-                                             }.join(":"))
+                                             }.join(":")), wrap_begin_end
 to_field "title_sort", extract_marc("245abcfgknps", alternate_script: false, first: true)
 
 # Creator/contributor fields
-to_field "creator_t", extract_marc_with_flank("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true)
+to_field "creator_t", extract_marc("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true), delete_if(CORPORATE_NAMES), wrap_begin_end
 to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), delete_if(CORPORATE_NAMES)
-to_field "creator_display", extract_creator
-to_field "contributor_display", extract_contributor
-to_field "creator_vern_display", extract_creator_vern
-to_field "contributor_vern_display", extract_contributor_vern
+to_field "creator_display", extract_creator, delete_if(CORPORATE_NAMES)
+to_field "contributor_display", extract_contributor, delete_if(Proc.new { |v| CORPORATE_NAMES.include?(JSON.parse(v)["name"]) })
+to_field "creator_vern_display", extract_creator_vern, delete_if(CORPORATE_NAMES)
+to_field "contributor_vern_display", extract_contributor_vern, delete_if(CORPORATE_NAMES)
+to_field "author_sort", extract_marc("100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt", trim_punctuation: true, first: true), delete_if(CORPORATE_NAMES)
 
-to_field "author_sort", extract_marc("100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt", trim_punctuation: true, first: true)
 to_field "lc_call_number_sort", extract_lc_call_number_sort
 
 # Publication fields
@@ -97,8 +97,8 @@ to_field "edition_display", extract_marc("250a:254a", trim_punctuation: true, al
 to_field "pub_date", extract_pub_date
 to_field "date_copyright_display", extract_copyright
 
-to_field "pub_location_t", extract_marc_with_flank("260a:264a", trim_punctuation: true)
-to_field "publisher_t", extract_marc_with_flank("260b:264b", trim_punctuation: true)
+to_field "pub_location_t", extract_marc("260a:264a", trim_punctuation: true), wrap_begin_end
+to_field "publisher_t", extract_marc("260b:264b", trim_punctuation: true), wrap_begin_end
 to_field "pub_date_sort", marc_publication_date
 to_field "pub_date_tdt", extract_pub_datetime
 
@@ -128,7 +128,7 @@ to_field "title_series_display", extract_marc("830av:490av:440anpv:800abcdefghjk
 to_field "title_series_vern_display", extract_marc("830av:490av:440anpv:800abcdefghjklmnopqrstuv:810abcdeghklmnoprstuv:811acdefghjklnpqstuv", alternate_script: :only)
 # to_field "date_series", extract_marc("362a")
 
-to_field "title_series_t", extract_marc_with_flank("830av:490av:440anpv")
+to_field "title_series_t", extract_marc("830av:490av:440anpv"), wrap_begin_end
 
 # Note fields
 to_field "note_display", extract_marc("500a:508a:511a:515a:518a:521ab:525a:530abcd:533abcdefmn:534pabcefklmnt:538aiu:546ab:550a:586a")
@@ -160,7 +160,7 @@ to_field "subject_region_facet", marc_geo_facet
 to_field "genre_facet", extract_genre
 to_field "genre_ms", extract_genre_display
 
-to_field "subject_t", extract_marc_with_flank(%W(
+to_field "subject_t", extract_marc(%W(
   600#{A_TO_U}
   610#{A_TO_U}
   611#{A_TO_U}
@@ -168,14 +168,14 @@ to_field "subject_t", extract_marc_with_flank(%W(
   647acdg
   650abcde
   653a:654abcde
-                                   ).join(":"))
-to_field "subject_addl_t", extract_marc_with_flank("600vwxyz:610vwxyz:611vwxyz:630vwxyz:647vwxyz:648avwxyz:650vwxyz:651aegvwxyz:654vwxyz:656akvxyz:657avxyz:690abcdegvwxyz")
+                                   ).join(":")), wrap_begin_end
+to_field "subject_addl_t", extract_marc("600vwxyz:610vwxyz:611vwxyz:630vwxyz:647vwxyz:648avwxyz:650vwxyz:651aegvwxyz:654vwxyz:656akvxyz:657avxyz:690abcdegvwxyz"), wrap_begin_end
 
 # Location fields
 to_field "call_number_display", extract_marc("HLDhi")
-to_field "call_number_t", extract_marc_with_flank("HLDhi")
+to_field "call_number_t", extract_marc("HLDhi"), wrap_begin_end
 to_field "call_number_alt_display", extract_marc("ITMjk")
-to_field "call_number_alt_t", extract_marc_with_flank("ITMjk")
+to_field "call_number_alt_t", extract_marc("ITMjk"), wrap_begin_end
 to_field "library_facet", extract_library
 to_field "location_facet", extract_location_facet
 

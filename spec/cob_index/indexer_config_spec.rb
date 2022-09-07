@@ -157,10 +157,16 @@ RSpec.describe "Traject configuration" do
           <datafield ind1=' ' ind2=' ' tag='100'>
             <subfield code='a'>Books24x7, Inc</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+      it "removes the unwanted corp" do
         expect(indexer.map_record(record)["creator_t"]).to eq(["matchbeginswith FOO matchendswith"])
       end
     end
@@ -182,10 +188,16 @@ RSpec.describe "Traject configuration" do
           <datafield ind1=' ' ind2=' ' tag='100'>
             <subfield code='a'>Books24x7, Inc</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+      it "removes the unwanted corp" do
         expect(indexer.map_record(record)["creator_display"]).to eq(["FOO"])
       end
     end
@@ -204,13 +216,16 @@ RSpec.describe "Traject configuration" do
           <datafield ind1=' ' ind2=' ' tag='700'>
             <subfield code='b'>FOO</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
           <datafield ind1=' ' ind2=' ' tag='700'>
-            <subfield code='a'>Books24x7, Inc</subfield>
+            <subfield code='a'>Ebook Central</subfield>
           </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+      it "removes the unwanted corp" do
         expect(indexer.map_record(record)["contributor_display"]).to eq([{ name: "FOO" }.to_json])
       end
     end
@@ -234,10 +249,17 @@ RSpec.describe "Traject configuration" do
             <subfield code='6'>110-02/(2/r</subfield>
             <subfield code='a'>Books24x7, Inc</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+      it "removes the unwanted corp" do
+
         expect(indexer.map_record(record)["creator_vern_display"]).to eq(["FOO"])
       end
     end
@@ -261,10 +283,16 @@ RSpec.describe "Traject configuration" do
             <subfield code='6'>700-02/(2/r</subfield>
             <subfield code='a'>Books24x7, Inc</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+      it "removes the unwanted corp" do
         expect(indexer.map_record(record)["contributor_vern_display"]).to eq(["FOO"])
       end
     end
@@ -286,10 +314,24 @@ RSpec.describe "Traject configuration" do
           <datafield ind1=' ' ind2=' ' tag='100'>
             <subfield code='a'>Books24x7, Inc</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+
+
+      it "removes the unwanted corp" do
         expect(indexer.map_record(record)["author_sort"]).to eq(["FOO"])
       end
     end
@@ -311,10 +353,16 @@ RSpec.describe "Traject configuration" do
           <datafield ind1=' ' ind2=' ' tag='100'>
             <subfield code='a'>Books24x7, Inc</subfield>
           </datafield>
+          <datafield ind1=' ' ind2=' ' tag='110'>
+            <subfield code='a'>EBSCO Publishing (Firm)</subfield>
+          </datafield>
+          <datafield ind1=' ' ind2=' ' tag='700'>
+            <subfield code='a'>Ebook Central</subfield>
+          </datafield>
         </record>
       " }
 
-      it "it removes the unwanted corp" do
+      it "removes the unwanted corp" do
         expect(indexer.map_record(record)["creator_facet"]).to eq(["FOO"])
       end
     end

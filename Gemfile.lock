@@ -239,10 +239,10 @@ GEM
       timeout
     nio4r (2.5.8)
     nio4r (2.5.8-java)
-    nokogiri (1.13.7)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.13.7-java)
+    nokogiri (1.13.9-java)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)

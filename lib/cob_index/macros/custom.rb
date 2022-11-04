@@ -289,6 +289,7 @@ module CobIndex::Macros::Custom
           title: f["c"],
           coverage_statement: f["g"],
           public_note: f["f"],
+          authentication_note: f["k"],
           availability: f["9"] }
           .delete_if { |k, v| v.blank? }
           .to_json

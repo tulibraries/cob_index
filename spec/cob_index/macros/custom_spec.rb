@@ -771,8 +771,8 @@ RSpec.describe CobIndex::Macros::Custom do
               <datafield tag="PRT" ind1=" " ind2=" ">
                 <subfield code="a">bar</subfield>
                 <subfield code="b">https://sandbox01-na.alma.exlibrisgroup.com/view/uresolver/01TULI_INST/openurl?u.ignore_date_coverage=true&amp;rft.mms_id=991026913959703811</subfield>
-                <subfield code="f">Access full text online.</subfield>
                 <subfield code="d">MAIN</subfield>
+                <subfield code="k">Authentication Note</subfield>
                 <subfield code="8">53377910870003811</subfield>
                 <subfield code="9">Not Available</subfield>
               </datafield>
@@ -782,7 +782,7 @@ RSpec.describe CobIndex::Macros::Custom do
             expect(subject.map_record(record)).to eq(
               "electronic_resource_display" => [
                 { portfolio_id: "foo", public_note: "Access full text online.", availability: "Available" }.to_json,
-                { portfolio_id: "bar", public_note: "Access full text online.", availability: "Not Available" }.to_json,
+                { portfolio_id: "bar", authentication_note: "Authentication Note", availability: "Not Available" }.to_json,
               ]
             )
           end

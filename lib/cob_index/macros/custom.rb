@@ -37,14 +37,12 @@ module CobIndex::Macros::Custom
   def extract_title_statement
     lambda do |rec, acc|
       titles = []
-      slash = "/"
 
-      Traject::MarcExtractor.cached("245abcfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+      Traject::MarcExtractor.cached("245abfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
         title = extractor.collect_subfields(field, spec).find { |t| t.present? }
-        # Use 245c when 245h is present.
-        if field["h"].present? && field["c"].present?
-          title = title&.gsub(" #{field['c']}", " #{slash} #{field['c']}")
-          title = title&.gsub("/ /", "/")
+       
+        if field["c"].present?
+          title = title&.chomp("/")&.rstrip
         end
 
         titles << title unless title.blank?

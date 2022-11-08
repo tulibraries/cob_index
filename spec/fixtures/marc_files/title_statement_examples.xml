@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
   <record>
-    <!-- 0. 245 field includes subfield h -->
+    <!-- 0. 245 field subfield a -->
     <datafield ind1="0" ind2="4" tag="245">
       <subfield code="a">Die dritte generation</subfield>
       <subfield code="h">[videorecording] /</subfield>
@@ -15,7 +15,7 @@
     </datafield>
   </record>
   <record>
-    <!-- 2. 245 field does NOT display double slashes -->
+    <!-- 2. 245 field does NOT display slashes -->
     <datafield ind1="0" ind2="4" tag="245">
       <subfield code="a">Yaju no seishun</subfield>
       <subfield code="b">Youth of the beast /</subfield>

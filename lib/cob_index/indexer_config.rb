@@ -41,14 +41,20 @@ to_field "lc_inner_facet", extract_lc_inner_facet
 # Title fields
 # Used on the full record page
 to_field "title_statement_display", extract_title_statement
+to_field "title_with_subtitle_display", extract_title_statement
+to_field "responsibility_display", extract_marc("245c")
+
 # Used in the catalog search results display
 to_field "title_truncated_display", extract_title_statement, &truncate(300)
+to_field "title_with_subtitle_truncated_display", extract_title_statement, &truncate(300)
+to_field "responsibility_truncated_display", extract_marc("245c"), &truncate(300)
 to_field "title_statement_vern_display", extract_marc("245abcfgknps", alternate_script: :only)
+to_field "title_with_subtitle_vern_display", extract_marc("245abfgknps", alternate_script: :only)
+to_field "responsibility_vern_display", extract_marc("245c", alternate_script: :only)
 to_field "title_uniform_display", extract_uniform_title
 to_field "title_uniform_vern_display", extract_marc("130adfklmnoprs:240adfklmnoprs:730ail", alternate_script: :only)
 to_field "title_addl_display", extract_additional_title
 to_field "title_addl_vern_display", extract_marc("210ab:246abfgnp:247abcdefgnp:740anp", alternate_script: :only)
-
 to_field "title_t", extract_marc("245a"), wrap_begin_end
 to_field "subtitle_t", extract_marc("245b"), wrap_begin_end
 to_field "title_statement_t", extract_marc("245abfgknps"), wrap_begin_end

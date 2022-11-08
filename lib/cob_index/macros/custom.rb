@@ -40,7 +40,7 @@ module CobIndex::Macros::Custom
 
       Traject::MarcExtractor.cached("245abfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
         title = extractor.collect_subfields(field, spec).find { |t| t.present? }
-       
+
         if field["c"].present?
           title = title&.chomp("/")&.rstrip
         end

@@ -63,6 +63,34 @@ module CobIndex::Macros::Custom
     end
   end
 
+
+  def extract_title_and_subtitle
+    lambda do |rec, acc|
+      titles = []
+
+      Traject::MarcExtractor.cached("245abfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+        title = extractor.collect_subfields(field, spec).find { |t| t.present? }
+
+        if field["c"].present?
+          title = title&.chomp("/")&.rstrip
+        end
+
+        titles << title unless title.blank?
+      end
+
+      if titles.empty?
+        record_id = rec.fields("001").first
+        puts "Error: No title found for #{record_id}"
+        Traject::MarcExtractor.cached("245#{A_TO_Z}", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+          title = extractor.collect_subfields(field, spec).find { |t| t.present? }
+          titles << title unless title.blank?
+        end
+      end
+
+      acc.replace(titles)
+    end
+  end
+
   def extract_date_added
     lambda do |rec, acc|
       rec.fields(["997"]).each do |field|

@@ -37,6 +37,36 @@ module CobIndex::Macros::Custom
   def extract_title_statement
     lambda do |rec, acc|
       titles = []
+      slash = "/"
+
+      Traject::MarcExtractor.cached("245abcfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+        title = extractor.collect_subfields(field, spec).find { |t| t.present? }
+        # Use 245c when 245h is present.
+        if field["h"].present? && field["c"].present?
+          title = title&.gsub(" #{field['c']}", " #{slash} #{field['c']}")
+          title = title&.gsub("/ /", "/")
+        end
+
+        titles << title unless title.blank?
+      end
+
+      if titles.empty?
+        record_id = rec.fields("001").first
+        puts "Error: No title found for #{record_id}"
+        Traject::MarcExtractor.cached("245#{A_TO_Z}", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+          title = extractor.collect_subfields(field, spec).find { |t| t.present? }
+          titles << title unless title.blank?
+        end
+      end
+
+      acc.replace(titles)
+    end
+  end
+
+
+  def extract_title_and_subtitle
+    lambda do |rec, acc|
+      titles = []
 
       Traject::MarcExtractor.cached("245abfgknps", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
         title = extractor.collect_subfields(field, spec).find { |t| t.present? }

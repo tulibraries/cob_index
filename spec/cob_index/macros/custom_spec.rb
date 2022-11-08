@@ -137,7 +137,7 @@ RSpec.describe CobIndex::Macros::Custom do
 
     before(:each) do
       subject.instance_eval do
-        to_field "title_with_subtitle_display", extract_title_statement
+        to_field "title_with_subtitle_display", extract_title_and_subtitle
 
         settings do
           provide "marc_source.type", "xml"

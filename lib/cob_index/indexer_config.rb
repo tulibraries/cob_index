@@ -41,12 +41,12 @@ to_field "lc_inner_facet", extract_lc_inner_facet
 # Title fields
 # Used on the full record page
 to_field "title_statement_display", extract_title_statement
-to_field "title_with_subtitle_display", extract_title_statement
+to_field "title_with_subtitle_display", extract_title_and_subtitle
 to_field "responsibility_display", extract_marc("245c")
 
 # Used in the catalog search results display
 to_field "title_truncated_display", extract_title_statement, &truncate(300)
-to_field "title_with_subtitle_truncated_display", extract_title_statement, &truncate(300)
+to_field "title_with_subtitle_truncated_display", extract_title_and_subtitle, &truncate(300)
 to_field "responsibility_truncated_display", extract_marc("245c"), &truncate(300)
 to_field "title_statement_vern_display", extract_marc("245abcfgknps", alternate_script: :only)
 to_field "title_with_subtitle_vern_display", extract_marc("245abfgknps", alternate_script: :only)

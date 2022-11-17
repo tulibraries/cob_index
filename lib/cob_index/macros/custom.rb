@@ -471,7 +471,7 @@ module CobIndex::Macros::Custom
 
   def extract_genre
     lambda do |rec, acc|
-      Traject::MarcExtractor.cached("600v:610v:611v:630v:648v:650v:651v:655av:647v").collect_matching_lines(rec) do |field, spec, extractor|
+      Traject::MarcExtractor.cached(CobIndex::GENRE_FACET_SPEC).collect_matching_lines(rec) do |field, spec, extractor|
         genre = extractor.collect_subfields(field, spec).first
         unless genre.nil?
           unless GENRE_STOP_WORDS.match(genre.force_encoding(Encoding::UTF_8).unicode_normalize)

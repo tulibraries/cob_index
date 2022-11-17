@@ -16,6 +16,9 @@ extend CobIndex::Macros::MarcFormats
 # Include custom traject macros
 extend CobIndex::Macros::Custom
 
+# Include boosting macros
+extend CobIndex::Macros::Booster
+
 CORPORATE_NAMES = CobIndex::Util.load_list_file("corporate_names")
 
 settings(&CobIndex::DefaultConfig.indexer_settings)
@@ -240,7 +243,11 @@ to_field "changed_back_to_display", extract_marc("785|08|iabdghkmnopqrstuxyz3", 
 # Boost records with holdings from specific libraries
 # we actually want to negative boost specific libraries, but that is not possible
 # so we are going to boost everything except the less relevant libraries
+# TODO: Remove library_based_boost_t once the generic boosting is in production and working.
 to_field "library_based_boost_t", library_based_boost
+
+# Allows label specific boost.
+to_field "boost_t", add_boost_labels
 
 to_field "bound_with_ids", extract_marc("ADFa")
 to_field "purchase_order", extract_purchase_order

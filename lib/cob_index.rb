@@ -15,4 +15,6 @@ module CobIndex
   autoload :Util, "cob_index/util"
 
   Array.include CoreExtensions::Array::Transformation
+
+  GENRE_FACET_SPEC = "600v:610v:611v:630v:648v:650v:651v:655av:647v"
 end

@@ -102,10 +102,10 @@ to_field "imprint_prod_display", extract_marc("264|*0|abc3", alternate_script: f
 to_field "imprint_dist_display", extract_marc("264|*2|abc3", alternate_script: false)
 to_field "imprint_man_display", extract_marc("264|*3|abc3", alternate_script: false)
 to_field "imprint_vern_display", extract_marc("260abcefg3:264|*1|abc3", alternate_script: :only)
-to_field "imprint_date_display", extract_marc("260c:264|*1|c")
-to_field "imprint_prod_date_display", extract_marc("264|*0|c")
-to_field "imprint_dist_date_display", extract_marc("264|*2|c")
-to_field "imprint_man_date_display", extract_marc("260g:264|*3|c")
+to_field "imprint_date_display", extract_marc("260c:264|*1|c", trim_punctuation: true)
+to_field "imprint_prod_date_display", extract_marc("264|*0|c", trim_punctuation: true)
+to_field "imprint_dist_date_display", extract_marc("264|*2|c", trim_punctuation: true)
+to_field "imprint_man_date_display", extract_marc("260g:264|*3|c", trim_punctuation: true)
 to_field "edition_display", extract_marc("250a:254a", trim_punctuation: true, alternate_script: false)
 to_field "pub_date", extract_pub_date
 to_field "date_copyright_display", extract_copyright

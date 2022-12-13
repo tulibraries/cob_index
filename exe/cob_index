@@ -24,7 +24,7 @@ class App
       marc_xml = open(ARGV[0]).read
       opts.merge!(commit: options[:commit], marc_xml: marc_xml)
 
-      CobIndex::CLI.ingest(opts)
+      CobIndex::CLI.ingest(**opts)
     end
   end
 
@@ -53,7 +53,7 @@ class App
       opts = {}
       opts.merge!(commit: options[:commit], xml: xml, suppress: options[:suppress])
 
-      CobIndex::CLI.delete(opts)
+      CobIndex::CLI.delete(**opts)
     end
   end
 
@@ -68,7 +68,7 @@ class App
       opts = {}
       opts.merge!(type: options[:type])
 
-      CobIndex::CLI.harvest(options)
+      CobIndex::CLI.harvest(**opts)
     end
   end
 

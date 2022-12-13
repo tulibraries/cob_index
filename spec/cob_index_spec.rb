@@ -58,22 +58,22 @@ RSpec.describe CobIndex do
 
     context "commit is not set" do
       it "passes solr_writer.commit_on_close: false by default" do
-        expect(CobIndex::NokogiriIndexer).to receive(:new).with(
+        expect(CobIndex::NokogiriIndexer).to receive(:new).with({
           "nokogiri.each_record_xpath" => "//oai:record",
           "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
           "solr_writer.commit_on_close" => false,
-        )
+        })
       end
     end
 
 
     context "commit is true" do
       it "passes solr_writer.commit_on_close: true" do
-        expect(CobIndex::NokogiriIndexer).to receive(:new).with(
+        expect(CobIndex::NokogiriIndexer).to receive(:new).with({
           "nokogiri.each_record_xpath" => "//oai:record",
           "nokogiri.namespaces" => { "oai" => "http://www.openarchives.org/OAI/2.0/" },
           "solr_writer.commit_on_close" => true,
-        )
+        })
         CobIndex::CLI.delete(commit: true, xml: "")
       end
     end

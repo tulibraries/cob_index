@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tulibraries/alma_rb.git
-  revision: 60c14f57cecde7c9d1ecc59661bba838afd07934
+  revision: 587115873dd7ad2edf0184c77a6aa6d36d0eb9fa
   branch: main
   specs:
     alma (0.4.0)
@@ -234,6 +234,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.10-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.13.10-x86_64-linux)
+      racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -358,6 +360,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   alma!

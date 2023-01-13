@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/tulibraries/alma_rb.git
-  revision: 587115873dd7ad2edf0184c77a6aa6d36d0eb9fa
+  revision: 803912a705ba5d36317853f8d9ecf5d449cc78f0
   branch: main
   specs:
-    alma (0.4.0)
+    alma (0.4.1)
       activesupport
       ezwadl
       httparty
@@ -216,7 +216,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    minitest (5.16.3)
+    minitest (5.17.0)
     multi_xml (0.6.0)
     nenv (0.3.0)
     net-imap (0.3.2)
@@ -229,9 +229,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.10-x86_64-darwin)
+    nokogiri (1.14.0-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.10-x86_64-linux)
+    nokogiri (1.14.0-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -247,7 +247,7 @@ GEM
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
     public_suffix (5.0.1)
-    racc (1.6.1)
+    racc (1.6.2)
     rack (2.2.4)
     rack-test (2.0.2)
       rack (>= 1.3)

@@ -129,7 +129,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     dot-properties (0.1.4)
       bundler (>= 2.2.33)
-    erubi (1.11.0)
+    erubi (1.12.0)
     ezwadl (0.1.0)
       httparty (~> 0.14)
       nokogiri (~> 1.6)

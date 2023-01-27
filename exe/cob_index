@@ -21,7 +21,7 @@ class App
     c.desc "Ingest files into SOLR_URL using tul_cob traject config"
     c.action do |global_options, options, args|
       opts = {}
-      marc_xml = open(ARGV[0]).read
+      marc_xml = URI.open(ARGV[0]).read
       opts.merge!(commit: options[:commit], marc_xml: marc_xml)
 
       CobIndex::CLI.ingest(**opts)

@@ -48,7 +48,7 @@ class App
 
     c.desc "Delete documents from solr"
     c.action do |global_options, options, args|
-      xml = open(ARGV[0]).read
+      xml = URI.open(ARGV[0]).read
 
       opts = {}
       opts.merge!(commit: options[:commit], xml: xml, suppress: options[:suppress])

@@ -38,6 +38,7 @@ to_field("format", marc_formats, &normalize_format)
 
 #LC call number
 to_field "lc_call_number_display", extract_lc_call_number_display
+to_field "call_number_t", extract_lc_call_number_display, wrap_begin_end
 to_field "lc_outer_facet", extract_lc_outer_facet
 to_field "lc_inner_facet", extract_lc_inner_facet
 
@@ -187,7 +188,6 @@ to_field "subject_addl_t", extract_marc("600vwxyz:610vwxyz:611vwxyz:630vwxyz:647
 
 # Location fields
 to_field "call_number_display", extract_marc("HLDhi")
-to_field "call_number_t", extract_marc("HLDhi"), wrap_begin_end
 to_field "call_number_alt_display", extract_marc("ITMjk")
 to_field "call_number_alt_t", extract_marc("ITMjk"), wrap_begin_end
 to_field "library_facet", extract_library

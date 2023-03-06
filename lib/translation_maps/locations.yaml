@@ -117,9 +117,11 @@ LAW:
   UNASSIGNED: Location information not available
 MEDIA: {}
 PODIATRY:
+  facultypub: Faculty Publications
   intref: Internal Reference
   leisure: Leisure Reading
   media: Media
+  newbooks: New Books
   reference: Reference
   reserve: Reserves
   serials: Journals

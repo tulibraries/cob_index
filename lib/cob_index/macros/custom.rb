@@ -244,7 +244,7 @@ module CobIndex::Macros::Custom
   def extract_subject_display
     lambda do |rec, acc|
       subjects = []
-      Traject::MarcExtractor.cached("600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz").collect_matching_lines(rec) do |field, spec, extractor|
+      Traject::MarcExtractor.cached("600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz").collect_matching_lines(rec) do |field, spec, extractor|
         translate_subject_field!(field)
         subject = extractor.collect_subfields(field, spec).first
         unless subject.nil?

@@ -646,7 +646,10 @@ module CobIndex::Macros::Custom
     starts ||= "matchbeginswith"
     ends ||= "matchendswith"
     if !string.to_s.empty? && !string.match(/^#{starts}/)
-      "#{starts} #{string} #{ends}"
+
+      first_word = string.split.first
+      last_word = string.split.last
+      "#{starts}#{first_word} #{string} #{ends}#{last_word}"
     else
       string
     end

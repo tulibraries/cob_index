@@ -71,14 +71,14 @@ RSpec.describe "custom methods" do
     end
 
     context "non empty string" do
-      let(:input) { "foo" }
+      let(:input) { "foo bar buzz" }
       it "returns a flanked string" do
-        expect(subject).to eq("matchbeginswith foo matchendswith")
+        expect(subject).to eq("matchbeginswithfoo foo bar buzz matchendswithbuzz")
       end
     end
 
     context "a string that is flanked" do
-      let(:input) { "matchbeginswith foo matchendswith" }
+      let(:input) { "matchbeginswithfoo foo bar buzz matchendswithbar" }
       it "does not reflank a string" do
         expect(subject).to eq(input)
       end

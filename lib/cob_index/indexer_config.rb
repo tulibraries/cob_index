@@ -19,6 +19,8 @@ extend CobIndex::Macros::Custom
 # Include boosting macros
 extend CobIndex::Macros::Booster
 
+extend CobIndex::Macros::Wrapper
+
 CORPORATE_NAMES = CobIndex::Util.load_list_file("corporate_names")
 
 settings(&CobIndex::DefaultConfig.indexer_settings)

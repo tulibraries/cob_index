@@ -636,22 +636,6 @@ module CobIndex::Macros::Custom
     end
   end
 
-  def wrap_begin_end(*args)
-    lambda do |record, accumulator, context|
-      accumulator.map! { |v| flank v }
-    end
-  end
-
-  def flank(string = "", starts = nil, ends = nil)
-    starts ||= "matchbeginswith"
-    ends ||= "matchendswith"
-    if !string.to_s.empty? && !string.match(/^#{starts}/)
-      "#{starts} #{string} #{ends}"
-    else
-      string
-    end
-  end
-
   def suppress_items
     lambda do |rec, acc, context|
       full_text_link = rec.fields("856").select { |field| field["u"] }

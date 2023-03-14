@@ -167,7 +167,7 @@ RSpec.describe "Traject configuration" do
       " }
 
       it "removes the unwanted corp" do
-        expect(indexer.map_record(record)["creator_t"]).to eq(["matchbeginswith FOO matchendswith"])
+        expect(indexer.map_record(record)["creator_t"]).to eq(["matchbeginswithFOO FOO matchendswithFOO"])
       end
     end
   end

@@ -21,17 +21,31 @@ module CobIndex::Macros::Wrapper
     end_matcher + string.to_s.split.last.to_s
   end
 
-  def flank(string = "", starts = nil, ends = nil)
-    starts ||= START_MATCHER
-    ends ||= END_MATCHER
 
+  def add_first_word_matcher(string="", start_matcher = START_MATCHER)
+    starts ||= START_MATCHER
     first_word = first_word_matcher(string, starts)
-    last_word = last_word_matcher(string, ends)
 
     if !string.to_s.empty? && !string.match(/^#{starts}/)
-      "#{first_word} #{string} #{last_word}"
+      "#{first_word} #{string}"
     else
       string
     end
+  end
+
+  def add_last_word_matcher(string="", end_matcher = END_MATCHER)
+    ends ||= END_MATCHER
+    last_word = last_word_matcher(string, ends)
+
+    if !string.to_s.empty? && !string.match(/#{ends}/)
+      "#{string} #{last_word}"
+    else
+      string
+    end
+  end
+
+  def flank(string = "", starts = nil, ends = nil)
+    string = add_first_word_matcher(string, starts)
+    string = add_last_word_matcher(string, ends)
   end
 end

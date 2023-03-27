@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 module CobIndex::Macros::Wrapper
-
   START_MATCHER = "matchbeginswith"
   END_MATCHER = "matchendswith"
 
@@ -13,16 +12,16 @@ module CobIndex::Macros::Wrapper
   end
 
 
-  def first_word_matcher(string="", start_matcher = START_MATCHER)
+  def first_word_matcher(string = "", start_matcher = START_MATCHER)
     start_matcher + string.to_s.split.first.to_s
   end
 
-  def last_word_matcher(string="", end_matcher = END_MATCHER)
+  def last_word_matcher(string = "", end_matcher = END_MATCHER)
     end_matcher + string.to_s.split.last.to_s
   end
 
 
-  def add_first_word_matcher(string="", start_matcher = START_MATCHER)
+  def add_first_word_matcher(string = "", start_matcher = START_MATCHER)
     starts ||= START_MATCHER
     first_word = first_word_matcher(string, starts)
 
@@ -33,7 +32,7 @@ module CobIndex::Macros::Wrapper
     end
   end
 
-  def add_last_word_matcher(string="", end_matcher = END_MATCHER)
+  def add_last_word_matcher(string = "", end_matcher = END_MATCHER)
     ends ||= END_MATCHER
     last_word = last_word_matcher(string, ends)
 

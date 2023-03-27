@@ -91,17 +91,16 @@ to_field "title_sort", extract_marc("245abcfgknps", alternate_script: false, fir
 
 # Creator/contributor fields
 to_field "creator_t", extract_marc("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true), delete_if(CORPORATE_NAMES), wrap_begin_end
-to_field "creator_authority_record_id_ms", extract_marc("100abcdejlmnopqrtu012:110abcdelmnopt012:111acdejlnopt012"), delete_if(Proc.new { |v| !v.match? /http/ })
-#to_field "creator_real_world_object_uri_s", extract_marc("1001:1101:1111")
+to_field "creator_authority_record_id_ms", extract_marc("1000:1100:1110")
+to_field "creator_real_world_object_uri_ms", extract_marc("1001:1101:1111")
 
 
 
 to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), delete_if(CORPORATE_NAMES)
 to_field "creator_display", extract_creator, delete_if(CORPORATE_NAMES)
 to_field "contributor_display", extract_contributor, delete_if(Proc.new { |v| CORPORATE_NAMES.include?(JSON.parse(v)["name"]) })
-to_field "contributor_authority_record_id_ms", extract_marc("700abcdq012:710bcd012:711ancdj012"), delete_if(Proc.new { |v| !v.match? /http/ })
-
-#to_field "contributor_real_world_object_uri_s", extract_marc("7001:7101:7111")
+to_field "contributor_authority_record_id_ms", extract_marc("7000:7100:7110")
+to_field "contributor_real_world_object_uri_ms", extract_marc("7001:7101:7111")
 
 to_field "creator_vern_display", extract_creator_vern, delete_if(CORPORATE_NAMES)
 to_field "contributor_vern_display", extract_contributor_vern, delete_if(CORPORATE_NAMES)
@@ -186,11 +185,11 @@ to_field "subject_display", extract_subject_display
 to_field "subject_topic_facet", extract_subject_topic_facet
 to_field "subject_era_facet", extract_marc("648a:650y:651y:654y:655y:690y:647y", trim_punctuation: true)
 to_field "subject_region_facet", marc_geo_facet
-to_field "subject_authority_id_ms", extract_marc("600abcdefghklmnopqrstuvxyz0:610abcdefghklmnoprstuvxyz0"), delete_if(Proc.new { |v| !v.match? /http/ })
+to_field "subject_authority_record_id_ms", extract_marc("6000:6100")
 
 to_field "genre_facet", extract_genre
 to_field "genre_ms", extract_genre_display
-to_field "genre_authority_record_id_ms", extract_marc("6550"), delete_if(Proc.new { |v| !v.match? /http/ }
+to_field "genre_authority_record_id_ms", extract_marc("6550")
 
 
 to_field "subject_t", extract_marc(%W(

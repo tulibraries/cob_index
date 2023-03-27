@@ -179,5 +179,19 @@ RSpec.describe MarcFormatClassifier, type: :lib do
         it { is_expected.to_not include("Government Document") }
       end
     end
+
+    context "Game Document not Present"  do
+      describe "ITM.t field not match  /VIDEOGAME|GAME|TOY/" do
+        subject { classifier_for("no_govdoc.xml").formats }
+        it { is_expected.to_not include("Game") }
+      end
+    end
+
+    context "Game Document Present"  do
+      describe "ITM.t field matches /VIEOGAME|GAME|TOY/" do
+        subject { classifier_for("game.xml").formats }
+        it { is_expected.to include("Game") }
+      end
+    end
   end
 end

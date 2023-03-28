@@ -67,6 +67,7 @@ class CobIndex::Macros::MarcFormatClassifier
 
     formats << "Conference Proceeding" if proceeding?
     formats << "Government Document" if govdoc?
+    formats << "Game" if game?
     formats << options[:default] if formats.empty?
 
     return formats
@@ -168,6 +169,11 @@ class CobIndex::Macros::MarcFormatClassifier
     controlfield_008 = record.find_all { |f| f.tag == "008" }
     ("aefgkmort".include? record.leader[06]) &&
       controlfield_008.any? { |f| "acfilmo".include? f.value[28] unless f.value[28].nil? }
+  end
+
+  def game?
+    format = record["ITM"]["t"] rescue ""
+    "#{format}".match? /VIDEOGAME|GAME|TOY/
   end
 
   # downcased version of the gmd, or else empty string

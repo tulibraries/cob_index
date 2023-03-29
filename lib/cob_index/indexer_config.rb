@@ -64,6 +64,9 @@ to_field "title_t", extract_marc("245a"), wrap_begin_end
 to_field "subtitle_t", extract_marc("245b"), wrap_begin_end
 to_field "title_statement_t", extract_marc("245abfgknps"), wrap_begin_end
 to_field "title_uniform_t", extract_marc("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst"), wrap_begin_end
+to_field "title_uniform_authority_record_id_ms", extract_marc("1300:2400:7300")
+
+
 
 to_field "work_access_point", extract_work_access_point
 
@@ -88,9 +91,17 @@ to_field "title_sort", extract_marc("245abcfgknps", alternate_script: false, fir
 
 # Creator/contributor fields
 to_field "creator_t", extract_marc("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true), delete_if(CORPORATE_NAMES), wrap_begin_end
+to_field "creator_authority_record_id_ms", extract_marc("1000:1100:1110")
+to_field "creator_real_world_object_uri_ms", extract_marc("1001:1101:1111")
+
+
+
 to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), delete_if(CORPORATE_NAMES)
 to_field "creator_display", extract_creator, delete_if(CORPORATE_NAMES)
 to_field "contributor_display", extract_contributor, delete_if(Proc.new { |v| CORPORATE_NAMES.include?(JSON.parse(v)["name"]) })
+to_field "contributor_authority_record_id_ms", extract_marc("7000:7100:7110")
+to_field "contributor_real_world_object_uri_ms", extract_marc("7001:7101:7111")
+
 to_field "creator_vern_display", extract_creator_vern, delete_if(CORPORATE_NAMES)
 to_field "contributor_vern_display", extract_contributor_vern, delete_if(CORPORATE_NAMES)
 to_field "author_sort", extract_marc("100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt", trim_punctuation: true, first: true), delete_if(CORPORATE_NAMES)
@@ -144,6 +155,7 @@ to_field "title_series_vern_display", extract_marc("830av:490av:440anpv:800abcde
 # to_field "date_series", extract_marc("362a")
 
 to_field "title_series_t", extract_marc("830av:490av:440anpv"), wrap_begin_end
+to_field "title_series_authority_record_id_ms", extract_marc("8000:8100:8110:8300")
 
 # Note fields
 to_field "note_display", extract_marc("500a:508a:511a:515a:518a:521ab:525a:530abcd:533abcdefmn:534pabcefklmnt:538aiu:546ab:550a")
@@ -173,8 +185,12 @@ to_field "subject_display", extract_subject_display
 to_field "subject_topic_facet", extract_subject_topic_facet
 to_field "subject_era_facet", extract_marc("648a:650y:651y:654y:655y:690y:647y", trim_punctuation: true)
 to_field "subject_region_facet", marc_geo_facet
+to_field "subject_authority_record_id_ms", extract_marc("6000:6100:6110:6300:6470:6480:6500:6510:6540:6560:6570")
+
 to_field "genre_facet", extract_genre
 to_field "genre_ms", extract_genre_display
+to_field "genre_authority_record_id_ms", extract_marc("6550")
+
 
 to_field "subject_t", extract_marc(%W(
   600#{A_TO_U}

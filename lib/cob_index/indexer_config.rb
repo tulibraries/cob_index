@@ -185,7 +185,7 @@ to_field "subject_display", extract_subject_display
 to_field "subject_topic_facet", extract_subject_topic_facet
 to_field "subject_era_facet", extract_marc("648a:650y:651y:654y:655y:690y:647y", trim_punctuation: true)
 to_field "subject_region_facet", marc_geo_facet
-to_field "subject_authority_record_id_ms", extract_marc("6000:6100")
+to_field "subject_authority_record_id_ms", extract_marc("6000:6100:6110:6300:6470:6480:6500:6510:6540:6560:6570")
 
 to_field "genre_facet", extract_genre
 to_field "genre_ms", extract_genre_display

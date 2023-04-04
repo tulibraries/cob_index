@@ -533,4 +533,12 @@
 			<subfield code="c">techserv</subfield>
 		</datafield>
 	</record>
+	<!-- 18. Empty HLD and PRT with 856["u"] and ind2="2" present -->
+	<record>
+		<controlfield tag="001">991019234959703811</controlfield>
+		<datafield ind1="4" ind2="2" tag="856">
+			<subfield code="3">Cover image</subfield>
+			<subfield code="u">http://catalogimages.wiley.com/images/db/jimages/9780470532904.jpg</subfield>`
+		</datafield>
+	</record>
 </collection>

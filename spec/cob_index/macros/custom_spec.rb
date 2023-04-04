@@ -1528,9 +1528,15 @@ EOT
       end
     end
 
-    context "when there are no HLD, PRT, but 856['u'] fields are present" do
+    context "when there are no HLD or PRT, but 856['u'] fields are present" do
       it "doesn't suppress this file" do
         expect(subject.map_record(records[8])).to eq({})
+      end
+    end
+
+    context "when there are no HLD or PRT, and only 856['u'] field includes ind2 '2'" do
+      it "does suppress this file" do
+        expect(subject.map_record(records[18])).to eq("suppress_items_b" => [true])
       end
     end
 

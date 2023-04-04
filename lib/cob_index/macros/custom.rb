@@ -638,7 +638,7 @@ module CobIndex::Macros::Custom
 
   def suppress_items
     lambda do |rec, acc, context|
-      full_text_link = rec.fields("856").select { |field| field["u"] }
+      full_text_link = rec.fields("856").select { |field| field["u"] unless field.indicator2 = "2" }
       purchase_order_item = rec.fields("902").select { |field| field["a"].match?(/EBC-POD/) if field["a"] }
       unwanted_library = rec.fields("HLD").select { |field| field["b"] == "EMPTY" || field["c"] == "UNASSIGNED" || field["c"] == "intref" || field["c"] == "techserv" }
       u_subfields = []

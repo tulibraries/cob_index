@@ -20,6 +20,7 @@ jobs:
           password: $DOCKERHUB_PASSWORD
         environment:
           ZK_HOST: "zoo:2181"
+          SOLR_OPTS: "-Dconfigset.upload.enabled=false"
     executor: ruby/default
     steps:
       - checkout

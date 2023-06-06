@@ -21,8 +21,11 @@ jobs:
         environment:
           ZK_HOST: "zoo:2181"
           SOLR_OPTS: "-Dconfigset.upload.enabled=false"
+          docker_layer_caching: false
     executor: ruby/default
     steps:
+      - setup_remote_docker
+
       - checkout
 
       - run:

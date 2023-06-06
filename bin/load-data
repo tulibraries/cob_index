@@ -9,7 +9,7 @@ while [[ "$STATUS" != "200" ]]; do
   echo waiting for setup to complete or equal 200.
   echo "currently: $STATUS"
   sleep 2
-  STATUS=$(curl -u solr:SolrRocks -s -o /dev/null -w "%{http_code}" $SOLR_HOST/admin/cores)
+  STATUS=$(curl -s -o /dev/null -w "%{http_code}" $SOLR_HOST/admin/cores)
 done
 
 # In CircleCI we need to load the collection
@@ -22,14 +22,14 @@ if [[ "$CI" == true ]]; then
   echo "***"
   echo "* Sending config to solr instance."
   echo "***"
-  RESP=$(curl -u soslr:SolrRocks -i -o - --silent -X POST --header "Content-Type:application/octet-stream" --data-binary @$HOME/solrconfig.zip "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr")
+  RESP=$(curl -i -o - --silent -X POST --header "Content-Type:application/octet-stream" --data-binary @$HOME/solrconfig.zip "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr")
   echo $RESP
 
   echo
   echo "***"
   echo "* Create blacklight collection"
   echo "***"
-  RESP=$(curl -u solr:SolrRocks -i -o - --silent "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1")
+  RESP=$(curl -i -o - --silent "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1")
   echo $RESP
 fi
 

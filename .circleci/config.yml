@@ -20,7 +20,6 @@ jobs:
           password: $DOCKERHUB_PASSWORD
         environment:
           ZK_HOST: "zoo:2181"
-          SOLR_OPTS: "-Dconfigset.upload.enabled=false"
           docker_layer_caching: false
     executor: ruby/default
     steps:
@@ -33,6 +32,14 @@ jobs:
           command: bundle -v
 
       - run: bundle install
+
+      - run:
+          name: Upload security.json file to solr container
+          command: docker cp .circleci/security.json  $(docker ps | grep solr | cut -d ' ' -f 1):/security.json
+
+      - run:
+          name: Upload security.json to Zookeeper
+          command:  docker exec $(docker ps | grep solr | cut -d ' ' -f 1) bin/solr zk cp /security.json  zk:/security.json
 
       - run:
           name: lint

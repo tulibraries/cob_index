@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/tulibraries/alma_rb.git
-  revision: ccaa8e96d78902e9f03266abe5c66d800efd3ada
+  revision: 095606e291bf68318d88fdd5bd8844b8daf1380e
   branch: main
   specs:
-    alma (0.4.1)
+    alma (0.4.2)
       activesupport
       httparty
       xml-simple
@@ -208,8 +208,8 @@ GEM
       marc (~> 1.0)
     marcel (1.0.2)
     method_source (1.0.0)
-    mini_mime (1.1.2)
-    minitest (5.19.0)
+    mini_mime (1.1.5)
+    minitest (5.20.0)
     multi_xml (0.6.0)
     nenv (0.3.0)
     net-imap (0.3.4)

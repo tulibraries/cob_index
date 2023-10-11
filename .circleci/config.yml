@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@2.0.0
-  coveralls: coveralls/coveralls@1.0.6
+  coveralls: coveralls/coveralls@2.2.1
 
 jobs:
   build:
@@ -50,7 +50,7 @@ jobs:
           command: bundle exec rake
 
       - coveralls/upload:
-          path_to_lcov: ./coverage/lcov/project.lcov
+          coverage_file: ./coverage/lcov/project.lcov
 
       - run:
           name: Install Solr Documents

@@ -101,6 +101,7 @@ to_field "creator_display", extract_creator, delete_if(CORPORATE_NAMES)
 to_field "contributor_display", extract_contributor, delete_if(Proc.new { |v| CORPORATE_NAMES.include?(JSON.parse(v)["name"]) })
 to_field "contributor_authority_record_id_ms", extract_marc("7000:7100:7110")
 to_field "contributor_real_world_object_uri_ms", extract_marc("7001:7101:7111")
+to_field "title_added_entry_authority_id_ms", extract_marc("700t:710t:711t")
 
 to_field "creator_vern_display", extract_creator_vern, delete_if(CORPORATE_NAMES)
 to_field "contributor_vern_display", extract_contributor_vern, delete_if(CORPORATE_NAMES)

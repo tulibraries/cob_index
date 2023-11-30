@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns='http://www.loc.gov/MARC21/slim' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'>
+<record>
+</record>
+<record>
+    <datafield ind1="1" ind2="2" tag="700">
+        <subfield code="a">Mozart, Wolfgang Amadeus,</subfield>
+        <subfield code="d">1756-1791.</subfield>
+        <subfield code="t">Symphonies,</subfield>
+        <subfield code="n">K. 73,</subfield>
+        <subfield code="r">C major</subfield>
+        <subfield code="0">https://id.loc.gov/authorities/names/no95021615</subfield>
+    </datafield>
+</record>
+<record>
+    <datafield ind1="1" ind2=" " tag="700">
+        <subfield code="a">Jenkins, Barry,</subfield>
+        <subfield code="d">1979-</subfield>
+        <subfield code="0">https://id.loc.gov/authorities/names/no2017022085</subfield>
+        <subfield code="e">film director,</subfield>
+        <subfield code="e">screenwriter.</subfield>
+    </datafield>
+</record>
+</collection>

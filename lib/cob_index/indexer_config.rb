@@ -87,6 +87,10 @@ to_field "title_added_entry_t", extract_marc(%W{
   711fgklnpst
 
                                              }.join(":")), wrap_begin_end
+
+to_field "title_added_entry_authority_id_ms", extract_marc_subfield_limit("7000:7100:7110", "t", true)
+to_field "title_added_entry_real_world_object_uri_ms", extract_marc_subfield_limit("7001:7101:7111", "t", true)
+
 to_field "title_sort", extract_marc("245abcfgknps", alternate_script: false, first: true)
 
 # Creator/contributor fields
@@ -94,13 +98,11 @@ to_field "creator_t", extract_marc("245c:100abcdejlmnopqrtu:110abcdelmnopt:111ac
 to_field "creator_authority_record_id_ms", extract_marc("1000:1100:1110")
 to_field "creator_real_world_object_uri_ms", extract_marc("1001:1101:1111")
 
-
-
 to_field "creator_facet", extract_marc("100abcdq:110abcd:111ancdj:700abcdq:710abcd:711ancdj", trim_punctuation: true), delete_if(CORPORATE_NAMES)
 to_field "creator_display", extract_creator, delete_if(CORPORATE_NAMES)
 to_field "contributor_display", extract_contributor, delete_if(Proc.new { |v| CORPORATE_NAMES.include?(JSON.parse(v)["name"]) })
-to_field "contributor_authority_record_id_ms", extract_marc("7000:7100:7110")
-to_field "contributor_real_world_object_uri_ms", extract_marc("7001:7101:7111")
+to_field "contributor_authority_record_id_ms", extract_marc_subfield_limit("7000:7100:7110", "t", false)
+to_field "contributor_real_world_object_uri_ms", extract_marc_subfield_limit("7001:7101:7111", "t", false)
 
 to_field "creator_vern_display", extract_creator_vern, delete_if(CORPORATE_NAMES)
 to_field "contributor_vern_display", extract_contributor_vern, delete_if(CORPORATE_NAMES)

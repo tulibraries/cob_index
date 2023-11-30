@@ -2517,4 +2517,72 @@ EOT
       end
     end
   end
+
+  describe "#extract_marc_subfield_limit for title_added_entry_authority_id_ms" do
+
+    let(:path) { "extract_marc_subfield_limit.xml" }
+
+    before do
+      subject.instance_eval do
+        to_field "title_added_entry_authority_id_ms", extract_marc_subfield_limit("7000:7100:7110", "t", true)
+
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "no field" do
+      it "does not error out" do
+        expect(subject.map_record(records[0])).to eq({})
+      end
+    end
+
+    context "subtitle limit matches" do
+      it "maps field" do
+        expect(subject.map_record(records[1])).to eq("title_added_entry_authority_id_ms" => ["https://id.loc.gov/authorities/names/no95021615"])
+      end
+    end
+
+    context "subtitle limit does not match" do
+      it "does not map field" do
+        expect(subject.map_record(records[2])).to eq({})
+      end
+    end
+
+  end
+
+  describe "#extract_marc_subfield_limit for contributor_authority_record_id_ms" do
+
+    let(:path) { "extract_marc_subfield_limit.xml" }
+
+    before do
+      subject.instance_eval do
+        to_field "contributor_authority_record_id_ms", extract_marc_subfield_limit("7000:7100:7110", "t", false)
+
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "no field" do
+      it "does not error out" do
+        expect(subject.map_record(records[0])).to eq({})
+      end
+    end
+
+    context "subtitle limit matches" do
+      it "does not map field" do
+        expect(subject.map_record(records[1])).to eq({})
+      end
+    end
+
+    context "subtitle limit does not match" do
+      it "maps record" do
+        expect(subject.map_record(records[2])).to eq("contributor_authority_record_id_ms" => ["https://id.loc.gov/authorities/names/no2017022085"])
+      end
+    end
+
+  end
 end

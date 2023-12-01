@@ -142,7 +142,7 @@ KARDON:
   p_media: Media
   p_micro: Microform
   p_oversize: Remote Storage - Oversize
-  p_OvrGovDc: Government Documents
+  p_OvrGovDc: Government Documents Oversize
   p_remote: Remote Storage - Charles
 ROME:
   exhibit: Exhibits

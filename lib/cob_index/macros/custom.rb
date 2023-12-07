@@ -5,6 +5,7 @@ require "library_stdnums"
 require "active_support/core_ext/object/blank"
 require "time"
 require "lc_solr_sortable"
+require "pry"
 
 # A set of custom traject macros (extractors and normalizers) used by the
 module CobIndex::Macros::Custom
@@ -898,22 +899,15 @@ module CobIndex::Macros::Custom
     # If true, extract_marc_subfield_limit will only extract a field if that field also includes a subfield that matches the subfield_limit code.
     # If false, extract_marc_subfield_limit will only extract a field from spec if it does not include a subfield that matches the subfield_limit code.
 
-    spec_array = spec.split(":")
-
     lambda do |rec, acc|
-      spec_array.each do |spec_subset|
-        tag = spec_subset[0, 3]
-        if (boolean == true && rec.fields(tag).any? { |field| field[subfield_limit].present? }) ||
-        (boolean == false && rec.fields(tag).none? { |field| field[subfield_limit].present? })
-          values = Traject::MarcExtractor.cached(spec_subset).collect_matching_lines(rec) do |field, spec_subset, extractor|
-            extractor.collect_subfields(field, spec_subset)
-          end.compact
-          acc.concat(values)
+      values = Traject::MarcExtractor.cached(spec).collect_matching_lines(rec) do |field, spec, extractor|
+        if (boolean == true && field[subfield_limit]) || (boolean == false && !field[subfield_limit])
+          results = extractor.collect_subfields(field, spec)
         else
-          acc
+          []
         end
-
-      end
+      end.compact
+      acc.concat(values)
     end
   end
 end

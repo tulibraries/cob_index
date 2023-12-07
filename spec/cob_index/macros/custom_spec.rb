@@ -2550,6 +2550,12 @@ EOT
       end
     end
 
+    context "multiple fields with different subfields" do
+      it "maps record" do
+        expect(subject.map_record(records[3])).to eq("title_added_entry_authority_id_ms" => ["https://id.loc.gov/authorities/names/no95021615", "https://id.loc.gov/authorities/names/no2017008806"])
+      end
+    end
+
   end
 
   describe "#extract_marc_subfield_limit for contributor_authority_record_id_ms" do
@@ -2581,6 +2587,12 @@ EOT
     context "subtitle limit does not match" do
       it "maps record" do
         expect(subject.map_record(records[2])).to eq("contributor_authority_record_id_ms" => ["https://id.loc.gov/authorities/names/no2017022085"])
+      end
+    end
+
+    context "multiple fields with different subfields" do
+      it "maps record" do
+        expect(subject.map_record(records[3])).to eq("contributor_authority_record_id_ms" => ["https://id.loc.gov/authorities/names/no2017022085"])
       end
     end
 

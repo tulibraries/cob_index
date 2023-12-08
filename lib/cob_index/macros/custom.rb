@@ -162,7 +162,7 @@ module CobIndex::Macros::Custom
   end
 
   def extract_uniform_title
-    # Note that this method previously included tag 730 which was moved to addl title 
+    # Note that this method previously included tag 730 which was moved to addl title
     lambda do |rec, acc|
       s_fields = Traject::MarcExtractor.cached("130adfklmnoprs:240adfklmnoprs", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
         extractor.collect_subfields(field, spec).first

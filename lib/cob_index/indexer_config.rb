@@ -57,16 +57,14 @@ to_field "title_statement_vern_display", extract_marc("245abcfgknps", alternate_
 to_field "title_with_subtitle_vern_display", extract_marc("245abfgknps", alternate_script: :only)
 to_field "responsibility_vern_display", extract_marc("245c", alternate_script: :only)
 to_field "title_uniform_display", extract_uniform_title
-to_field "title_uniform_vern_display", extract_marc("130adfklmnoprs:240adfklmnoprs:730ail", alternate_script: :only)
+to_field "title_uniform_vern_display", extract_marc("130adfklmnoprs:240adfklmnoprs", alternate_script: :only)
 to_field "title_addl_display", extract_additional_title
-to_field "title_addl_vern_display", extract_marc("210ab:246abfgnp:247abcdefgnp:740anp", alternate_script: :only)
+to_field "title_addl_vern_display", extract_marc("210ab:246abfgnp:247abcdefgnp:730ail:740anp", alternate_script: :only)
 to_field "title_t", extract_marc("245a"), wrap_begin_end
 to_field "subtitle_t", extract_marc("245b"), wrap_begin_end
 to_field "title_statement_t", extract_marc("245abfgknps"), wrap_begin_end
 to_field "title_uniform_t", extract_marc("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst"), wrap_begin_end
 to_field "title_uniform_authority_record_id_ms", extract_marc("1300:2400:7300")
-
-
 
 to_field "work_access_point", extract_work_access_point
 

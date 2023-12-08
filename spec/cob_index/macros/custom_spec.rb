@@ -344,14 +344,7 @@ RSpec.describe CobIndex::Macros::Custom do
       end
     end
 
-    context "Tag 730 contains i subfield" do
-      it "extracts uniform title fields display with subfield i expected way" do
-        expected = { "title_uniform_display" => [JSON.dump({ "relation" => "Container of (work):", "title" => "Scar of shame (Motion picture)" })] }
-        expect(subject.map_record(records[4])).to eq(expected)
-      end
-    end
-
-    context "Tag 130 and not 730" do
+    context "Tag 130" do
       it "extracts uniform title fields display without subfield i expected way" do
         expected = { "title_uniform_display" => [JSON.dump({ "title" => "Japan (Eyewitness travel guides)" })] }
         expect(subject.map_record(records[5])).to eq(expected)
@@ -432,6 +425,22 @@ RSpec.describe CobIndex::Macros::Custom do
         expect(subject.map_record(record)).to eq({})
       end
     end
+
+    context "Tag 730 contains i subfield" do
+      let(:record_text) { '
+      <record>
+        <datafield ind1="0" ind2="4" tag="730">
+          <subfield code="i">Container of (work):</subfield>
+          <subfield code="a">Scar of shame (Motion picture)</subfield>
+        </datafield>
+      </record>
+    ' }
+      it "extracts uniform title fields display with subfield i expected way" do
+        expected = { "title_addl_display" => [JSON.dump({ "relation" => "Container of (work):", "title" => "Scar of shame (Motion picture)" })] }
+        expect(subject.map_record(record)).to eq(expected)
+      end
+    end
+
   end
 
   describe "#extract_lang" do

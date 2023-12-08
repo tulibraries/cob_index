@@ -162,8 +162,9 @@ module CobIndex::Macros::Custom
   end
 
   def extract_uniform_title
+    # Note that this method previously included tag 730 which was moved to addl title
     lambda do |rec, acc|
-      s_fields = Traject::MarcExtractor.cached("130adfklmnoprs:240adfklmnoprs:730i:730al", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+      s_fields = Traject::MarcExtractor.cached("130adfklmnoprs:240adfklmnoprs", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
         extractor.collect_subfields(field, spec).first
       end
       s_fields.each_slice(2) do |link|
@@ -179,10 +180,10 @@ module CobIndex::Macros::Custom
 
   def extract_additional_title
     lambda do |rec, acc|
-      s_fields = Traject::MarcExtractor.cached("210ab:246i:246abfgnp:247abcdefgnp:740anp", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
+      s_fields = Traject::MarcExtractor.cached("210ab:246i:246abfgnp:247abcdefgnp:730i:730al:740anp", alternate_script: false).collect_matching_lines(rec) do |field, spec, extractor|
         value  = extractor.collect_subfields(field, spec).first
 
-        if spec.tag == "246" && spec.subfields == ["i"]
+        if (spec.tag == "246" || spec.tag == "730") && spec.subfields == ["i"]
           { "relation" => value }
         else
           { "title" => value }

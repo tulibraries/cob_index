@@ -891,16 +891,16 @@ module CobIndex::Macros::Custom
     end
   end
 
-  def extract_marc_subfield_limit(spec, subfield_limit, boolean)
+  def extract_marc_subfield_limit(spec, subfield_limit, subfield_boolean)
     # spec is the standard extract_marc string.
     # subfield_limit is a string of the subfield code used to limit the extracted marc output.
-    # boolean is either true or false.
+    # subfield_boolean is either true or false.
     # If true, extract_marc_subfield_limit will only extract a field if that field also includes a subfield that matches the subfield_limit code.
     # If false, extract_marc_subfield_limit will only extract a field from spec if it does not include a subfield that matches the subfield_limit code.
 
     lambda do |rec, acc|
       values = Traject::MarcExtractor.cached(spec).collect_matching_lines(rec) do |field, spec, extractor|
-        if (boolean == true && field[subfield_limit]) || (boolean == false && !field[subfield_limit])
+        if (subfield_boolean && field[subfield_limit]) || (!subfield_boolean && !field[subfield_limit])
           results = extractor.collect_subfields(field, spec)
         else
           []

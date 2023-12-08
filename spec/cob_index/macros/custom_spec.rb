@@ -344,14 +344,6 @@ RSpec.describe CobIndex::Macros::Custom do
       end
     end
 
-    # This method no longer includes tag 730
-    #   context "Tag 730 contains i subfield" do
-    #     it "extracts uniform title fields display with subfield i expected way" do
-    #       expected = { "title_uniform_display" => [JSON.dump({ "relation" => "Container of (work):", "title" => "Scar of shame (Motion picture)" })] }
-    #       expect(subject.map_record(records[4])).to eq(expected)
-    #     end
-    #   end
-
     context "Tag 130" do
       it "extracts uniform title fields display without subfield i expected way" do
         expected = { "title_uniform_display" => [JSON.dump({ "title" => "Japan (Eyewitness travel guides)" })] }

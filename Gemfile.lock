@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/tulibraries/alma_rb.git
-  revision: 8e9e504aaaa08af4f2ddd6c58a9282d3d044c012
+  revision: d1eb8042f4460b4346719f2c40d523874e212b30
   branch: main
   specs:
-    alma (0.5.0)
+    alma (0.5.1)
       activesupport
       httparty
       xml-simple
@@ -128,6 +128,7 @@ GEM
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     crass (1.0.6)
+    csv (3.3.0)
     date (3.3.4)
     debug_inspector (1.2.0)
     diff-lcs (1.5.1)
@@ -173,7 +174,8 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    httparty (0.21.0)
+    httparty (0.22.0)
+      csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)

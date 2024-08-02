@@ -315,7 +315,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.4.3)
       io-console (~> 0.5)
-    rexml (3.3.2)
+    rexml (3.3.3)
       strscan
     rsolr (2.6.0)
       builder (>= 2.1.2)

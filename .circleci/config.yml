@@ -14,7 +14,7 @@ jobs:
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD
-      - image: solr:8.11.1
+      - image: solr:9.6.1
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD

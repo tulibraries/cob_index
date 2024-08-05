@@ -5,16 +5,16 @@ init:
 	git submodule update --init --recursive
 
 up: init
-	docker-compose up -d
+	docker compose up -d
 
 down:
-	docker-compose down
+	docker compose down
 
 tty-solr:
-	docker-compose exec solr bash
+	docker compose exec solr bash
 
 ps:
-	docker-compose ps
+	docker compose ps
 
 load-data: init
 	bin/load-data

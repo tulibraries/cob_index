@@ -398,7 +398,7 @@ module CobIndex::Macros::Custom
         label = url_label(f["z"], f["3"], f["y"])
         unless f["u"].nil?
           if f.indicator2 == "2" || NOT_FULL_TEXT.match(label) || !rec.fields("PRT").empty? || f["u"].include?(ARCHIVE_IT_LINKS)
-            unless (f["u"].match?(/http[s]*:\/\/library.temple.edu/)) && (f["u"].include?("scrc") || f["u"].include?("finding_aids"))
+            unless finding_aid?(f["u"])
               acc << { title: label, url: f["u"] }.to_json
             end
           end
@@ -413,13 +413,18 @@ module CobIndex::Macros::Custom
         label = url_label(f["z"], f["3"], f["y"])
         if f.indicator1 == "4" && f.indicator2 == "2"
           unless f["u"].nil?
-            if (f["u"].match?(/http[s]*:\/\/library.temple.edu/)) && (f["u"].include?("scrc") || f["u"].include?("finding_aids"))
+            if finding_aid?(f["u"])
               acc << { title: label, url: f["u"] }.to_json
             end
           end
         end
       end
     }
+  end
+
+  def finding_aid?(url)
+    url.match?(/http[s]*:\/\/scrcarchivesspace.temple.edu/) ||
+    (url.match?(/http[s]*:\/\/library.temple.edu/) && url.match?(/scrc|finding-aids|finding_aids/))
   end
 
   def extract_availability

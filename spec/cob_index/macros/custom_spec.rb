@@ -986,7 +986,7 @@ RSpec.describe CobIndex::Macros::Custom do
           end
         end
 
-        context "multiple 856 fields (ind1 = 4; ind2 = not 2) with  finding_aids exception" do
+        context "multiple 856 fields (ind1 = 4; ind2 = not 2) with finding_aids exception" do
           let(:record_text) { '
             <record>
               <!-- Links with temple url and finding_aids map to url_finding_aid_display -->
@@ -998,6 +998,22 @@ RSpec.describe CobIndex::Macros::Custom do
           '}
 
           it "does not include Temple finding_aids resources in url_more_links_display" do
+            expect(subject.map_record(record)).to eq({})
+          end
+        end
+
+        context "856 fields (ind1 = 4; ind2 = not 2) with ArchivesSpace exception" do
+          let(:record_text) { '
+            <record>
+              <!-- Links with scrcarchivesspace url and http map to url_finding_aid_display -->
+              <datafield tag="856" ind1="4" ind2="2">
+                <subfield code="z">Finding aid</subfield>
+                <subfield code="u">http://scrcarchivesspace.temple.edu/repositories/4/resources/796</subfield>
+              </datafield>
+            </record>
+          '}
+  
+          it "does not include ArchivesSpace urls in url_more_links_display" do
             expect(subject.map_record(record)).to eq({})
           end
         end
@@ -1121,6 +1137,57 @@ RSpec.describe CobIndex::Macros::Custom do
         it "does map to url_finding_aid_display(finding_aids)" do
           expect(subject.map_record(record)).to eq(
             "url_finding_aid_display" => [ { title: "Finding aid", url: "http://library.temple.edu/finding_aids" }.to_json ])
+        end
+      end
+
+      context "856 fields with finding-aids exception" do
+        let(:record_text) { '
+          <record>
+            <!-- Links with temple url and finding-aids map to url_finding_aid_display -->
+            <datafield tag="856" ind1="4" ind2="2">
+              <subfield code="z">Finding aid</subfield>
+              <subfield code="u">http://library.temple.edu/finding-aids</subfield>
+            </datafield>
+          </record>
+        '}
+
+        it "does map to url_finding_aid_display(finding-aids)" do
+          expect(subject.map_record(record)).to eq(
+            "url_finding_aid_display" => [ { title: "Finding aid", url: "http://library.temple.edu/finding-aids" }.to_json ])
+        end
+      end
+
+      context "856 fields with ArchivesSpace url and http" do
+        let(:record_text) { '
+          <record>
+            <!-- Links with scrcarchivesspace url and http map to url_finding_aid_display -->
+            <datafield tag="856" ind1="4" ind2="2">
+              <subfield code="z">Finding aid</subfield>
+              <subfield code="u">http://scrcarchivesspace.temple.edu/repositories/4/resources/796</subfield>
+            </datafield>
+          </record>
+        '}
+
+        it "does map to url_finding_aid_display" do
+          expect(subject.map_record(record)).to eq(
+            "url_finding_aid_display" => [ { title: "Finding aid", url: "http://scrcarchivesspace.temple.edu/repositories/4/resources/796" }.to_json ])
+        end
+      end
+
+      context "856 fields with ArchivesSpace url and https" do
+        let(:record_text) { '
+          <record>
+            <!-- Links with scrcarchivesspace url and https map to url_finding_aid_display -->
+            <datafield tag="856" ind1="4" ind2="2">
+              <subfield code="z">Finding aid</subfield>
+              <subfield code="u">https://scrcarchivesspace.temple.edu/repositories/4/resources/796</subfield>
+            </datafield>
+          </record>
+        '}
+
+        it "does map to url_finding_aid_display" do
+          expect(subject.map_record(record)).to eq(
+            "url_finding_aid_display" => [ { title: "Finding aid", url: "https://scrcarchivesspace.temple.edu/repositories/4/resources/796" }.to_json ])
         end
       end
     end

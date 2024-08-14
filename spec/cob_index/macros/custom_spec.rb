@@ -1012,7 +1012,7 @@ RSpec.describe CobIndex::Macros::Custom do
               </datafield>
             </record>
           '}
-  
+
           it "does not include ArchivesSpace urls in url_more_links_display" do
             expect(subject.map_record(record)).to eq({})
           end

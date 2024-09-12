@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/tulibraries/alma_rb.git
-  revision: cc064c4a767c3bb2a5e65600fc77e61d514a6c50
+  revision: a7ea0071d6df0b8a4a23841c4cfca73592dba7db
   branch: main
   specs:
-    alma (0.5.1)
+    alma (0.6.1)
       activesupport
       httparty
       xml-simple
@@ -207,7 +207,7 @@ GEM
     llhttp-ffi (0.5.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    logger (1.6.0)
+    logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -313,8 +313,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.9)
       io-console (~> 0.5)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.7)
     rsolr (2.6.0)
       builder (>= 2.1.2)
       faraday (>= 0.9, < 3, != 2.0.0)
@@ -356,7 +355,6 @@ GEM
     simplecov_json_formatter (0.1.4)
     slop (4.10.1)
     stringio (3.1.1)
-    strscan (3.1.0)
     thor (1.3.1)
     timeout (0.4.1)
     traject (3.8.2)

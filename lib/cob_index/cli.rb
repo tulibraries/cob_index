@@ -23,7 +23,7 @@ module CobIndex::CLI
       if suppress
         "suppress_config"
       else
-        "deletes_config"
+        "delete_config"
       end
     indexer.load_config_file("#{File.dirname(__FILE__)}/#{config}.rb")
     indexer.process(StringIO.new(xml))

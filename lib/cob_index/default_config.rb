@@ -22,7 +22,7 @@ module CobIndex::DefaultConfig
       provide "solr.url", solr_url
       provide "solr_writer.commit_on_close", false
       provide "writer_class_name", "CobIndex::SolrJsonWriter"
-      provide "solr_writer.http_timeout", 300
+      provide "solr_writer.http_timeout", 400
 
       if ENV["SOLR_AUTH_USER"] && ENV["SOLR_AUTH_PASSWORD"]
         provide "solr_writer.basic_auth_user", ENV["SOLR_AUTH_USER"]

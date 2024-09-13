@@ -80,9 +80,9 @@ RSpec.describe CobIndex do
 
     context "suppress switch is not set" do
       it "loads the deleles_config" do
-        deletes_config_file = "#{File.dirname(__FILE__)}/cob_index/deletes_config.rb"
+        delete_config_file = "#{File.dirname(__FILE__)}/cob_index/delete_config.rb"
           .sub("/spec/", "/lib/")
-        expect(@indexer).to receive(:load_config_file).with(deletes_config_file)
+        expect(@indexer).to receive(:load_config_file).with(delete_config_file)
       end
     end
 

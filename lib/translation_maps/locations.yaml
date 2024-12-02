@@ -74,7 +74,10 @@ RES_SHARE:
   IN_RS_REQ: Lending Resource Sharing Requests
 JAPAN:
   archives: Archives
+  jpexhibit: Display
+  jpleisure: Leisure Books
   jpnewbooks: New Books
+  jpoversize: Oversize
   media: Media
   osaka: Osaka Collection
   reference: Reference
@@ -86,6 +89,8 @@ JAPAN:
 KIOSK:
   kiosk: Location information not available
   UNASSIGNED: Location information not available
+KYOTO:
+  kyoreserve: Kyoto Reserves
 LAW:
   closestack: Closed Stacks - Ask At Desk
   oversize2: Closed Stacks - Ask At Desk

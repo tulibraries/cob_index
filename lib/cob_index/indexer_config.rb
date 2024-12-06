@@ -60,16 +60,16 @@ to_field "title_uniform_display", extract_uniform_title
 to_field "title_uniform_vern_display", extract_marc("130adfklmnoprs:240adfklmnoprs", alternate_script: :only)
 to_field "title_addl_display", extract_additional_title
 to_field "title_addl_vern_display", extract_marc("210ab:246abfgnp:247abcdefgnp:730ail:740anp", alternate_script: :only)
-to_field "title_t", extract_marc("245a"), wrap_begin_end
-to_field "subtitle_t", extract_marc("245b"), wrap_begin_end
-to_field "title_statement_t", extract_marc("245abfgknps"), wrap_begin_end
-to_field "title_uniform_t", extract_marc("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst"), wrap_begin_end
-to_field "title_uniform_authority_record_id_ms", extract_marc("1300:2400:7300")
+to_field "title_txt", extract_marc("245a"), wrap_begin_end
+to_field "subtitle_txt", extract_marc("245b"), wrap_begin_end
+to_field "title_statement_txt", extract_marc("245abfgknps"), wrap_begin_end
+to_field "title_uniform_txt", extract_marc("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst"), wrap_begin_end
+to_field "title_uniformtitle_statementity_record_id_ms", extract_marc("1300:2400:7300")
 
 to_field "work_access_point", extract_work_access_point
 
 A_TO_U = ("a".."u").to_a.join("")
-to_field "title_addl_t",
+to_field "title_addl_txt",
   extract_marc(%W{
     210ab
     222ab
@@ -79,7 +79,7 @@ to_field "title_addl_t",
     247abcdefgnp
     740anp
                }.join(":"))
-to_field "title_added_entry_t", extract_marc(%W{
+to_field "title_added_entry_txt", extract_marc(%W{
   700gklmnoprst
   710fgklmnopqrst
   711fgklnpst
@@ -123,8 +123,8 @@ to_field "edition_display", extract_marc("250a:254a", trim_punctuation: true, al
 to_field "pub_date", extract_pub_date
 to_field "date_copyright_display", extract_copyright
 
-to_field "pub_location_t", extract_marc("260a:264a", trim_punctuation: true), wrap_begin_end
-to_field "publisher_t", extract_marc("260b:264b", trim_punctuation: true), wrap_begin_end
+to_field "pub_location_txt", extract_marc("260a:264a", trim_punctuation: true), wrap_begin_end
+to_field "publisher_txt", extract_marc("260b:264b", trim_punctuation: true), wrap_begin_end
 to_field "pub_date_sort", marc_publication_date
 to_field "pub_date_tdt", extract_pub_datetime
 
@@ -154,7 +154,7 @@ to_field "title_series_display", extract_marc("830av:490av:440anpv:800abcdefghjk
 to_field "title_series_vern_display", extract_marc("830av:490av:440anpv:800abcdefghjklmnopqrstuv:810abcdeghklmnoprstuv:811acdefghjklnpqstuv", alternate_script: :only)
 # to_field "date_series", extract_marc("362a")
 
-to_field "title_series_t", extract_marc("830av:490av:440anpv"), wrap_begin_end
+to_field "title_series_txt", extract_marc("830av:490av:440anpv"), wrap_begin_end
 to_field "title_series_authority_record_id_ms", extract_marc("8000:8100:8110:8300")
 
 # Note fields
@@ -192,7 +192,7 @@ to_field "genre_ms", extract_genre_display
 to_field "genre_authority_record_id_ms", extract_marc("6550")
 
 
-to_field "subject_t", extract_marc(%W(
+to_field "subject_txt", extract_marc(%W(
   600#{A_TO_U}
   610#{A_TO_U}
   611#{A_TO_U}
@@ -201,13 +201,13 @@ to_field "subject_t", extract_marc(%W(
   650abcde
   653a:654abcde
                                    ).join(":")), wrap_begin_end
-to_field "subject_addl_t", extract_marc("600vwxyz:610vwxyz:611vwxyz:630vwxyz:647vwxyz:648avwxyz:650vwxyz:651aegvwxyz:654vwxyz:656akvxyz:657avxyz:690abcdegvwxyz"), wrap_begin_end
+to_field "subject_addl_txt", extract_marc("600vwxyz:610vwxyz:611vwxyz:630vwxyz:647vwxyz:648avwxyz:650vwxyz:651aegvwxyz:654vwxyz:656akvxyz:657avxyz:690abcdegvwxyz"), wrap_begin_end
 
 # Location fields
 to_field "call_number_display", extract_marc("HLDhi")
-to_field "call_number_t", extract_marc("HLDhi"), wrap_begin_end
+to_field "call_number_txt", extract_marc("HLDhi"), wrap_begin_end
 to_field "call_number_alt_display", extract_marc("ITMjk")
-to_field "call_number_alt_t", extract_marc("ITMjk"), wrap_begin_end
+to_field "call_number_alt_txt", extract_marc("ITMjk"), wrap_begin_end
 to_field "library_facet", extract_library
 to_field "location_facet", extract_location_facet
 
@@ -263,10 +263,10 @@ to_field "changed_back_to_display", extract_marc("785|08|iabdghkmnopqrstuxyz3", 
 # we actually want to negative boost specific libraries, but that is not possible
 # so we are going to boost everything except the less relevant libraries
 # TODO: Remove library_based_boost_t once the generic boosting is in production and working.
-to_field "library_based_boost_t", library_based_boost
+to_field "library_based_boost_txt", library_based_boost
 
 # Allows label specific boost.
-to_field "boost_t", add_boost_labels
+to_field "boost_txt", add_boost_labels
 
 to_field "bound_with_ids", extract_marc("ADFa")
 to_field "purchase_order", extract_purchase_order

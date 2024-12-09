@@ -64,7 +64,7 @@ to_field "title_txt", extract_marc("245a"), wrap_begin_end
 to_field "subtitle_txt", extract_marc("245b"), wrap_begin_end
 to_field "title_statement_txt", extract_marc("245abfgknps"), wrap_begin_end
 to_field "title_uniform_txt", extract_marc("130adfklmnoprs:240adfklmnoprs:730abcdefgklmnopqrst"), wrap_begin_end
-to_field "title_uniformtitle_statementity_record_id_ms", extract_marc("1300:2400:7300")
+to_field "title_uniform_authority_record_id_ms", extract_marc("1300:2400:7300")
 
 to_field "work_access_point", extract_work_access_point
 

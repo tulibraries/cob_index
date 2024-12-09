@@ -92,7 +92,7 @@ to_field "title_added_entry_real_world_object_uri_ms", extract_marc_subfield_lim
 to_field "title_sort", extract_marc("245abcfgknps", alternate_script: false, first: true)
 
 # Creator/contributor fields
-to_field "creator_t", extract_marc("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true), delete_if(CORPORATE_NAMES), wrap_begin_end
+to_field "creator_txt", extract_marc("245c:100abcdejlmnopqrtu:110abcdelmnopt:111acdejlnopt:700abcdejqu:710abcde:711acdej", trim_punctuation: true), delete_if(CORPORATE_NAMES), wrap_begin_end
 to_field "creator_authority_record_id_ms", extract_marc("1000:1100:1110")
 to_field "creator_real_world_object_uri_ms", extract_marc("1001:1101:1111")
 

@@ -166,7 +166,7 @@ to_field "note_biblio_display", extract_marc("504a")
 to_field "note_toc_display", extract_marc("505agrt")
 to_field "note_restrictions_display", extract_marc("506abcde3")
 to_field "note_references_display", extract_marc("510abc")
-to_field "note_summary_display", extract_marc("520ab")
+to_field "note_summary_display", extract_marc("520abc")
 to_field "note_cite_display", extract_marc("524a")
 
 # Note Copyright should not display if ind1 = 0.  This ensures that it works if the value is unassigned or 1

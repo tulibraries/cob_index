@@ -159,6 +159,7 @@ ROME:
   reserve: Reserves
   serials: Journals
   stacks: Stacks
+  storage: Storage
   UNASSIGNED: Location information not available
 SCRC:
   rarestacks: Reading Room

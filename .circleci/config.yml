@@ -1,10 +1,10 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@2.0.0
-  coveralls: coveralls/coveralls@2.2.1
+  ruby: circleci/ruby@2.3.1
+  coveralls: coveralls/coveralls@2.2.5
 
 jobs:
-  build:
+  build_and_test:
     docker:
       - image: cimg/ruby:3.3.0-node
       - image: zookeeper:3.7
@@ -59,3 +59,8 @@ jobs:
       - run:
           name: Run relevancy Tests
           command: make test-relevancy
+
+workflows:
+  run_tests:
+    jobs:
+      - build_and_test

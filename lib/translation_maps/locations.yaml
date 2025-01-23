@@ -27,6 +27,7 @@ ASRS:
   reference: BookBot
   UNASSIGNED: Location information not available
 MAIN:
+  exhibit: Exhibits
   serials: Journals (3rd floor)
   hirsch: Juvenile (Hirsch Collection, 4th floor)
   ILL: Inter-Library Loan

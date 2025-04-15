@@ -234,10 +234,15 @@ module CobIndex::Macros::Custom
   end
 
   def translate_subject_field!(field)
-    if field.tag == "650"
+    fields = ["650", "651", "653"]
+    codes = ["a", "z"]
+
+    if fields.include? field.tag
       field.subfields.map! { |sf|
-        sf.value = subject_translations(sf.value) if sf.code == "a"
-        sf
+        if codes.include? sf.code
+          sf.value = subject_translations(sf.value) unless field.tag == "653" && sf.code == "z"
+          sf
+        end
       }
     end
   end

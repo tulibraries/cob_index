@@ -214,10 +214,12 @@ module CobIndex::Macros::Custom
       "Aliens in literature" => "Noncitizens in literature",
       "Aliens in mass media" => "Noncitizens in mass media",
       "Aliens in motion pictures" => "Noncitizens in motion pictures",
+      "America, Gulf of" => "Mexico, Gulf of",
       "Children of illegal aliens" => "Children of undocumented immigrants",
       "Church work with aliens" => "Church work with noncitizens",
       "Illegal alien children" => "Undocumented immigrant children",
       "Illegal aliens in literature" => "Undocumented immigrants in literature",
+      "McKinley, Mount" => "Denali, Mount",
       "Women illegal aliens" =>  "Women undocumented immigrants",
     }
 

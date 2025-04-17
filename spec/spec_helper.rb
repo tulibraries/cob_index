@@ -4,6 +4,7 @@ require "bundler/setup"
 require "cob_index"
 require "simplecov"
 require "simplecov-lcov"
+require "pry"
 
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
 SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(

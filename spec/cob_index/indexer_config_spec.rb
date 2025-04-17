@@ -368,4 +368,36 @@ RSpec.describe "Traject configuration" do
     end
 
   end
+
+  describe "translation mappings for record" do
+    before do
+      stub_const("ENV", ENV.to_hash.merge("SOLR_URL" => "foo"))
+      indexer.load_config_file("lib/cob_index/indexer_config.rb")
+    end
+
+    let(:record_text) { '
+    <record>
+      <datafield ind1=" " ind2="0" tag="650">
+      <subfield code="a">Noncitizens</subfield>
+      <subfield code="z">United States.</subfield>
+      </datafield>
+      <datafield ind1=" " ind2="0" tag="651">
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="653">
+      <subfield code="a">Illegal aliens</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="653">
+      <subfield code="a">United States</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="653">
+      <subfield code="a">Social science</subfield>
+      </datafield>
+    </record>
+  ' }
+
+    it "translates unwanted lc headings" do
+      expect(indexer.map_record(record)["subject_topic_facet"]).to eq([])
+    end
+
+  end
 end

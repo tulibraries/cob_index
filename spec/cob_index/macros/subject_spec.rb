@@ -39,7 +39,7 @@ RSpec.describe CobIndex::Macros::Subject do
         end
       end
     end
-  
+
     context "when a record doesn't have subject topics" do
       let(:path) { "subject_topic_missing.xml" }
       it "does not map a subject_display" do
@@ -51,16 +51,16 @@ RSpec.describe CobIndex::Macros::Subject do
       let(:path) { "subject_display.xml" }
       it "maps data from 6XX fields in expected way" do
         expected = [
-          "Kennedy, John F. (John Fitzgerald) 1917-1963 — Pictorial works", 
-          "Onassis, Jacqueline Kennedy 1929- — Pictorial works", 
-          "Kennedy, John F. (John Fitzgerald) 1917-1963 — Assassination — Pictorial works", 
-          "Kennedy family", 
-          "Presidents — United States — Pictorial works", 
-          "Presidents' spouses — United States — Pictorial works", 
-          "Photography — Social aspects — United States — History — 20th century", 
-          "Mass media — Social aspects — United States — History — 20th century", 
-          "Popular culture — United States — History — 20th century", 
-          "Art and popular culture — United States — History — 20th century", 
+          "Kennedy, John F. (John Fitzgerald) 1917-1963 — Pictorial works",
+          "Onassis, Jacqueline Kennedy 1929- — Pictorial works",
+          "Kennedy, John F. (John Fitzgerald) 1917-1963 — Assassination — Pictorial works",
+          "Kennedy family",
+          "Presidents — United States — Pictorial works",
+          "Presidents' spouses — United States — Pictorial works",
+          "Photography — Social aspects — United States — History — 20th century",
+          "Mass media — Social aspects — United States — History — 20th century",
+          "Popular culture — United States — History — 20th century",
+          "Art and popular culture — United States — History — 20th century",
           "United States — Civilization — 1945-"
         ]
 
@@ -99,9 +99,9 @@ RSpec.describe CobIndex::Macros::Subject do
     end
 
     context "when translatable subject is present in 650a with punctuation" do
-      
-        let(:record_text) do
-        <<-EOT
+
+      let(:record_text) do
+      <<-EOT
         <record xmlns="http://www.loc.gov/MARC21/slim">
           <datafield ind1=" " ind2="0" tag="650">
             <subfield code="a">Illegal aliens</subfield>
@@ -115,20 +115,20 @@ RSpec.describe CobIndex::Macros::Subject do
         </record>
         EOT
 
-        record = MARC::XMLReader.new(StringIO.new(record_text)).first
+      record = MARC::XMLReader.new(StringIO.new(record_text)).first
 
-        it "translates subject" do
-          expect(subject.map_record(record)["subject_display"]).to eq([
-            "Undocumented immigrants — United States — Pictorial works",
-            "Undocumented immigrants — Southern States",
-          ])
-        end
+      it "translates subject" do
+        expect(subject.map_record(record)["subject_display"]).to eq([
+          "Undocumented immigrants — United States — Pictorial works",
+          "Undocumented immigrants — Southern States",
+        ])
       end
+    end
     end
 
     context "when a non-translatable subject is present in 650a with punctuation" do
-        let(:record_text) do
-        <<-EOT
+      let(:record_text) do
+      <<-EOT
         <record xmlns="http://www.loc.gov/MARC21/slim">
           <datafield ind1=" " ind2="0" tag="650">
             <subfield code="a">Test subject.</subfield>
@@ -137,14 +137,14 @@ RSpec.describe CobIndex::Macros::Subject do
         </record>
         EOT
 
-        record = MARC::XMLReader.new(StringIO.new(record_text)).first
+      record = MARC::XMLReader.new(StringIO.new(record_text)).first
 
-        it "strips the punctuation punctuation" do
-          expect(subject.map_record(record)["subject_display"]).to eq([
-            "Test subject — United States"
-          ])
-        end
+      it "strips the punctuation punctuation" do
+        expect(subject.map_record(record)["subject_display"]).to eq([
+          "Test subject — United States"
+        ])
       end
+    end
     end
   end
 
@@ -190,8 +190,8 @@ RSpec.describe CobIndex::Macros::Subject do
     end
 
     context "record has translatable subject topics. (Including if it ends in period)" do
-        let(:record_text) do
-        <<-EOT
+      let(:record_text) do
+      <<-EOT
         <record xmlns="http://www.loc.gov/MARC21/slim">
           <datafield ind1=" " ind2="0" tag="650">
             <subfield code="a">Illegal aliens</subfield>
@@ -211,17 +211,16 @@ RSpec.describe CobIndex::Macros::Subject do
         </record>
         EOT
 
-        record = MARC::XMLReader.new(StringIO.new(record_text)).first
+      record = MARC::XMLReader.new(StringIO.new(record_text)).first
 
-        it "translates the subject topics" do
-          expect(subject.map_record(record)["subject_topic_facet"]).to eq([
-            "Undocumented immigrants", 
-            "Noncitizen property", 
-            "Presidents' spouses"
-          ])
-        end
+      it "translates the subject topics" do
+        expect(subject.map_record(record)["subject_topic_facet"]).to eq([
+          "Undocumented immigrants",
+          "Noncitizen property",
+          "Presidents' spouses"
+        ])
       end
+    end
     end
   end
 end
-  

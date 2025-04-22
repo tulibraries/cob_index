@@ -3,96 +3,80 @@
 require "bundler/setup"
 require "active_support/core_ext/object/blank"
 
-# A set of custom traject macros (extractors and normalizers) used for translations
 module CobIndex::Macros::Subject
-  def topics
-    extract_subject_display
-  end
 
-  def subject_translations(subject)
-    translations = {
-      "Aliens" => "Noncitizens",
-      "Illegal aliens" => "Undocumented immigrants",
-      "Alien criminals" => "Noncitizen criminals",
-      "Alien detention centers" => "Noncitizen detention centers",
-      "Alien property" => "Noncitizen property",
-      "Aliens in art" => "Noncitizens in art",
-      "Aliens in literature" => "Noncitizens in literature",
-      "Aliens in mass media" => "Noncitizens in mass media",
-      "Aliens in motion pictures" => "Noncitizens in motion pictures",
-      "Children of illegal aliens" => "Children of undocumented immigrants",
-      "Church work with aliens" => "Church work with noncitizens",
-      "Illegal alien children" => "Undocumented immigrant children",
-      "Illegal aliens in literature" => "Undocumented immigrants in literature",
-      "Women illegal aliens" => "Women undocumented immigrants",
-    }
+  # Remediable subjects are found in any of these fields and subfields:
+  REMEDIATED_FIELDS = {
+    "650" => "axz",
+    "651" => "az",
+    "653" => "a"
+  }
 
-    translations.default_proc = proc { |hash, key|
-      key2 = key.gsub(/\.$/, "")
-      hash[key2] || key
-    }
+  SEPARATOR = " — "
+  
+  def remediated_subjects
+    lambda do |record, acc|
+      translation_map = Traject::TranslationMap.new("subject_remediation")
 
-    translations[subject]
-  end
+      Traject::MarcExtractor.cached("650axz:651axz:653a").collect_matching_lines(record) do |field, spec, extractor|
+        remediated_subjects = []
 
-  def translate_subject_field!(field)
-    # fields = ["650", "651", "653"]
-    # codes = ["a", "z"]
+        field.subfields.each do |sf|
+          original_value = CobIndex::Macros::Marc21.trim_punctuation(sf.value)
+          translated_value = translation_map[original_value] || original_value
+          sf.value = translated_value
 
-    # if fields.include?(field.tag)
-    field.subfields.each do |sf|
-      if codes.include?(sf.code)
-        sf.value = subject_translations(sf.value)#unless field.tag == "653" && sf.code == "z"
+          remediated_subjects << translated_value
+        end
+
+        acc << remediated_subjects.join(SEPARATOR) unless remediated_subjects.empty?
       end
     end
-    # end
   end
 
-  def extract_subject_display
+  def process_subject_fields(field, acc, separator_codes:)
+    subfield_values = []
+    
+    # Process all subfields
+    field.subfields.each_with_index do |sf, index|
+      value = CobIndex::Macros::Marc21.trim_punctuation(sf.value)
+      prefix = if index.positive? && separator_codes.include?(sf.code)
+                 SEPARATOR
+               else
+                 " "
+               end
+  
+      subfield_values << "#{index.zero? ? value : "#{prefix}#{value}"}"
+    end
+  
+    acc << subfield_values.join unless subfield_values.empty?
+  end
+  
+  def extract_subjects(separator_codes:, fields:)
     lambda do |rec, acc|
       subjects = []
-      Traject::MarcExtractor.cached("600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz").collect_matching_lines(rec) do |field, spec, extractor|
-        translate_subject_field!(field)
-        subject = extractor.collect_subfields(field, spec).first
-        unless subject.nil?
-          field.subfields.each do |s_field|
-            if %w[v x y z].include?(s_field.code)
-              subject = subject.gsub(" #{s_field.value}", "#{SEPARATOR}#{s_field.value}")
-            end
-          end
-          subject = subject.split(SEPARATOR)
-          subjects << subject.map { |s| CobIndex::Macros::Marc21.trim_punctuation(s) }.join(SEPARATOR)
-        end
+  
+      # Collect the fields from the record
+      subject_fields = Traject::MarcExtractor.cached(fields).collect_matching_lines(rec) do |field, _, _|
+        field
       end
+  
+      # Sort fields by tag
+      subject_fields.sort_by!(&:tag)
+  
+      subject_fields.each do |field|
+        # If the field is remediated, process it
+        if REMEDIATED_FIELDS.key?(field.tag)
+          remediated_subjects.call(rec, subjects)
+        end
+  
+        # Process the subfields in the field
+        process_subject_fields(field, subjects, separator_codes: separator_codes)
+      end
+  
+      # Flatten and remove duplicates from the final subjects array
+      subjects = subjects.flatten.uniq
       acc.replace(subjects)
     end
-  end
-
-  def extract_subject_topic_facet
-    lambda do |rec, acc|
-      subjects = []
-      Traject::MarcExtractor.cached("600abcdq:610ab:611a:630a:653a:654ab:647acdg").collect_matching_lines(rec) do |field, spec, extractor|
-        subject = extractor.collect_subfields(field, spec).fetch(0, "")
-        subject = subject.split(SEPARATOR)
-        subjects << subject.map { |s| CobIndex::Macros::Marc21.trim_punctuation(s) }
-      end
-
-      Traject::MarcExtractor.cached("650ax").collect_matching_lines(rec) do |field, spec, extractor|
-        translate_subject_field!(field)
-        subject = extractor.collect_subfields(field, spec).first
-        unless subject.nil?
-          field.subfields.each do |s_field|
-            if s_field.code == "x"
-              subject = subject.gsub(" #{s_field.value}", "#{SEPARATOR}#{s_field.value}")
-            end
-          end
-          subject = subject.split(SEPARATOR)
-          subjects << subject.map { |s| CobIndex::Macros::Marc21.trim_punctuation(s) }.join(SEPARATOR)
-        end
-      end
-      subjects = subjects.flatten
-      acc.replace(subjects)
-      acc.uniq!
-    end
-  end
+  end  
 end

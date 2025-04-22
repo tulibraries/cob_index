@@ -204,66 +204,6 @@ module CobIndex::Macros::Custom
     end
   end
 
-  def subject_translations(subject)
-    translations = { "Aliens" => "Noncitizens",
-      "Illegal aliens" => "Undocumented immigrants",
-      "Alien criminals" => "Noncitizen criminals",
-      "Alien detention centers" => "Noncitizen detention centers",
-      "Alien property" => "Noncitizen property",
-      "Aliens in art" => "Noncitizens in art",
-      "Aliens in literature" => "Noncitizens in literature",
-      "Aliens in mass media" => "Noncitizens in mass media",
-      "Aliens in motion pictures" => "Noncitizens in motion pictures",
-      "America, Gulf of" => "Mexico, Gulf of",
-      "Children of illegal aliens" => "Children of undocumented immigrants",
-      "Church work with aliens" => "Church work with noncitizens",
-      "Illegal alien children" => "Undocumented immigrant children",
-      "Illegal aliens in literature" => "Undocumented immigrants in literature",
-      "McKinley, Mount" => "Denali, Mount",
-      "Women illegal aliens" =>  "Women undocumented immigrants",
-    }
-
-    translations.default_proc = proc { |hash, key|
-      key2 = key.gsub(/\.$/, "")
-      if translations.key? key2
-        hash[key2]
-      else
-        subject
-      end
-    }
-
-    translations[subject]
-  end
-
-  def translate_subject_field!(field)
-    if field.tag == "650"
-      field.subfields.map! { |sf|
-        sf.value = subject_translations(sf.value) if sf.code == "a"
-        sf
-      }
-    end
-  end
-
-  def extract_subject_display
-    lambda do |rec, acc|
-      subjects = []
-      Traject::MarcExtractor.cached("600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz").collect_matching_lines(rec) do |field, spec, extractor|
-        translate_subject_field!(field)
-        subject = extractor.collect_subfields(field, spec).first
-        unless subject.nil?
-          field.subfields.each do |s_field|
-            subject = subject.gsub(" #{s_field.value}", "#{SEPARATOR}#{s_field.value}") if (s_field.code == "v" || s_field.code == "x" || s_field.code == "y" || s_field.code == "z")
-          end
-          subject = subject.split(SEPARATOR)
-          subjects << subject.map { |s| CobIndex::Macros::Marc21.trim_punctuation(s) }.join(SEPARATOR)
-        end
-        subjects
-      end
-
-      acc.replace(subjects)
-    end
-  end
-
   def extract_genre_display
     lambda do |rec, acc|
       genres = []
@@ -279,34 +219,6 @@ module CobIndex::Macros::Custom
         genres
       end
       acc.replace(genres)
-    end
-  end
-
-  def extract_subject_topic_facet
-    lambda do |rec, acc|
-      subjects = []
-      Traject::MarcExtractor.cached("600abcdq:610ab:611a:630a:653a:654ab:647acdg").collect_matching_lines(rec) do |field, spec, extractor|
-        subject = extractor.collect_subfields(field, spec).fetch(0, "")
-        subject = subject.split(SEPARATOR)
-        subjects << subject.map { |s| CobIndex::Macros::Marc21.trim_punctuation(s) }
-      end
-
-      Traject::MarcExtractor.cached("650ax").collect_matching_lines(rec) do |field, spec, extractor|
-        translate_subject_field!(field)
-        subject = extractor.collect_subfields(field, spec).first
-        unless subject.nil?
-          field.subfields.each do |s_field|
-            if (s_field.code == "x")
-              subject = subject.gsub(" #{s_field.value}", "#{SEPARATOR}#{s_field.value}")
-            end
-          end
-          subject = subject.split(SEPARATOR)
-          subjects << subject.map { |s| CobIndex::Macros::Marc21.trim_punctuation(s) }.join(SEPARATOR)
-        end
-      end
-      subjects = subjects.flatten
-      acc.replace(subjects)
-      acc.uniq!
     end
   end
 

@@ -15,6 +15,7 @@ extend CobIndex::Macros::MarcFormats
 
 # Include custom traject macros
 extend CobIndex::Macros::Custom
+extend CobIndex::Macros::Subject
 
 # Include boosting macros
 extend CobIndex::Macros::Booster
@@ -180,9 +181,9 @@ to_field "note_accruals_display", extract_marc("584a")
 to_field "note_local_display", extract_marc("590a")
 
 # Subject fields
-to_field "subject_facet", extract_subject_display
-to_field "subject_display", extract_subject_display
-to_field "subject_topic_facet", extract_subject_topic_facet
+to_field "subject_facet", extract_subjects(fields: "600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz", separator_codes: %w[v x y z])
+to_field "subject_display", extract_subjects(fields: "600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz", separator_codes: %w[v x y z])
+to_field "subject_topic_facet", extract_subjects(fields: "600abcdq:610ab:611a:630a:650ax:653a:654ab:647acdg", separator_codes: ["x"])
 to_field "subject_era_facet", extract_marc("648a:650y:651y:654y:655y:690y:647y", trim_punctuation: true)
 to_field "subject_region_facet", marc_geo_facet
 to_field "subject_authority_record_id_ms", extract_marc("6000:6100:6110:6300:6470:6480:6500:6510:6540:6560:6570")

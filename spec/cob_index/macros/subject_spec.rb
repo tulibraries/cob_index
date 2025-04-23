@@ -295,4 +295,52 @@ RSpec.describe CobIndex::Macros::Subject do
       end
     end
   end
+
+  describe "#remediated_marc_geo_facet for subject_region_facet" do
+
+    before do
+      subject.instance_variable_set(:@fields, []) # <-- reset fields before each test
+      subject.instance_eval do
+        to_field "subject_region_facet", remediated_marc_geo_facet(
+          options: {}
+        )
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when a record doesn't have subject regions" do
+      let(:path) { "subject_topic_missing.xml" }
+      it "does not raise an error" do
+        expect { subject.map_record(records[0]) }.not_to raise_error
+      end
+
+      it "does not map anything to the field" do
+        expect(subject.map_record(records[0])).to eq({})
+      end
+    end
+
+    context "record contains unwanted LOC terms" do
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="650">
+            <subfield code="a">Navigation</subfield>
+            <subfield code="z">America, Gulf of</subfield>
+            <subfield code="x">History.</subfield>
+          </datafield>
+        </record>
+      EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "translates the value" do
+        expect(subject.map_record(record)["subject_region_facet"]).to eq([
+          "Mexico, Gulf of"
+        ])
+      end
+    end
+  end
 end

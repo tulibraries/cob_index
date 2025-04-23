@@ -396,8 +396,12 @@ RSpec.describe "Traject configuration" do
   ' }
 
     it "translates unwanted lc headings" do
-      expect(indexer.map_record(record)["subject_topic_facet"]).to eq(["Noncitizens — United States", "Undocumented immigrants", "United States", "Social science", "Noncitizens United States"])
+      expect(indexer.map_record(record)["subject_topic_facet"]).to eq([
+        "Noncitizens",
+        "Undocumented immigrants",
+        "United States",
+        "Social science"
+      ])
     end
-
   end
 end

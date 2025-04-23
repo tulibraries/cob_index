@@ -55,12 +55,12 @@ RSpec.describe CobIndex::Macros::Subject do
           "Onassis, Jacqueline Kennedy 1929- — Pictorial works",
           "Kennedy, John F. (John Fitzgerald) 1917-1963 — Assassination — Pictorial works",
           "Kennedy family",
+          "Presidents — United States — Pictorial works",
           "Presidents' spouses — United States — Pictorial works",
           "Photography — Social aspects — United States — History — 20th century",
           "Mass media — Social aspects — United States — History — 20th century",
           "Popular culture — United States — History — 20th century",
           "Art and popular culture — United States — History — 20th century",
-          "Presidents — United States — Pictorial works",
           "United States — Civilization — 1945-"
         ]
 

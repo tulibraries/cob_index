@@ -2,6 +2,8 @@
 
 require "bundler/setup"
 require "active_support/core_ext/object/blank"
+require "traject"
+require "traject/macros/marc21"
 
 module CobIndex::Macros::Subject
   # Remediable subjects are found in any of these fields and subfields:
@@ -76,6 +78,44 @@ module CobIndex::Macros::Subject
       else
         acc.replace(remediate_subjects(remediated_subjects))
       end
+    end
+  end
+
+  def remediated_marc_geo_facet(options: {})
+    a_fields_spec = options[:geo_a_fields] || "651a:691a"
+    z_fields_spec = options[:geo_z_fields] || "600:610:611:630:648:650:654:655:656:690:651:691"
+
+    a_tags = a_fields_spec.split(":").map { |f| f[0..2] }.uniq
+    z_tags = z_fields_spec.split(":").map { |f| f[0..2] }.uniq
+
+    lambda do |record, acc|
+      # Handle 043a region codes
+      Traject::MarcExtractor.new("043a", separator: nil).extract(record).each do |code|
+        acc << code.gsub(/\-+\Z/, "")
+      end
+
+      # Handle region facets from z_fields and a_fields
+      (a_tags + z_tags).uniq.each do |tag|
+        record.fields(tag).each do |field|
+          field.subfields.each do |sf|
+            # Only process subfield "a" for a_tags, and "z" for z_tags
+            next unless (a_tags.include?(tag) && sf.code == "a") ||
+                        (z_tags.include?(tag) && sf.code == "z")
+
+            cleaned = sf.value.strip.sub(/\. */, "")
+            remediated = remediate_subjects([cleaned]).first
+            next unless remediated
+
+            if remediated.include?(" -- ")
+              acc << remediated.gsub(" -- ", " (") + ")"
+            else
+              acc << remediated
+            end
+          end
+        end
+      end
+
+      acc.uniq!
     end
   end
 end

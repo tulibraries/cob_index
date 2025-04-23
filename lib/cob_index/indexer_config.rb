@@ -2,6 +2,7 @@
 
 require "yaml"
 require "cob_index"
+require "cob_index/macros/subject"
 
 # To have access to various built-in logic
 # for pulling things out of MARC21, like `marc_languages`

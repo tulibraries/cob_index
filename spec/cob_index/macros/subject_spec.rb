@@ -32,7 +32,7 @@ RSpec.describe CobIndex::Macros::Subject do
       subject.instance_eval do
         to_field "subject_display", extract_subjects(
           fields: "600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz",
-          separator_codes: %w[v x y z]        )
+          separator_codes: %w[v x y z])
         settings do
           provide "marc_source.type", "xml"
         end

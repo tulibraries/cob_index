@@ -70,7 +70,7 @@ module CobIndex::Macros::Subject
       remediated_subjects = subjects.select do |subject|
         REMEDIATED_FIELDS.keys.any? { |tag| fields.include?(tag) }
       end
-  
+
       if deprecated
         acc.replace((remediate_subjects(remediated_subjects) + deprecated_subjects_for_search(remediated_subjects)).uniq)
       else

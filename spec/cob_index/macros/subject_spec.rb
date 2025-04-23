@@ -32,8 +32,7 @@ RSpec.describe CobIndex::Macros::Subject do
       subject.instance_eval do
         to_field "subject_display", extract_subjects(
           fields: "600abcdefghklmnopqrstuvxyz:610abcdefghklmnoprstuvxyz:611acdefghjklnpqstuvxyz:630adefghklmnoprstvxyz:647acdgvxyz:648axvyz:650abcdegvxyz:651aegvxyz:653a:654abcevyz:656akvxyz:657avxyz:690abcdegvxyz",
-          separator_codes: %w[v x y z]
-        )
+          separator_codes: %w[v x y z]        )
         settings do
           provide "marc_source.type", "xml"
         end
@@ -241,6 +240,56 @@ RSpec.describe CobIndex::Macros::Subject do
 
       it "translates the a and x subfields and only returns the a and x subfields" do
         expect(subject.map_record(record)["subject_topic_facet"]).to eq([
+          "Undocumented immigrants — Southern States"
+        ])
+      end
+    end
+  end
+
+  describe "#extract_subjects for subject_search_facet" do
+
+    before do
+      subject.instance_variable_set(:@fields, []) # <-- reset fields before each test
+      subject.instance_eval do
+        to_field "subject_search_facet", extract_subjects(
+          fields: "600abcdq:610ab:611a:630a:650ax:653a:654ab:647acdg",
+          separator_codes: %w[v x y z],
+          deprecated: true
+        )
+        settings do
+          provide "marc_source.type", "xml"
+        end
+      end
+    end
+
+    context "when a record doesn't have subject topics" do
+      let(:path) { "subject_topic_missing.xml" }
+      it "does not raise an error" do
+        expect { subject.map_record(records[0]) }.not_to raise_error
+      end
+
+      it "does not map anything to the field" do
+        expect(subject.map_record(records[0])).to eq({})
+      end
+    end
+
+    context "record contains unwanted LOC terms" do
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="650">
+            <subfield code="a">Illegal aliens</subfield>
+            <subfield code="x">Southern States</subfield>
+            <subfield code="v">Pictorial works.</subfield>
+          </datafield>
+        </record>
+      EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "search field returns both deprecated and remediated values" do
+        expect(subject.map_record(record)["subject_search_facet"]).to eq([
           "Undocumented immigrants — Southern States"
         ])
       end

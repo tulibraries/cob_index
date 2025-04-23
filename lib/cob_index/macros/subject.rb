@@ -13,6 +13,11 @@ module CobIndex::Macros::Subject
 
   SEPARATOR = " — "
 
+  def deprecated_subjects_for_search(subjects)
+    reversed_translation_map ||= Traject::TranslationMap.new("subject_remediation").to_hash.invert
+    subjects.map { |s| reversed_translation_map[s] }.compact.uniq
+  end
+
   def remediate_subjects(subjects)
     translation_map = Traject::TranslationMap.new("subject_remediation")
 
@@ -45,7 +50,7 @@ module CobIndex::Macros::Subject
     acc << subfield_values.join(" ") unless subfield_values.empty?
   end
 
-  def extract_subjects(fields:, separator_codes:)
+  def extract_subjects(fields:, separator_codes:, deprecated: false)
     lambda do |record, acc|
       subjects = []
 
@@ -61,9 +66,16 @@ module CobIndex::Macros::Subject
         process_subject_fields(field, subjects, separator_codes: separator_codes, fields: fields)
       end
 
-      subjects = remediate_subjects(subjects)
       subjects = subjects.flatten.uniq
-      acc.replace(subjects)
+      remediated_subjects = subjects.select do |subject|
+        REMEDIATED_FIELDS.keys.any? { |tag| fields.include?(tag) }
+      end
+  
+      if deprecated
+        acc.replace((remediate_subjects(remediated_subjects) + deprecated_subjects_for_search(remediated_subjects)).uniq)
+      else
+        acc.replace(remediate_subjects(remediated_subjects))
+      end
     end
   end
 end

@@ -145,6 +145,26 @@ RSpec.describe CobIndex::Macros::Subject do
         ])
       end
     end
+
+    context "when a translatable subject is in capital letters" do
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2=" " tag="653">
+            <subfield code="a">ILLEGAL ALIENS</subfield>
+          </datafield>
+        </record>
+      EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "does the translation" do
+        expect(subject.map_record(record)["subject_display"]).to eq([
+          "Undocumented immigrants"
+        ])
+      end
+    end
   end
 
   describe "#extract_subjects for subject_topic_facet" do
@@ -244,6 +264,29 @@ RSpec.describe CobIndex::Macros::Subject do
         ])
       end
     end
+
+    context "record has subfield $0" do
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="650">
+            <subfield code="a">Mountaineering</subfield>
+            <subfield code="0">https://id.loc.gov/authorities/subjects/sh85087816</subfield>
+            <subfield code="z">Alaska</subfield>
+            <subfield code="z">Denali, Mount.</subfield>
+          </datafield>
+        </record>
+      EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "does not display subfield $0 in the facet" do
+        expect(subject.map_record(record)["subject_topic_facet"]).to eq([
+          "Mountaineering"
+        ])
+      end
+    end
   end
 
   describe "#extract_subjects for subject_search_facet" do
@@ -339,6 +382,51 @@ RSpec.describe CobIndex::Macros::Subject do
       it "translates the value" do
         expect(subject.map_record(record)["subject_region_facet"]).to eq([
           "Mexico, Gulf of"
+        ])
+      end
+    end
+
+    context "record contains unwanted LOC terms with parentheses" do
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="651">
+            <subfield code="a">Mount McKinley (Alaska)</subfield>
+          </datafield>
+        </record>
+      EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "translates the value" do
+        expect(subject.map_record(record)["subject_region_facet"]).to eq([
+          "Mount McKinley (Alaska)"
+        ])
+      end
+    end
+
+    context "record has field 043" do
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2=" " tag="043">
+            <subfield code="a">n-us-ak</subfield>
+          </datafield>
+          <datafield ind1=" " ind2="7" tag="651">
+            <subfield code="a">Alaska.</subfield>
+            <subfield code="2">fast</subfield>
+            <subfield code="0">https://id.worldcat.org/fast/1204480</subfield>
+          </datafield>
+        </record>
+      EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "does not display the field" do
+        expect(subject.map_record(record)["subject_region_facet"]).to eq([
+         "Alaska"
         ])
       end
     end

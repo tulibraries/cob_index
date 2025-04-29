@@ -21,11 +21,17 @@ module CobIndex::Macros::Subject
   end
 
   def remediate_subjects(subjects)
+    # Translatable terms are downcased for normalization in the translation map
     translation_map = Traject::TranslationMap.new("subject_remediation")
 
     subjects.map do |subject|
       parts = subject.split(SEPARATOR).map(&:strip)
-      parts.map! { |part| translation_map[part] || part }
+
+      parts.map! do |part|
+        normalized_part = part.downcase.strip
+        translation_map[normalized_part] || part
+      end
+
       parts.join(SEPARATOR)
     end
   end
@@ -33,12 +39,14 @@ module CobIndex::Macros::Subject
   def process_subject_fields(field, acc, separator_codes:, fields:)
     subfield_values = []
 
-    allowed_subfields = fields.split(":").flat_map do |field_code|
-      field_code.chars
+    allowed_subfields = fields.split(":").each_with_object({}) do |spec, hash|
+      tag = spec[0..2]
+      subfields = spec[3..].chars
+      hash[tag] = subfields
     end
 
     field.subfields.each_with_index do |sf, index|
-      next unless allowed_subfields.include?(sf.code)
+      next unless allowed_subfields[field.tag]&.include?(sf.code)
 
       value = CobIndex::Macros::Marc21.trim_punctuation(sf.value)
 
@@ -89,12 +97,9 @@ module CobIndex::Macros::Subject
     z_tags = z_fields_spec.split(":").map { |f| f[0..2] }.uniq
 
     lambda do |record, acc|
-      # Handle 043a region codes
-      Traject::MarcExtractor.new("043a", separator: nil).extract(record).each do |code|
-        acc << code.gsub(/\-+\Z/, "")
-      end
+      region_codes = Traject::MarcExtractor.new("043a", separator: nil).extract(record)
+      region_codes.map! { |code| code.gsub(/\-+\Z/, "") }
 
-      # Handle region facets from z_fields and a_fields
       (a_tags + z_tags).uniq.each do |tag|
         record.fields(tag).each do |field|
           field.subfields.each do |sf|

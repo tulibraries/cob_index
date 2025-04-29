@@ -125,6 +125,27 @@ RSpec.describe CobIndex::Macros::Subject do
       end
     end
 
+    context "when translatable subject is present in 651a with punctuation" do
+
+      let(:record_text) do
+        <<-EOT
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="651">
+            <subfield code="a">America, Gulf of.</subfield>
+          </datafield>#{'  '}
+        </record>
+        EOT
+      end
+
+      let(:record) { MARC::XMLReader.new(StringIO.new(record_text)).first }
+
+      it "translates subject" do
+        expect(subject.map_record(record)["subject_display"]).to eq([
+          "Mexico, Gulf of"
+        ])
+      end
+    end
+
     context "when a non-translatable subject is present in 650a with punctuation" do
       let(:record_text) do
         <<-EOT
@@ -368,9 +389,12 @@ RSpec.describe CobIndex::Macros::Subject do
       let(:record_text) do
         <<-EOT
         <record xmlns="http://www.loc.gov/MARC21/slim">
+          <datafield ind1=" " ind2="0" tag="651">
+            <subfield code="a">America, Gulf of.</subfield>
+          </datafield>
           <datafield ind1=" " ind2="0" tag="650">
             <subfield code="a">Navigation</subfield>
-            <subfield code="z">America, Gulf of</subfield>
+            <subfield code="z">Watershed, Gulf of</subfield>
             <subfield code="x">History.</subfield>
           </datafield>
         </record>

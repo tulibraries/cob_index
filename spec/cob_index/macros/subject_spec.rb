@@ -389,13 +389,10 @@ RSpec.describe CobIndex::Macros::Subject do
       let(:record_text) do
         <<-EOT
         <record xmlns="http://www.loc.gov/MARC21/slim">
-          <datafield ind1=" " ind2="0" tag="651">
-            <subfield code="a">America, Gulf of.</subfield>
-          </datafield>
           <datafield ind1=" " ind2="0" tag="650">
-            <subfield code="a">Navigation</subfield>
-            <subfield code="z">Watershed, Gulf of</subfield>
-            <subfield code="x">History.</subfield>
+            <subfield code="a">Water</subfield>
+            <subfield code="x">Composition</subfield>
+            <subfield code="z">America, Gulf of, Watershed.</subfield>
           </datafield>
         </record>
       EOT
@@ -405,7 +402,7 @@ RSpec.describe CobIndex::Macros::Subject do
 
       it "translates the value" do
         expect(subject.map_record(record)["subject_region_facet"]).to eq([
-          "Mexico, Gulf of"
+          "Mexico, Gulf of, Watershed"
         ])
       end
     end

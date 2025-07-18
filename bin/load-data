@@ -12,27 +12,6 @@ while [[ "$STATUS" != "200" ]]; do
   STATUS=$(curl -s -o /dev/null -w "%{http_code}" $SOLR_HOST/admin/cores)
 done
 
-# In CircleCI we need to load the collection
-if [[ "$CI" == true ]]; then
-  # pushd ./solr/configs/tul_cob-catalog-solr
-  # source .circleci/build.sh # no such file
-  # popd
-
-  # echo
-  # echo "***"
-  # echo "* Sending config to solr instance."
-  # echo "***"
-  # RESP=$(curl -i -o - --silent -X POST --header "Content-Type:application/octet-stream" --data-binary @$HOME/solrconfig.zip "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr")
-  # echo $RESP
-
-  # echo
-  # echo "***"
-  # echo "* Create blacklight collection"
-  # echo "***"
-  # RESP=$(curl -i -o - --silent "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1")
-  # echo $RESP
-fi
-
 echo $SOLR_URL
 echo $RELEVANCY_FIXTURES_PATH plus
 find $RELEVANCY_FIXTURES_PATH -type f -name '*.xml'  -exec bundle exec cob_index ingest '{}' \;

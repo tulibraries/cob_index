@@ -69,9 +69,14 @@ jobs:
           submodules: recursive
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debug solr/configs
+      - name: Initialize & update submodules
         run: |
-          echo "Looking in $GITHUB_WORKSPACE/solr/configs…"
+          git submodule sync --recursive
+          git submodule update --init --recursive
+
+      - name: Debug solr/configs folder
+        run: |
+          echo "Looking in $GITHUB_WORKSPACE/solr/configs"
           ls -R $GITHUB_WORKSPACE/solr/configs || exit 1
 
       - name: Set up Ruby

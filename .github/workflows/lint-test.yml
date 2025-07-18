@@ -1,0 +1,97 @@
+name: Lint and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    branches: [ main ]
+  workflow_dispatch: {}
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        ruby: [ "3.4" ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          
+      - name: Lint
+        run: bundle exec rubocop
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      fail-fast: true
+      matrix:
+        ruby: [ "3.4" ]
+
+    services:
+      zookeeper:
+        image: zookeeper:3.7
+        env:
+          ZOO_CFG_EXTRA: "4lw.commands.whitelist=mntr,conf,ruok"
+        ports:
+          - 2181:2181
+          
+      solr:
+        image: solr:9.6.1
+        env:
+          ZK_HOST: "localhost:2181"
+        ports:
+          - 8983:8983
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+        
+      - name: Wait for Solr to be ready
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:8983/solr/admin/info/system; do sleep 2; done'
+        
+      - name: Upload security.json file to solr container
+        run: |
+          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          docker cp .github/workflows/security.json $SOLR_CONTAINER:/security.json
+          
+      - name: Upload security.json to Zookeeper
+        run: |
+          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          docker exec $SOLR_CONTAINER bin/solr zk cp /security.json zk:/security.json
+
+      - name: Test
+        run: bundle exec rake
+        
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage/lcov/cob_index.lcov
+          
+      - name: Install Solr Documents
+        run: make load-data
+        
+      - name: Run relevancy Tests
+        run: make test-relevancy

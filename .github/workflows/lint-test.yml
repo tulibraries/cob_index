@@ -27,7 +27,6 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -54,7 +53,6 @@ jobs:
           ZOO_CFG_EXTRA: "4lw.commands.whitelist=mntr,conf,ruok"
         ports:
           - 2181:2181
-          
       solr:
         image: solr:9.6.1
         env:
@@ -68,11 +66,6 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-
-      # - name: Initialize & update submodules
-      #   run: |
-      #     git submodule sync --recursive
-      #     git submodule update --init --recursive
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

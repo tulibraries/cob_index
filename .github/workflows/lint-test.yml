@@ -54,8 +54,6 @@ jobs:
         image: zookeeper:3.7
         env:
           ZOO_CFG_EXTRA: "4lw.commands.whitelist=mntr,conf,ruok"
-          SOLR_AUTH_TYPE: basic
-          SOLR_AUTHENTICATION_OPTS: "-Dbasicauth=basic -Dbasicauth.credentials=${{ secrets.SOLR_USER }}:${{ secrets.SOLR_PASS }}"
         ports:
           - 2181:2181
           
@@ -63,6 +61,8 @@ jobs:
         image: solr:9.6.1
         env:
           ZK_HOST: "zookeeper:2181"
+          SOLR_AUTH_TYPE: basic
+          SOLR_AUTHENTICATION_OPTS: "-Dbasicauth=basic -Dbasicauth.credentials=${{ secrets.SOLR_USER }}:${{ secrets.SOLR_PASS }}"
         ports:
           - 8983:8983
     

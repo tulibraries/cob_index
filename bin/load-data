@@ -15,7 +15,7 @@ done
 # In CircleCI we need to load the collection
 if [[ "$CI" == true ]]; then
   pushd ./solr/configs/tul_cob-catalog-solr
-  source .circleci/build.sh
+  # source .circleci/build.sh # no such file
   popd
 
   echo

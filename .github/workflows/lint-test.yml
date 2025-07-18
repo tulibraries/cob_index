@@ -126,8 +126,6 @@ jobs:
           docker exec $CONTAINER bin/solr create \
             -c blacklight \
             -n tul_cob-catalog-solr \
-            --basicAuthUser $SOLR_USER \
-            --basicAuthPass $SOLR_PASS \
             || true
 
       - name: Load Solr config & data

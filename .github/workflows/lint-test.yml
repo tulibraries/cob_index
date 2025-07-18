@@ -105,13 +105,14 @@ jobs:
           SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
           # copy the entire submodule directory into /tmp inside the container
           docker cp solr/configs/tul_cob-catalog-solr $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr
-          
+
       - name: Upload Solr config-set to ZooKeeper
         run: |
           SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          # point -d at the path inside the container
           docker exec $SOLR_CONTAINER bin/solr zk upconfig \
             -n tul_cob-catalog-solr \
-            -d solr/configs/tul_cob-catalog-solr \
+            -d /tmp/tul_cob-catalog-solr \
             -z zookeeper:2181
           
       - name: Install Solr Documents

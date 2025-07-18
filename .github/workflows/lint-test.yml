@@ -24,9 +24,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
         
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -63,9 +60,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
         
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -99,30 +93,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov/cob_index.lcov
-
-      - name: Dump workspace for debugging
-        run: |
-          echo "GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
-          ls -R $GITHUB_WORKSPACE
-
-      - name: Copy config-set into Solr container
-        run: |
-          # Grab the container ID
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
-          # Point at the conf directory inside your repo workspace
-          CONFIG_DIR="$GITHUB_WORKSPACE/solr/configs/tul_cob-catalog-solr"
-          # Fail early if that directory really isn't there
-          test -d "$CONFIG_DIR" || (echo "Config dir not found: $CONFIG_DIR" && exit 1)
-          # Copy it into /tmp in the container
-          docker cp "$CONFIG_DIR" $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr
-
-      - name: Upload Solr config-set to ZooKeeper
-        run: |
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
-          docker exec $SOLR_CONTAINER bin/solr zk upconfig \
-            -n tul_cob-catalog-solr \
-            -d /tmp/tul_cob-catalog-solr \
-            -z zookeeper:2181
           
       - name: Install Solr Documents
         run: make load-data

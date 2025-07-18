@@ -99,6 +99,15 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov/cob_index.lcov
+
+
+      - name: Upload Solr config-set to ZooKeeper
+        run: |
+          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          docker exec $SOLR_CONTAINER bin/solr zk upconfig \
+            -n tul_cob-catalog-solr \
+            -d solr/configs/tul_cob-catalog-solr \
+            -z zookeeper:2181
           
       - name: Install Solr Documents
         run: make load-data

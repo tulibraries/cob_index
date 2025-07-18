@@ -76,7 +76,7 @@ jobs:
         run: |
           git submodule sync --recursive
           git submodule update --init --recursive
-          
+
       - name: Debug solr/configs folder
         run: |
           echo "Looking in $GITHUB_WORKSPACE/solr/configs"
@@ -115,7 +115,22 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov/cob_index.lcov
           
-      - name: Install Solr Documents
+      - name: Copy Solr config‐set into container
+        run: |
+          CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          docker cp solr/configs/tul_cob-catalog-solr $CONTAINER:/tmp/tul_cob-catalog-solr
+
+      - name: Create “blacklight” collection
+        run: |
+          CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          # in SolrCloud mode:
+          docker exec $CONTAINER bin/solr create \
+            -c blacklight \
+            -n tul_cob-catalog-solr \
+            -z zookeeper:2181 \
+            || true
+
+      - name: Load Solr config & data
         run: make load-data
         
       - name: Run relevancy Tests

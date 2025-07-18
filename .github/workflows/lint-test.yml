@@ -53,7 +53,7 @@ jobs:
       solr:
         image: solr:9.6.1
         env:
-          ZK_HOST: "localhost:2181"
+          ZK_HOST: "zookeeper:2181"
         ports:
           - 8983:8983
     
@@ -66,40 +66,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-
-      - name: Debug Solr connection
-        run: |
-          echo "Checking if Solr port is open..."
-          nc -z localhost 8983 || echo "Port 8983 is not open"
-          
-          echo "Trying basic curl to Solr..."
-          curl -v http://localhost:8983/ || echo "Basic curl failed"
-          
-          echo "Checking Docker containers..."
-          docker ps
-          
-          echo "Checking Solr container logs..."
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
-          if [ ! -z "$SOLR_CONTAINER" ]; then
-            docker logs $SOLR_CONTAINER
-          else
-            echo "No Solr container found"
-          fi
-
-      - name: Wait for Solr to be ready (with more debugging)
-        run: |
-          for i in {1..30}; do
-            echo "Attempt $i: Checking Solr..."
-            if curl -s http://localhost:8983/solr/admin/info/system; then
-              echo "Solr is responding!"
-              break
-            fi
-            if [ $i -eq 30 ]; then
-              echo "Solr failed to start after 30 attempts"
-              exit 1
-            fi
-            sleep 2
-          done
         
       - name: Wait for Solr to be ready
         run: |

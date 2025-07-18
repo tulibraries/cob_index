@@ -67,9 +67,9 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
-      - name: Wait for Solr to be ready
+      - name: Check for Solr at path
         run: |
-          timeout 60 bash -c 'until curl -f http://localhost:8983/; do sleep 2; done'
+          timeout 60 bash -c 'until curl -s http://localhost:8983/solr/admin/info/system | grep -q "solr-spec-version"; do sleep 2; done'
         
       - name: Wait for Solr to be ready
         run: |

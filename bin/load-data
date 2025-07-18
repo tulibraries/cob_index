@@ -14,9 +14,7 @@ done
 
 # In CircleCI we need to load the collection
 if [[ "$CI" == true ]]; then
-  echo "Looking for config dir at: ${GITHUB_WORKSPACE:-$(pwd)}/solr/configs/tul_cob-catalog-solr"
-  ls -ld "${GITHUB_WORKSPACE:-$(pwd)}/solr/configs/tul_cob-catalog-solr" || exit 1
-  pushd "${GITHUB_WORKSPACE:-$(pwd)}/solr/configs/tul_cob-catalog-solr"
+  pushd ./solr/configs/tul_cob-catalog-solr
   # source .circleci/build.sh # no such file
   popd
 

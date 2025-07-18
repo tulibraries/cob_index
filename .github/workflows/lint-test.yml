@@ -77,11 +77,6 @@ jobs:
           git submodule sync --recursive
           git submodule update --init --recursive
 
-      - name: Debug solr/configs folder
-        run: |
-          echo "Looking in $GITHUB_WORKSPACE/solr/configs"
-          ls -R $GITHUB_WORKSPACE/solr/configs || exit 1
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -126,8 +121,7 @@ jobs:
           # in SolrCloud mode:
           docker exec $CONTAINER bin/solr create \
             -c blacklight \
-            -n tul_cob-catalog-solr \
-            -z zookeeper:2181 \
+            -n tul_cob-catalog-solr
             || true
 
       - name: Load Solr config & data

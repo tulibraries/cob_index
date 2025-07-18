@@ -27,6 +27,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -66,6 +67,12 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug solr/configs
+        run: |
+          echo "Looking in $GITHUB_WORKSPACE/solr/configs…"
+          ls -R $GITHUB_WORKSPACE/solr/configs || exit 1
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

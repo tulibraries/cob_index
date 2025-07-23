@@ -29,7 +29,8 @@ if [[ "$CI" == true ]]; then
   echo "***"
   echo "* Create blacklight collection"
   echo "***"
-  RESP=$(curl -i -o - --silent "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1")
+  # RESP=$(curl -i -o - --silent "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1")
+  RESP=$(curl -i -o - --silent "$SOLR_HOST/admin/cores?action=CREATE&name=blacklight&configSet=tul_cob-catalog-solr")
   echo $RESP
 fi
 

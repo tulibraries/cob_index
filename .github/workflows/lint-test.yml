@@ -81,12 +81,12 @@ jobs:
         
       - name: Upload security.json file to solr container
         run: |
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.8.1" --format "{{.ID}}")
           docker cp .github/workflows/security.json $SOLR_CONTAINER:/security.json
           
       - name: Upload security.json to Zookeeper
         run: |
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.8.1" --format "{{.ID}}")
           docker exec $SOLR_CONTAINER bin/solr zk cp /security.json zk:/security.json
 
       - name: Test
@@ -100,7 +100,7 @@ jobs:
           
       - name: Copy Solr config‐set into container
         run: |
-          CONTAINER=$(docker ps --filter "ancestor=solr:9.6.1" --format "{{.ID}}")
+          CONTAINER=$(docker ps --filter "ancestor=solr:9.8.1" --format "{{.ID}}")
           docker cp solr/configs/tul_cob-catalog-solr $CONTAINER:/tmp/tul_cob-catalog-solr
 
       - name: Load Solr config & data

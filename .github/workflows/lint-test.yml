@@ -4,9 +4,6 @@ on:
   push:
     branches-ignore:
       - main
-  pull_request:
-    types: [ opened, reopened ]
-    branches: [ main ]
   workflow_dispatch: {}
 
 env:
@@ -99,7 +96,7 @@ jobs:
           docker exec $SOLR_CONTAINER bin/solr zk cp /security.json zk:/security.json
 
       - name: Test
-        run: bundle exec rake
+        run: bundle exec rspec spec
         
       - name: Upload coverage to Coveralls
         uses: coverallsapp/github-action@v2

@@ -112,6 +112,9 @@ jobs:
       - name: Upload configset to ZooKeeper
         run: |
           SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.8.1" --format "{{.ID}}")
+          # Remove forbidden files (shell scripts, etc.) before upload
+          docker exec $SOLR_CONTAINER rm -rf /tmp/tul_cob-catalog-solr/bin
+          docker exec $SOLR_CONTAINER find /tmp/tul_cob-catalog-solr -name "*.sh" -delete || true
           docker exec $SOLR_CONTAINER bin/solr zk upconfig \
             -n tul_cob-catalog-solr \
             -d /tmp/tul_cob-catalog-solr \

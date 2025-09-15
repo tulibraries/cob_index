@@ -64,8 +64,10 @@ jobs:
 
       - name: Start Solr
         run: |
+          # Get the network name that services are using
+          NETWORK=$(docker network ls --filter name=github --format "{{.Name}}")
           docker run -d --name solr \
-            --network ${{ job.container.network }} \
+            --network $NETWORK \
             -p 8983:8983 \
             -e ZK_HOST="zookeeper:2181" \
             solr:9.8.1 \

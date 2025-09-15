@@ -103,36 +103,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov/cob_index.lcov
-          
-      - name: Copy Solr config‐set into container (config files only)
-        run: |
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.8.1" --format "{{.ID}}")
-          # Create clean config directory
-          docker exec $SOLR_CONTAINER mkdir -p /tmp/tul_cob-catalog-solr
-          # Copy only Solr config files (exclude scripts and other non-config files)
-          docker cp solr/configs/tul_cob-catalog-solr/solrconfig.xml $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/
-          docker cp solr/configs/tul_cob-catalog-solr/schema.xml $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/managed-schema $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/synonyms.txt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/stopwords.txt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/protwords.txt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/elevate.xml $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/mapping-ISOLatin1Accent.txt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/char-filter-mapping.txt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/_rest_managed.json $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/admin-extra.html $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/spellings.txt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          docker cp solr/configs/tul_cob-catalog-solr/scripts.conf $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
-          # Copy xslt directory if it exists
-          docker cp solr/configs/tul_cob-catalog-solr/xslt $SOLR_CONTAINER:/tmp/tul_cob-catalog-solr/ || true
 
-      - name: Upload configset to ZooKeeper
-        run: |
-          SOLR_CONTAINER=$(docker ps --filter "ancestor=solr:9.8.1" --format "{{.ID}}")
-          docker exec $SOLR_CONTAINER bin/solr zk upconfig \
-            -n tul_cob-catalog-solr \
-            -d /tmp/tul_cob-catalog-solr \
-            -z zookeeper:2181
+      - name: Load Solr config & data
+        run: make load-data
         
       - name: Run relevancy Tests
         run: make test-relevancy

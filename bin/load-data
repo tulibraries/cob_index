@@ -12,10 +12,8 @@ while [[ "$STATUS" != "200" ]]; do
   STATUS=$(curl -s -o /dev/null -w "%{http_code}" $SOLR_HOST/admin/cores)
 done
 
-# In CircleCI we need to load the collection
 if [[ "$CI" == true ]]; then
   pushd ./solr/configs/tul_cob-catalog-solr
-  source .circleci/build.sh
   popd
 
   echo

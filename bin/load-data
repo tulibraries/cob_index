@@ -7,6 +7,10 @@
 
 if [[ "$CI" == true ]]; then
 
+  echo
+  echo "***"
+  echo "* Create configset zip."
+  echo "***"
   cd solr/configs/tul_cob-catalog-solr
   zip -r "$HOME/solrconfig.zip" . \
     -x "spec/*" \
@@ -19,7 +23,10 @@ if [[ "$CI" == true ]]; then
     -x "bin/*"
   cd -
 
-
+  echo
+  echo "***"
+  echo "* Sending config to solr instance."
+  echo "***"
   curl -s -u "${SOLR_USER}:${SOLR_PASSWORD}" \
   -X POST \
   --header "Content-Type: application/octet-stream" \
@@ -27,13 +34,13 @@ if [[ "$CI" == true ]]; then
   "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr&wt=json"
 
   echo
-    echo "***"
-    echo "* Create blacklight collection"
-    echo "***"
-    RESP=$(curl -sSf -u "${SOLR_USER}:${SOLR_PASSWORD}" \
-      "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1&replicationFactor=1&wt=json" \
-      || echo "Collection may already exist")
-    echo $RESP
+  echo "***"
+  echo "* Create blacklight collection"
+  echo "***"
+  RESP=$(curl -sSf -u "${SOLR_USER}:${SOLR_PASSWORD}" \
+    "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1&replicationFactor=1&wt=json" \
+    || echo "Collection may already exist")
+  echo $RESP
 fi
 
 while [[ "$STATUS" != "200" ]]; do

@@ -32,6 +32,9 @@ done
 
 # fi
 
+echo "Testing Solr auth..."
+curl -v -u "${SOLR_USER}:${SOLR_PASSWORD}" http://localhost:8983/solr/admin/info/system?wt=json
+
 echo $SOLR_URL
 echo $RELEVANCY_FIXTURES_PATH plus
 find $RELEVANCY_FIXTURES_PATH -type f -name '*.xml'  -exec bundle exec cob_index ingest '{}' \;

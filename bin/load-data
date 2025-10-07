@@ -5,34 +5,50 @@
 # However, sometimes Solr is still loading and we need to wait until it's done
 # before we can begin.
 
-while [[ "$STATUS" != "200" ]]; do
-  echo waiting for setup to complete or equal 200.
-  echo "currently: $STATUS"
-  sleep 2
-  STATUS=$(curl -s -o /dev/null -w "%{http_code}" $SOLR_HOST/admin/cores)
-done
-
-# In CircleCI we need to load the collection
 if [[ "$CI" == true ]]; then
-  pushd ./solr/configs/tul_cob-catalog-solr
-  source .circleci/build.sh
-  popd
+
+  echo
+  echo "***"
+  echo "* Create configset zip."
+  echo "***"
+  cd solr/configs/tul_cob-catalog-solr
+  zip -r "$HOME/solrconfig.zip" . \
+    -x "spec/*" \
+    -x ".git/*" \
+    -x ".github/*" \
+    -x "Gemfile*" \
+    -x "Makefile" \
+    -x "docker-compose.yml" \
+    -x "README.md" \
+    -x "bin/*"
+  cd -
 
   echo
   echo "***"
   echo "* Sending config to solr instance."
   echo "***"
-  RESP=$(curl -i -o - --silent -X POST --header "Content-Type:application/octet-stream" --data-binary @$HOME/solrconfig.zip "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr")
-  echo $RESP
+  curl -s -u "${SOLR_USER}:${SOLR_PASSWORD}" \
+  -X POST \
+  --header "Content-Type: application/octet-stream" \
+  --data-binary @"$HOME/solrconfig.zip" \
+  "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr&wt=json"
 
   echo
   echo "***"
   echo "* Create blacklight collection"
   echo "***"
-  RESP=$(curl -i -o - --silent "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1&replicationFactor=1&wt=json" || echo "Collection may already exist")
+  RESP=$(curl -sSf -u "${SOLR_USER}:${SOLR_PASSWORD}" \
+    "$SOLR_HOST/admin/collections?action=CREATE&name=blacklight&collection.configName=tul_cob-catalog-solr&numShards=1&replicationFactor=1&wt=json" \
+    || echo "Collection may already exist")
   echo $RESP
-
 fi
+
+while [[ "$STATUS" != "200" ]]; do
+  echo "waiting for setup to complete or equal 200."
+  echo "currently: $STATUS"
+  sleep 2
+  STATUS=$(curl -s -o /dev/null -w "%{http_code}" -u "${SOLR_USER}:${SOLR_PASSWORD}" "$SOLR_HOST/admin/info/system")
+done
 
 echo $SOLR_URL
 echo $RELEVANCY_FIXTURES_PATH plus

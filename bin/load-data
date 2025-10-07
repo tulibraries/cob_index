@@ -5,15 +5,6 @@
 # However, sometimes Solr is still loading and we need to wait until it's done
 # before we can begin.
 
-echo "=== Docker networks ==="
-docker network ls
-
-echo "=== Inspect Solr container ==="
-docker inspect solr | grep '"NetworkMode"'
-
-echo "=== Check connectivity from inside Solr ==="
-docker exec solr ping -c 2 zookeeper || echo "Ping to ZooKeeper failed"
-
 while [[ "$STATUS" != "200" ]]; do
   echo waiting for setup to complete or equal 200.
   echo "currently: $STATUS"

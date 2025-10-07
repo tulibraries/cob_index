@@ -15,7 +15,8 @@ if [[ "$CI" == true ]]; then
     -x "Gemfile*" \
     -x "Makefile" \
     -x "docker-compose.yml" \
-    -x "README.md"
+    -x "README.md" \
+    -x "bin/*"
   cd -
 
 

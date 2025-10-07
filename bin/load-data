@@ -5,6 +5,12 @@
 # However, sometimes Solr is still loading and we need to wait until it's done
 # before we can begin.
 
+echo "=== Solr cores ==="
+curl -u "${SOLR_USER}:${SOLR_PASSWORD}" http://localhost:8983/solr/admin/cores?action=STATUS\&wt=json
+echo
+echo "=== Solr collections ==="
+curl -u "${SOLR_USER}:${SOLR_PASSWORD}" http://localhost:8983/solr/admin/collections?action=LIST
+
 while [[ "$STATUS" != "200" ]]; do
   echo "waiting for setup to complete or equal 200."
   echo "currently: $STATUS"

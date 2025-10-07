@@ -40,8 +40,7 @@ while [[ "$STATUS" != "200" ]]; do
   echo "waiting for setup to complete or equal 200."
   echo "currently: $STATUS"
   sleep 2
-  STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-    "$SOLR_URL")
+  STATUS=$(curl -s -o /dev/null -w "%{http_code}" -u "${SOLR_USER}:${SOLR_PASSWORD}" "$SOLR_HOST/admin/info/system")
 done
 
 echo $SOLR_URL

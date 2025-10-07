@@ -7,12 +7,16 @@
 
 if [[ "$CI" == true ]]; then
 
+  cd solr/configs/tul_cob-catalog-solr
+  zip -r "$HOME/solrconfig.zip" .
+  cd -
+
   curl -s -u "${SOLR_USER}:${SOLR_PASSWORD}" \
   -X POST \
   --header "Content-Type: application/octet-stream" \
   --data-binary @"$HOME/solrconfig.zip" \
   "$SOLR_HOST/admin/configs?action=UPLOAD&name=tul_cob-catalog-solr&wt=json"
-  
+
   echo
     echo "***"
     echo "* Create blacklight collection"

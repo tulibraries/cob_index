@@ -8,8 +8,16 @@
 if [[ "$CI" == true ]]; then
 
   cd solr/configs/tul_cob-catalog-solr
-  zip -r "$HOME/solrconfig.zip" .
+  zip -r "$HOME/solrconfig.zip" . \
+    -x "spec/*" \
+    -x ".git/*" \
+    -x ".github/*" \
+    -x "Gemfile*" \
+    -x "Makefile" \
+    -x "docker-compose.yml" \
+    -x "README.md"
   cd -
+
 
   curl -s -u "${SOLR_USER}:${SOLR_PASSWORD}" \
   -X POST \

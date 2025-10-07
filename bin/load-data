@@ -10,7 +10,6 @@ while [[ "$STATUS" != "200" ]]; do
   echo "currently: $STATUS"
   sleep 2
   STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-    -u "${SOLR_USER}:${SOLR_PASSWORD}" \
     "$SOLR_HOST/admin/cores")
 done
 

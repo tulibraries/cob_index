@@ -117,7 +117,7 @@ jobs:
         run: make load-data
         env:
           SOLR_USER: ${{ secrets.SOLR_USER }}
-          SOLR_PASSWORD: ${{ secrets.SOLR_PASSWORD }}
+          SOLR_PASSWORD: ${{ secrets.SOLR_PASS }}
         
       - name: Run relevancy Tests
         run: make test-relevancy

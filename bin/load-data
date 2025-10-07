@@ -5,6 +5,10 @@
 # However, sometimes Solr is still loading and we need to wait until it's done
 # before we can begin.
 
+echo "Testing Solr auth..."
+curl -v -u "${SOLR_USER}:${SOLR_PASSWORD}" http://localhost:8983/solr/admin/info/system?wt=json
+
+
 while [[ "$STATUS" != "200" ]]; do
   echo waiting for setup to complete or equal 200.
   echo "currently: $STATUS"
@@ -32,8 +36,6 @@ done
 
 # fi
 
-echo "Testing Solr auth..."
-curl -v -u "${SOLR_USER}:${SOLR_PASSWORD}" http://localhost:8983/solr/admin/info/system?wt=json
 
 echo $SOLR_URL
 echo $RELEVANCY_FIXTURES_PATH plus

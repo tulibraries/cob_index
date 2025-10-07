@@ -1,16 +1,10 @@
 services:
-  zookeeper:
-    image: zookeeper:3.7
-    ports:
-      - "2181:2181"
   solr:
     build:
       context: .
       dockerfile: .docker/solr/Dockerfile
     ports:
       - "${SOLR_PORT}:8983"
-    environment:
-      ZK_HOST: "zookeeper:2181"
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate

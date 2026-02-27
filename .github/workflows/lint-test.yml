@@ -112,6 +112,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov/cob_index.lcov
+          fail-on-error: false
 
       - name: Load Solr config & data
         run: make load-data

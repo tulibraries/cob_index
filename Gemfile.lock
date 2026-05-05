@@ -257,7 +257,7 @@ GEM
     nenv (0.3.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.6.2)
+    net-imap (0.6.4)
       date
       net-protocol
     net-pop (0.1.2)
@@ -401,7 +401,7 @@ GEM
     slop (4.10.1)
     stringio (3.2.0)
     thor (1.5.0)
-    timeout (0.6.0)
+    timeout (0.6.1)
     traject (3.8.3)
       concurrent-ruby (>= 0.8.0)
       csv

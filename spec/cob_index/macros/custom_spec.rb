@@ -2210,6 +2210,25 @@ EOT
         )
       end
     end
+
+    context "when the item is in the HILLSIDE library" do
+      let(:record_text) do
+        <<~XML
+          <record xmlns="http://www.loc.gov/MARC21/slim">
+            <datafield tag="ITM" ind1=" " ind2=" ">
+              <subfield code="f">HILLSIDE</subfield>
+              <subfield code="g">jphstacks</subfield>
+            </datafield>
+          </record>
+        XML
+      end
+
+      it "maps the library to Japan Hillside Center" do
+        expect(subject.map_record(record)).to eq(
+          "library_facet" => ["Japan Hillside Center"]
+        )
+      end
+    end
   end
 
   describe "#extract_location_facet" do
@@ -2315,6 +2334,25 @@ EOT
             "Japan City Campus - Stacks",
             "Japan Kyoto - Kyoto Reserves"
           ]
+        )
+      end
+    end
+
+    context "when the item is in the HILLSIDE library" do
+      let(:record_text) do
+        <<~XML
+          <record xmlns="http://www.loc.gov/MARC21/slim">
+            <datafield tag="ITM" ind1=" " ind2=" ">
+              <subfield code="f">HILLSIDE</subfield>
+              <subfield code="g">jphstacks</subfield>
+            </datafield>
+          </record>
+        XML
+      end
+
+      it "maps the location facet using the Japan Hillside Center label" do
+        expect(subject.map_record(record)).to eq(
+          "location_facet" => ["Japan Hillside Center - Stacks"]
         )
       end
     end

@@ -2184,7 +2184,30 @@ EOT
 
     context "when one item is missing" do
       it "does not include library with missing item" do
-        expect(subject.map_record(records[0])).to eq("library_facet" => ["Japan Campus Library"])
+        expect(subject.map_record(records[0])).to eq("library_facet" => ["Japan City Campus"])
+      end
+    end
+
+    context "with TUJ libraries" do
+      let(:record_text) do
+        <<~XML
+          <record xmlns="http://www.loc.gov/MARC21/slim">
+            <datafield ind1=" " ind2=" " tag="ITM">
+              <subfield code="f">JAPAN</subfield>
+              <subfield code="g">stacks</subfield>
+            </datafield>
+            <datafield ind1=" " ind2=" " tag="ITM">
+              <subfield code="f">KYOTO</subfield>
+              <subfield code="g">kyoreserve</subfield>
+            </datafield>
+          </record>
+        XML
+      end
+
+      it "uses the rebranded Japan library labels" do
+        expect(subject.map_record(record)).to eq(
+          "library_facet" => ["Japan City Campus", "Japan Kyoto"]
+        )
       end
     end
   end
@@ -2248,7 +2271,7 @@ EOT
       }
 
       it "does not include any item that should not be included" do
-        expect(subject.map_record(record)).to eq("location_facet" => ["Japan Campus Library - Stacks"])
+        expect(subject.map_record(record)).to eq("location_facet" => ["Japan City Campus - Stacks"])
       end
     end
 
@@ -2268,6 +2291,32 @@ EOT
         expect(subject.map_record(record)).to eq("location_facet" => ["Charles Library - BookBot"])
       end
 
+    end
+
+    context "with TUJ libraries" do
+      let(:record_text) do
+        <<~XML
+          <record xmlns="http://www.loc.gov/MARC21/slim">
+            <datafield ind1=" " ind2=" " tag="ITM">
+              <subfield code="f">JAPAN</subfield>
+              <subfield code="g">stacks</subfield>
+            </datafield>
+            <datafield ind1=" " ind2=" " tag="ITM">
+              <subfield code="f">KYOTO</subfield>
+              <subfield code="g">kyoreserve</subfield>
+            </datafield>
+          </record>
+        XML
+      end
+
+      it "uses the rebranded Japan library labels in location facets" do
+        expect(subject.map_record(record)).to eq(
+          "location_facet" => [
+            "Japan City Campus - Stacks",
+            "Japan Kyoto - Kyoto Reserves"
+          ]
+        )
+      end
     end
   end
 

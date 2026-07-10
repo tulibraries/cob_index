@@ -74,6 +74,16 @@ HARRISBURG:
 RES_SHARE:
   OUT_RS_REQ: Borrowing Resource Sharing Requests
   IN_RS_REQ: Lending Resource Sharing Requests
+HILLSIDE:
+  jphexhibit: Display
+  jphleisure: Leisure Books
+  jphmedia: Media
+  jphnewbks: New Books
+  jphovs: Oversize
+  jphref: Reference
+  jphreserve: Reserves
+  jphserials: Journals
+  jphstacks: Stacks
 JAPAN:
   archives: Archives
   jpexhibit: Display

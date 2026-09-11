@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tulibraries/alma_rb.git
-  revision: 8b06cb2033a2e0f41e40577aa8f4ab5a584720b8
+  revision: 9ea25bf44cf00b3037b6d5785874f60d90f643cf
   branch: main
   specs:
     alma (0.6.2)
@@ -200,7 +200,7 @@ GEM
     jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
-    json (2.21.2)
+    json (3.0.2)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
